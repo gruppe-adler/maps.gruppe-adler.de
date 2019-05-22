@@ -1,0 +1,84 @@
+[submodule "maps/altis"]
+	path = maps/altis
+	url = https://github.com/DerZade/arma-map-tiles-altis.git
+[submodule "maps/bootcamp_acr"]
+	path = maps/bootcamp_acr
+	url = https://github.com/DerZade/arma-map-tiles-bootcamp_acr.git
+[submodule "maps/chernarus"]
+	path = maps/chernarus
+	url = https://github.com/DerZade/arma-map-tiles-chernarus.git
+[submodule "maps/chernarus_summer"]
+	path = maps/chernarus_summer
+	url = https://github.com/DerZade/arma-map-tiles-chernarus_summer.git
+[submodule "maps/chernarus_winter"]
+	path = maps/chernarus_winter
+	url = https://github.com/DerZade/arma-map-tiles-chernarus_winter.git
+[submodule "maps/desert_e"]
+	path = maps/desert_e
+	url = https://github.com/DerZade/arma-map-tiles-desert_e.git
+[submodule "maps/gm_weferlingen_summer"]
+	path = maps/gm_weferlingen_summer
+	url = https://github.com/DerZade/arma-map-tiles-gm_weferlingen_summer.git
+[submodule "maps/intro"]
+	path = maps/intro
+	url = https://github.com/DerZade/arma-map-tiles-intro.git
+[submodule "maps/lythium"]
+	path = maps/lythium
+	url = https://github.com/DerZade/arma-map-tiles-lythium.git
+[submodule "maps/malden"]
+	path = maps/malden
+	url = https://github.com/DerZade/arma-map-tiles-malden.git
+[submodule "maps/mountains_acr"]
+	path = maps/mountains_acr
+	url = https://github.com/DerZade/arma-map-tiles-mountains_acr.git
+[submodule "maps/porto"]
+	path = maps/porto
+	url = https://github.com/DerZade/arma-map-tiles-porto.git
+[submodule "maps/prei_khmaoch_luong"]
+	path = maps/prei_khmaoch_luong
+	url = https://github.com/DerZade/arma-map-tiles-prei_khmaoch_luong.git
+[submodule "maps/provinggrounds_pmc"]
+	path = maps/provinggrounds_pmc
+	url = https://github.com/DerZade/arma-map-tiles-provinggrounds_pmc.git
+[submodule "maps/ruha"]
+	path = maps/ruha
+	url = https://github.com/DerZade/arma-map-tiles-ruha.git
+[submodule "maps/sara"]
+	path = maps/sara
+	url = https://github.com/DerZade/arma-map-tiles-sara.git
+[submodule "maps/saralite"]
+	path = maps/saralite
+	url = https://github.com/DerZade/arma-map-tiles-saralite.git
+[submodule "maps/shapur_baf"]
+	path = maps/shapur_baf
+	url = https://github.com/DerZade/arma-map-tiles-shapur_baf.git
+[submodule "maps/stratis"]
+	path = maps/stratis
+	url = https://github.com/DerZade/arma-map-tiles-stratis.git
+[submodule "maps/takistan"]
+	path = maps/takistan
+	url = https://github.com/DerZade/arma-map-tiles-takistan.git
+[submodule "maps/tanoa"]
+	path = maps/tanoa
+	url = https://github.com/DerZade/arma-map-tiles-tanoa.git
+[submodule "maps/tem_anizay"]
+	path = maps/tem_anizay
+	url = https://github.com/DerZade/arma-map-tiles-tem_anizay.git
+[submodule "maps/tembelan"]
+	path = maps/tembelan
+	url = https://github.com/DerZade/arma-map-tiles-tembelan.git
+[submodule "maps/utes"]
+	path = maps/utes
+	url = https://github.com/DerZade/arma-map-tiles-utes.git
+[submodule "maps/vr"]
+	path = maps/vr
+	url = https://github.com/DerZade/arma-map-tiles-vr.git
+[submodule "maps/wl_rosche"]
+	path = maps/wl_rosche
+	url = https://github.com/DerZade/arma-map-tiles-wl_rosche.git
+[submodule "maps/woodland_acr"]
+	path = maps/woodland_acr
+	url = https://github.com/DerZade/arma-map-tiles-woodland_acr.git
+[submodule "maps/zargabad"]
+	path = maps/zargabad
+	url = https://github.com/DerZade/arma-map-tiles-zargabad.git
