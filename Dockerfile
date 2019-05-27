@@ -24,7 +24,7 @@ COPY ./maps/chernarus_winter ./maps/chernarus_winter
 COPY ./maps/desert_e ./maps/desert_e
 # COPY ./maps/gm_weferlingen_summer ./maps/gm_weferlingen_summer
 COPY ./maps/intro ./maps/intro
-COPY ./maps/lythium ./maps/lythium
+# COPY ./maps/lythium ./maps/lythium
 COPY ./maps/malden ./maps/malden
 COPY ./maps/mountains_acr ./maps/mountains_acr
 COPY ./maps/porto ./maps/porto
