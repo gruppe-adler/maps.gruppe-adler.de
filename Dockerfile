@@ -15,16 +15,12 @@ RUN npm ci
 COPY ./error.png ./
 COPY ./index.js ./
 
-# Switch to maps directory
-RUN mkdir maps
-WORKDIR ./maps
-
 # Copy map data
 # COPY ./maps/altis ./
 # COPY ./maps/bootcamp_acr ./
 # COPY ./maps/chernarus ./
-COPY ./maps/chernarus_summer ./
-COPY ./maps/chernarus_winter ./
+COPY ./maps/chernarus_summer ./maps/chernarus_summer
+COPY ./maps/chernarus_winter ./maps/chernarus_winter
 # COPY ./maps/desert_e ./
 # COPY ./maps/gm_weferlingen_summer ./
 # COPY ./maps/intro ./
@@ -33,7 +29,7 @@ COPY ./maps/chernarus_winter ./
 # COPY ./maps/mountains_acr ./
 # COPY ./maps/porto ./
 # COPY ./maps/prei_khmaoch_luong ./
-COPY ./maps/provinggrounds_pmc ./
+COPY ./maps/provinggrounds_pmc ./maps/provinggrounds_pmc
 # COPY ./maps/ruha ./
 # COPY ./maps/sara ./
 # COPY ./maps/saralite ./
@@ -48,8 +44,6 @@ COPY ./maps/provinggrounds_pmc ./
 # COPY ./maps/wl_rosche ./
 # COPY ./maps/woodland_acr ./
 # COPY ./maps/zargabad ./
-
-WORKDIR ..
 
 EXPOSE 80
 
