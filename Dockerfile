@@ -31,7 +31,7 @@ COPY ./maps/porto ./maps/porto
 COPY ./maps/prei_khmaoch_luong ./maps/prei_khmaoch_luong
 COPY ./maps/provinggrounds_pmc ./maps/provinggrounds_pmc
 COPY ./maps/ruha ./maps/ruha
-COPY ./maps/sara ./maps/sara
+# COPY ./maps/sara ./maps/sara
 COPY ./maps/saralite ./maps/saralite
 COPY ./maps/shapur_baf ./maps/shapur_baf
 COPY ./maps/stratis ./maps/stratis
