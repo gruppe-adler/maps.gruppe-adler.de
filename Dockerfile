@@ -36,7 +36,7 @@ COPY ./maps/saralite ./maps/saralite
 COPY ./maps/shapur_baf ./maps/shapur_baf
 COPY ./maps/stratis ./maps/stratis
 COPY ./maps/takistan ./maps/takistan
-COPY ./maps/tanoa ./maps/tanoa
+# COPY ./maps/tanoa ./maps/tanoa
 COPY ./maps/tem_anizay ./maps/tem_anizay
 COPY ./maps/tembelan ./maps/tembelan
 COPY ./maps/utes ./maps/utes
