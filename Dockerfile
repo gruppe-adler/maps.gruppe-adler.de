@@ -15,6 +15,9 @@ RUN find . ! -name 'maps' -exec rm -ir {} \;
 # bundle app source
 COPY . .
 
+# install depencies
+RUN npm ci
+
 EXPOSE 80
 
 ENTRYPOINT [ "npm", "start" ]
