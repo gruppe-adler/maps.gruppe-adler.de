@@ -1,10 +1,8 @@
 .git/
+maps/
 node_modules/
+.gitattributes
+.gitignore
+.gitmodules
 
 README.md
-.gitignore
-
-maps/altis/
-maps/gm_weferlingen_summer/
-maps/gm_weferlingen_winter/
-maps/lythium/
