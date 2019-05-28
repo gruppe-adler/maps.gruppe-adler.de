@@ -4,7 +4,7 @@ FROM node:10-alpine
 WORKDIR /usr/src/app
 
 # clone git repo
-# yes this is bad practice but the copy stuff takes way to fucking long (4+ hours)
+# yes this is bad practice but the copy stuff takes way too fucking long (4+ hours)
 RUN apk add --no-cache git
 RUN git clone --recurse-submodules https://github.com/gruppe-adler/maps.gruppe-adler.de.git .
 
