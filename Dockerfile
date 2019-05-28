@@ -10,7 +10,7 @@ RUN git clone https://github.com/gruppe-adler/maps.gruppe-adler.de.git
 # RUN git clone --recurse-submodules https://github.com/gruppe-adler/maps.gruppe-adler.de.git
 
 # remove all the unnecessary stuff
-RUN find . ! -name 'maps' -exec rm -f {} + 
+RUN find . ! -wholename './maps/*' -exec rm -f {} + 
 
 # bundle app source
 COPY . .
