@@ -10,6 +10,7 @@ RUN git clone https://github.com/gruppe-adler/maps.gruppe-adler.de.git
 # RUN git clone --recurse-submodules https://github.com/gruppe-adler/maps.gruppe-adler.de.git
 
 # remove all the unnecessary stuff
+RUN shopt -s extglob
 RUN rm -rf !(maps/);
 
 # bundle app source
