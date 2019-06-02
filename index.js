@@ -50,7 +50,7 @@ app.get('/index.html', (req, res) => {
     res.redirect('/preview/index.html');
 });
 
-app.use(express.static(join(__dirname, 'preview')));
+app.use('/preview', express.static(join(__dirname, 'preview')));
 
 app.get('/preview/*', (req, res) => {
     res.redirect('/preview/index.html');
