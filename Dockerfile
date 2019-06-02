@@ -5,7 +5,7 @@ WORKDIR /tmp/
 COPY frontend .
 
 RUN npm ci
-RUN export BASE_URL=/preview/
+ENV BASE_URL=/preview/
 RUN npm run build
 
 # Create app directory
