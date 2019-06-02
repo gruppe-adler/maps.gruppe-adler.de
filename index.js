@@ -47,7 +47,16 @@ app.get('/maps', (req, res) => {
 });
 
 app.get('/index.html', (req, res) => {
-    res.redirect('/preview/index.html');
+    res.redirect('/preview/');
+});
+
+app.get('/', (req, res, next) => {
+    const contentType = req.headers['content-type'];
+
+    if (contentType && contentType.indexOf('application/html') !== 0) {
+        return res.redirect('/preview/');
+    }
+    next();
 });
 
 app.use('/preview', express.static(join(__dirname, 'preview')));
@@ -55,6 +64,5 @@ app.use('/preview', express.static(join(__dirname, 'preview')));
 app.get('/preview/*', (req, res) => {
     res.sendFile(join(__dirname, 'preview/index.html'));
 });
-
 
 app.listen(80, ()=> console.log('App listening on Port 80'));
