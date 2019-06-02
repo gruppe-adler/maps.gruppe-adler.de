@@ -6,3 +6,5 @@ node_modules/
 .gitmodules
 
 README.md
+
+preview/node_modules/
