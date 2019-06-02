@@ -12,7 +12,7 @@ RUN npm run build
 WORKDIR /usr/src/app
 
 # Move frontend dist 
-RUN mv /tmp/frontend/dist ./preview
+RUN mv /tmp/dist ./preview
 
 # clone git repo
 # yes this is bad practice but the copy stuff takes way too fucking long (4+ hours)
