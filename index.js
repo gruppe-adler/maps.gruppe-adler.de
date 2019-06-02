@@ -53,7 +53,7 @@ app.get('/index.html', (req, res) => {
 app.use('/preview', express.static(join(__dirname, 'preview')));
 
 app.get('/preview/*', (req, res) => {
-    res.redirect('/preview/index.html');
+    res.sendFile(join(__dirname, 'preview/index.html'));
 });
 
 
