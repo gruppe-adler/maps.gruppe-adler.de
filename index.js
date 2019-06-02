@@ -50,13 +50,8 @@ app.get('/index.html', (req, res) => {
     res.redirect('/preview/');
 });
 
-app.get('/', (req, res, next) => {
-    const contentType = req.headers['content-type'];
-
-    if (contentType && contentType.indexOf('application/html') !== 0) {
-        return res.redirect('/preview/');
-    }
-    next();
+app.get('/', (req, res) => {
+    res.redirect('/preview/');
 });
 
 app.use('/preview', express.static(join(__dirname, 'preview')));
