@@ -1,7 +1,7 @@
 import { MapMetaData } from './models';
 import rp from 'request-promise';
 
-export const WMTS_BASE_URL = 'https://maps.gruppe-adler.de';
+export const WMTS_BASE_URL = '';
 
 const mapMetaDataCache: { [index: string]: MapMetaData } = {};
 
