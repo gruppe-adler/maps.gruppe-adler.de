@@ -1,5 +1,7 @@
 .git/
-maps/
+
+maps/*/.git/
+
 node_modules/
 .gitattributes
 .gitignore
