@@ -3,7 +3,7 @@
         <template v-slot="{ map, metaData, layer, selectBasemap }">
             <Layers :metaData="metaData" v-model="layer" :select="selectBasemap" />
             <CoordsDisplay :map="map" :metaData="metaData" />
-            <Locations :map="map" :metaData="metaData" />
+            <Locations v-if="metaData.locations.length > 0" :map="map" :metaData="metaData" />
         </template>
     </Map>
 </template>
