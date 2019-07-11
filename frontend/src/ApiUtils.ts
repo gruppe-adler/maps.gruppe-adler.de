@@ -1,7 +1,7 @@
 import { MapMetaData } from './models';
 import rp from 'request-promise';
 
-export const WMTS_BASE_URL = '';
+export const WMTS_BASE_URL = location.origin;
 
 const mapMetaDataCache: { [index: string]: MapMetaData } = {};
 
