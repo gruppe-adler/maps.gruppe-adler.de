@@ -82,3 +82,6 @@
 [submodule "maps/zargabad"]
 	path = maps/zargabad
 	url = https://github.com/DerZade/arma-map-tiles-zargabad.git
+[submodule "maps/enoch"]
+	path = maps/enoch
+	url = https://github.com/DerZade/arma-map-tiles-enoch.git
