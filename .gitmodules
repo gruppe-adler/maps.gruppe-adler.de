@@ -85,3 +85,6 @@
 [submodule "maps/enoch"]
 	path = maps/enoch
 	url = https://github.com/DerZade/arma-map-tiles-enoch.git
+[submodule "maps/tem_cham"]
+	path = maps/tem_cham
+	url = https://github.com/DerZade/arma-map-tiles-tem_cham.git
