@@ -28,6 +28,7 @@ COPY ./maps/stratis ./maps/stratis
 COPY ./maps/takistan ./maps/takistan
 COPY ./maps/tanoa ./maps/tanoa
 COPY ./maps/tem_anizay ./maps/tem_anizay
+COPY ./maps/tem_cham ./maps/tem_cham
 COPY ./maps/tembelan ./maps/tembelan
 COPY ./maps/utes ./maps/utes
 COPY ./maps/vr ./maps/vr
