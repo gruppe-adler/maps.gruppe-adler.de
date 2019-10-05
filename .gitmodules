@@ -19,9 +19,6 @@
 [submodule "maps/gm_weferlingen_summer"]
 	path = maps/gm_weferlingen_summer
 	url = https://github.com/arma-map-tiles/gm_weferlingen_summer.git
-[submodule "maps/gm_weferlingen_winter"]
-	path = maps/gm_weferlingen_winter
-	url = https://github.com/arma-map-tiles/gm_weferlingen_winter.git
 [submodule "maps/intro"]
 	path = maps/intro
 	url = https://github.com/arma-map-tiles/intro.git
