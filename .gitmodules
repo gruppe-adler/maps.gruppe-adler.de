@@ -88,3 +88,6 @@
 [submodule "maps/tem_cham"]
 	path = maps/tem_cham
 	url = https://github.com/arma-map-tiles/tem_cham.git
+[submodule "maps/gm_weferlingen_winter"]
+	path = maps/gm_weferlingen_winter
+	url = https://github.com/arma-map-tiles/gm_weferlingen_winter.git
