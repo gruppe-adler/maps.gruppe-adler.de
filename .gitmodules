@@ -91,3 +91,6 @@
 [submodule "maps/gm_weferlingen_winter"]
 	path = maps/gm_weferlingen_winter
 	url = https://github.com/arma-map-tiles/gm_weferlingen_winter.git
+[submodule "maps/wake"]
+	path = maps/wake
+	url = https://github.com/arma-map-tiles/wake.git
