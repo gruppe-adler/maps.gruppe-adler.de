@@ -38,6 +38,7 @@ Adding a new map is fairly simple and requires just a few steps:
 **Remember which tile you chose!**  
 Copy the tile and paste it directly into the `topo/` or `sat/` directory (depending on where you took it from :D) and rename it to `thumbnail.png`. Repeat that process for any have all other map types you have exported, ideally using the same tile (same extent, but correct type of course) for all of them.
 
+7. Add the map to the bottom of the list within the `Dockerfile`. (We copy each map by itself to accelerate the building process in edge cases, when using the old image as a cache.)
 
 ## Consuming data from the WMTS
 
