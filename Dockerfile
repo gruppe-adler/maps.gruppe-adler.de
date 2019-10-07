@@ -32,6 +32,7 @@ COPY ./maps/tem_cham ./maps/tem_cham
 COPY ./maps/tembelan ./maps/tembelan
 COPY ./maps/utes ./maps/utes
 COPY ./maps/vr ./maps/vr
+COPY ./maps/wake ./maps/wake
 COPY ./maps/wl_rosche ./maps/wl_rosche
 COPY ./maps/woodland_acr ./maps/woodland_acr
 COPY ./maps/zargabad ./maps/zargabad
