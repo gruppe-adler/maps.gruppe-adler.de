@@ -1,0 +1,13 @@
+[
+    { "layer": "bushes", "minzoom": 3 },
+    { "layer": "chapels", "minzoom": 1 },
+    { "layer": "crosses", "minzoom": 1 },
+    { "layer": "fuelstations", "minzoom": 1 },
+    { "layer": "houses" },
+    { "layer": "lighthouses", "minzoom": 1 },
+    { "layer": "rocks", "minzoom": 3 },
+    { "layer": "shipwrecks", "minzoom": 1 },
+    { "layer": "transmitters", "minzoom": 1 },
+    { "layer": "trees", "minzoom": 4 },
+    { "layer": "watertowers", "minzoom": 1 }
+]

@@ -1,0 +1,12 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest 
+    steps:
+    - name: 'Checkout the source code from GitHub'
+      uses: actions/checkout@master
+    - name: 'Build map-data GeoJSONs'
+      run: ./tools/entrypoint.sh
