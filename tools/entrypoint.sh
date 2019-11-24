@@ -29,6 +29,11 @@ for mapPath in $mapsDir*/ ; do
 
     cp -r $mapPath $tmpDir$worldName
 
+    echo "mappath shizzle $mappath"
+    ls $mapPath
+    echo "mappath shizzle $tmpDir$worldName"
+    ls $tmpDir$worldName
+
     echo "➡️  Starting map $worldName --------------------------------------------------------------------------"
     echo "::debug ::Starting map $worldName"
 
