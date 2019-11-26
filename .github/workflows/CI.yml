@@ -22,3 +22,8 @@ jobs:
         ndjson-cat -V
     - name: 'Build map-data'
       run: ./tools/entrypoint.sh
+    - name: 'Debug output'
+      run: |
+        apt-get install tree 
+        tree .
+  
