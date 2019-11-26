@@ -16,6 +16,6 @@ jobs:
 
     - name: 'Debug output'
       run: |
-        apt-get install tree 
-        tree .
+        ls .
+        ls ./map-data
   
