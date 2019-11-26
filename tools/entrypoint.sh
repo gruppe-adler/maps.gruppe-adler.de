@@ -17,13 +17,6 @@ rm -rf $tmpDir/*
 mkdir -p $mapDataDir
 rm -rf $mapDataDir/*
 
-# build docker images
-echo "➡️  Building convert-geojson docker image"
-docker build -t convert-geojson $toolsDir/convert-geojson
-
-echo "➡️  Building build-contours docker image"
-docker build -t build-contours $toolsDir/build-contours
-
 for mapPath in $mapsDir*/ ; do
     worldName=$(basename $mapPath)
 
@@ -32,7 +25,7 @@ for mapPath in $mapsDir*/ ; do
     echo "➡️  Starting map $worldName --------------------------------------------------------------------------"
     echo "::debug ::Starting map $worldName"
 
-    $toolsDir/process-map.sh $worldName $tmpDir$worldName $mapDataDir
+    $toolsDir/process-map.sh $worldName $tmpDir$worldName $mapDataDir $toolsDir $tmpDir
 
     echo "✔️  Finished map $worldName --------------------------------------------------------------------------"
     echo "::debug ::Starting map $worldName"

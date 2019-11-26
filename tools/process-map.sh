@@ -3,6 +3,11 @@
 worldName=$1
 mapDirectory=$2
 dataDir=$3
+toolsDir=$4
+tmpDir=$5/worldName
+
+mkdir -p $tmpDir
+rm -rf $tmpDir/*
 
 outDir=$dataDir/$worldName
 mkdir -p $outDir
@@ -10,10 +15,10 @@ rm -rf $outDir/*
 
 
 echo "▶️   Building contour lines from DEM ($worldName)"
-docker run -i --rm -v $mapDirectory/dem.asc:/tmp/dem.asc -v $mapDirectory/geojson:/tmp/out build-contours
+$toolsDir/build-contours.sh $mapDirectory/dem.asc $mapDirectory/geojson $tmpDir
 
 echo "▶️   Building locations geojson from meta.json ($worldName)"
+echo "This is not implemented yet"
 
 echo "▶️   Converting geojson to correct coordinates ($worldName)"
-docker run -i --rm -v $mapDirectory:/in -v $outDir:/out convert-geojson
-
+$toolsDir/convert-geojson.sh $mapDirectory $outDir $toolsDir $tmpDir

@@ -1,8 +1,12 @@
 #!/bin/sh
 
-toolsDir="/tools"
-outDir="/out"
-inDir="/in"
+inDir=$1
+outDir=$2
+toolsDir=$3
+tmpDir=$4/process-geojson
+
+mkdir -p $tmpDir
+rm -rf $tmpDir/*
 
 worldSize=$(ndjson-cat $inDir/meta.json | ndjson-map 'd.worldSize')
 
