@@ -11,7 +11,7 @@ jobs:
       with:
         submodules: true
 
-    - name: 'Update versionfile'
+    - name: 'Build map-data'
       uses: ./.github/actions/build-map-data
 
     - name: 'Debug output'
