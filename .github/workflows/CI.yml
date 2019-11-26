@@ -16,5 +16,5 @@ jobs:
 
     - name: 'Debug output'
       run: |
-        find ./map-data
+        find ./map-data/stratis
   
