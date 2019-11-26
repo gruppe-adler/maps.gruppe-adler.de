@@ -6,9 +6,6 @@ dataDir=$3
 toolsDir=$4
 tmpDir=$5
 
-mkdir -p $tmpDir
-rm -rf $tmpDir/*
-
 outDir=$dataDir/$worldName
 mkdir -p $outDir
 rm -rf $outDir/*

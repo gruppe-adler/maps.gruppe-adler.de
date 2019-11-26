@@ -1,13 +1,9 @@
 #!/bin/sh
 
-toolsDir=$PWD/tools/
-mapsDir=$PWD/maps
-mapDataDir=$PWD/map-data
-tmpDir=$PWD/tmp
-
-echo "Tools directory: $toolsDir"
-echo "Maps directory: $mapsDir"
-echo "Tmp directory: $tmpDir"
+toolsDir=$1
+mapsDir=$2
+mapDataDir=$3
+tmpDir=$4
 
 # create tmp dir
 mkdir -p $tmpDir
@@ -22,13 +18,7 @@ for mapPath in $mapsDir/*/ ; do
 
     cp -r $mapPath $tmpDir/$worldName
 
-    echo "➡️  Starting map $worldName --------------------------------------------------------------------------"
-    echo "::debug ::Starting map $worldName"
-
     $toolsDir/process-map.sh $worldName $tmpDir/$worldName $mapDataDir $toolsDir $tmpDir
-
-    echo "✔️  Finished map $worldName --------------------------------------------------------------------------"
-    echo "::debug ::Starting map $worldName"
 done
 
 #cleanup

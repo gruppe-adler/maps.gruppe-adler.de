@@ -1,13 +1,17 @@
 #!/bin/sh
 
 tippecanoePath=$1
-inDir=$2
+inDir=$2/
 outDir=$3
 
 rm -rf ./$dir/tiles
 
-for mapDir in $inDir/*/ ; do
+echo $inDir
+
+for mapDir in $inDir*/ ; do
     worldName=$(basename $mapDir)
+    echo $worldName
+
     files=$(find $mapDir -type f -name "*.json")
 
     echo "➡️  Starting conversion from geojson to mapbox vector tiles for map $worldName"
