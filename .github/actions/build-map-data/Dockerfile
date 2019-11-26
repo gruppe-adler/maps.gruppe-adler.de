@@ -6,9 +6,5 @@ RUN curl -sL https://deb.nodesource.com/setup_10.x | bash
 RUN apt-get -y install nodejs
 RUN npm i -g ndjson-cli@0.3.1
 
-RUN gdalinfo --version
-RUN node --version
-RUN npm --version
-RUN ndjson-cat --version
-
-ENTRYPOINT ["ls ."]
+COPY "entrypoint.sh" "/entrypoint.sh"
+ENTRYPOINT ["/entrypoint.sh"]
