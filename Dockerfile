@@ -38,10 +38,9 @@ RUN git clone --depth 1 https://github.com/mapbox/tippecanoe.git tippecanoe-src
 WORKDIR ./tippecanoe-src
 
 # Build tippecanoe
-RUN make \
-  && make install
-
-RUN ls .
+RUN make
+RUN chmod +x ./tippecanoe
+RUN ./tippecanoe --version
 
 ######################################################################
 ######################################################################
@@ -53,7 +52,6 @@ WORKDIR /tmp/map-data
 COPY --from=map-data-builder /tmp/map-data map-data
 COPY tools/build-mvts.sh .
 COPY --from=tippecanoe-builder /tmp/tippecanoe-src/tippecanoe ./tippecanoe
-RUN chmod +x ./tippecanoe
 RUN ./build-mvts.sh ./tippecanoe ./map-data /usr/src/app/maps
 
 # Build frontend
