@@ -4,7 +4,7 @@ worldName=$1
 mapDirectory=$2
 dataDir=$3
 toolsDir=$4
-tmpDir=$5/worldName
+tmpDir=$5
 
 mkdir -p $tmpDir
 rm -rf $tmpDir/*
@@ -14,7 +14,7 @@ mkdir -p $outDir
 rm -rf $outDir/*
 
 
-echo "▶️   Building contour lines from DEM ($worldName)"
+echo "▶️   Building contour lines geojson from DEM ($worldName)"
 $toolsDir/build-contours.sh $mapDirectory/dem.asc $mapDirectory/geojson $tmpDir
 
 echo "▶️   Building locations geojson from meta.json ($worldName)"

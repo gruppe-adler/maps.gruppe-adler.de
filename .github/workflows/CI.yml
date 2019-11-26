@@ -16,6 +16,5 @@ jobs:
 
     - name: 'Debug output'
       run: |
-        ls .
-        ls ./map-data
+        find ./map-data
   
