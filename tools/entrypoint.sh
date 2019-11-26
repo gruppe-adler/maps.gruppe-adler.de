@@ -34,4 +34,3 @@ done
 #cleanup
 echo "➡️  Cleaning up"
 rm -rf $tmpDir
-docker rmi convert-geojson
