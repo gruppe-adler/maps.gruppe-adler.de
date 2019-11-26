@@ -10,18 +10,18 @@ jobs:
       uses: actions/checkout@master
       with:
         submodules: true
-    - name: 'Install ndjson-cli'
-      run: |
-        apt-get update
-        apt-get -y install curl gnupg
-        curl -sL https://deb.nodesource.com/setup_11.x  | bash -
-        apt-get -y install nodejs
-        npm i -g ndjson-cli@0.3.1
-        node -v
-        npm -v
-        ndjson-cat -V
-    - name: 'Build map-data'
-      run: ./tools/entrypoint.sh
+    # - name: 'Install ndjson-cli'
+    #   run: |
+    #     apt-get update
+    #     apt-get -y install curl gnupg
+    #     curl -sL https://deb.nodesource.com/setup_11.x  | bash -
+    #     apt-get -y install nodejs
+    #     npm i -g ndjson-cli@0.3.1
+    #     node -v
+    #     npm -v
+    #     ndjson-cat -V
+    # - name: 'Build map-data'
+    #   run: ./tools/entrypoint.sh
     - name: 'Debug output'
       run: |
         apt-get install tree 
