@@ -12,4 +12,4 @@ jobs:
         submodules: true
 
     - name: 'Build docker image'
-      run: echo 'meh' # TODO
+      run: docker build . --tag maps:$(date +%s)
