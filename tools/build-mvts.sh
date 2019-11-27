@@ -10,9 +10,7 @@ echo $inDir
 
 for mapDir in $inDir*/ ; do
     worldName=$(basename $mapDir)
-    echo $worldName
-
-    files=$(find $mapDir -type f -name "*.json")
+    files=$(find $mapDir/* -type f -name "*.geojson")
 
     echo "➡️  Starting conversion from geojson to mapbox vector tiles for map $worldName"
 
@@ -23,7 +21,7 @@ for mapDir in $inDir*/ ; do
         --read-parallel \
         --maximum-zoom=1 \
         --minimum-zoom=0 \
-        --output-to-directory $outDir/$worldName \
+        --output-to-directory $outDir/$worldName/mvt \
         $files
 
     echo "✔️  Finished conversion from geojson to mapbox vector tiles for map $worldName"

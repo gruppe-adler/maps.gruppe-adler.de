@@ -45,13 +45,16 @@ RUN ./tippecanoe --version
 ######################################################################
 ######################################################################
 
-FROM node:10-alpine
+FROM node:10-slim
 
 # Build map tiles
 WORKDIR /tmp/map-data
 COPY --from=map-data-builder /tmp/map-data map-data
 COPY tools/build-mvts.sh .
-COPY --from=tippecanoe-builder /tmp/tippecanoe-src/tippecanoe ./tippecanoe
+COPY --from=tippecanoe-builder /tmp/tippecanoe-src/tippecanoe .
+RUN ./tippecanoe --version
+RUN mkdir -p /usr/src/app/maps
+RUN ls -l ./map-data/stratis
 RUN ./build-mvts.sh ./tippecanoe ./map-data /usr/src/app/maps
 
 # Build frontend
