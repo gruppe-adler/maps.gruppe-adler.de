@@ -10,6 +10,9 @@ jobs:
       uses: actions/checkout@master
       with:
         submodules: true
-
-    - name: 'Build docker image'
-      run: docker build . --tag maps:$(date +%s)
+    - name: Publish to Registry
+      uses: elgohr/Publish-Docker-Github-Action@2.8
+      with:
+        name: gruppeadler/maps
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
