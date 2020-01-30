@@ -68,7 +68,11 @@ app.get('/', (req, res) => {
 
 app.use('/preview', express.static(join(__dirname, 'preview')));
 
-app.get('/preview/*', (req, res) => {
+app.get('/preview/*', (req, res, next) => {
+    if (req.accepts('html')) {
+        next();
+        return;
+    } 
     res.sendFile(join(__dirname, 'preview/index.html'));
 });
 
