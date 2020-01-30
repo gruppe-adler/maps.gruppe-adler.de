@@ -11,6 +11,8 @@ const getDirectories = source => readdirSync(source).map(name => join(source, na
 
 const app = express();
 
+app.set('case sensitive routing', false);
+
 // cors
 app.use(cors({
     credentials: true,
@@ -28,10 +30,10 @@ app.all('*', (req, res, next) => {
     next();
 });
 
-// Host ./maps directory
+// Host maps directory
 app.use(express.static(MAPS_DIR));
 
-// Host ./icons directory
+// Host icons directory
 app.use('/icons', express.static(join(__dirname, 'icons')));
 
 // Files which were not found fall through to this handler
@@ -70,7 +72,7 @@ app.get('/', (req, res) => {
 app.use('/preview', express.static(join(__dirname, 'preview')));
 
 app.get('/preview/*', (req, res, next) => {
-    if (req.accepts('html')) {
+    if (!req.accepts('html')) {
         next();
         return;
     } 
