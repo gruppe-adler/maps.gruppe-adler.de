@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const { lstatSync, readdirSync, readFileSync } = require('fs');
 const { join } = require('path');
 
