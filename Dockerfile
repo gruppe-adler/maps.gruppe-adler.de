@@ -19,6 +19,8 @@ RUN ndjson-cat --version
 
 RUN ./tools/entrypoint.sh ./tools ./maps ./map-data /tmp/map-data-temp-data
 
+# TODO: Build sat tiles with gdal
+
 ######################################################################
 ######################### tippecanoe-builder #########################
 

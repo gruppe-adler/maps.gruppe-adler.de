@@ -6,10 +6,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: 'Checkout the source code from GitHub'
+    - name: 'Checkout from GitHub'
       uses: actions/checkout@master
       with:
         submodules: true
-
-    - name: 'Build docker image'
-      run: docker build . --tag maps:$(date +%s)
+    - name: Build and publish to registry
+      uses: elgohr/Publish-Docker-Github-Action@2.8
+      with:
+        name: gruppeadler/maps
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
