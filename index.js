@@ -10,11 +10,20 @@ const getDirectories = source => readdirSync(source).map(name => join(source, na
 
 const app = express();
 
-app.all('*', (req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'OPTIONS, GET');
-    res.header('Cache-Control', 'max-age=604800');
+// cors
+app.use(cors({
+    credentials: true,
+    origin: [
+        new RegExp('gruppe-adler\.de$', 'i'),
+        new RegExp('localhost:[0-9]+$', 'i'),
+        new RegExp('127.0.0.1:[0-9]+$', 'i'),
+        new RegExp('127.0.0.1$', 'i'),
+        new RegExp('localhost$', 'i')
+    ]
+}));
 
+app.all('*', (req, res, next) => {
+    res.header('Cache-Control', 'max-age=604800');
     next();
 });
 
