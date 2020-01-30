@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 inDir=$1
 outDir=$2
@@ -18,7 +19,7 @@ else
     exit 1 # terminate and indicate error
 fi
 
-for filePath in $inDir/geojson/*.json; do
+for filePath in $inDir/geojson/*.geojson; do
     fileName=$(basename $filePath)
     layer=${fileName%.*}
 

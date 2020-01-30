@@ -1,10 +1,10 @@
 ########################## map-data-builder ##########################
 FROM osgeo/gdal:ubuntu-full-3.0.2 AS map-data-builder
 
-RUN apt-get update
-RUN apt-get -y install curl gnupg
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash
-RUN apt-get -y install nodejs
+RUN apt update
+RUN apt -y install curl
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash
+RUN apt -y install nodejs
 RUN npm i -g ndjson-cli@0.3.1
 
 WORKDIR /tmp/
@@ -39,6 +39,10 @@ RUN git clone --depth 1 https://github.com/mapbox/tippecanoe.git tippecanoe-src
 
 WORKDIR ./tippecanoe-src
 
+# Checkout version 1.34.3
+RUN git fetch && git fetch --tags
+RUN git checkout 1.34.3
+
 # Build tippecanoe
 RUN make
 RUN chmod +x ./tippecanoe
@@ -49,6 +53,9 @@ RUN ./tippecanoe --version
 
 FROM node:10-slim
 
+# Install sqlite as it is needed for tippecanoe
+RUN apt update && apt -y install sqlite3
+
 # Build map tiles
 WORKDIR /tmp/map-data
 COPY --from=map-data-builder /tmp/map-data map-data
@@ -56,7 +63,6 @@ COPY tools/build-mvts.sh .
 COPY --from=tippecanoe-builder /tmp/tippecanoe-src/tippecanoe .
 RUN ./tippecanoe --version
 RUN mkdir -p /usr/src/app/maps
-RUN ls -l ./map-data/stratis
 RUN ./build-mvts.sh ./tippecanoe ./map-data /usr/src/app/maps
 
 # Build frontend
@@ -65,6 +71,11 @@ COPY frontend .
 RUN npm ci
 ENV BASE_URL=/preview/
 RUN npm run build
+
+# copy maps meta.json
+WORKDIR /tmp/maps
+COPY maps .
+RUN find */meta.json -exec /bin/cp {} /usr/src/app/maps/{} \;
 
 # Move to app directory
 WORKDIR /usr/src/app
@@ -75,7 +86,6 @@ COPY error.png ./
 COPY index.js ./
 COPY icons icons
 
-# TODO: copy maps meta.json
 
 # install dependencies
 RUN npm ci

@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 toolsDir=$1
 mapsDir=$2
