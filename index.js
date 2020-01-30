@@ -31,7 +31,7 @@ app.all('*', (req, res, next) => {
 app.use(express.static(MAPS_DIR));
 
 // Host ./icons directory
-app.use('/icons', express.static(join(__dirname, 'maps')));
+app.use('/icons', express.static(join(__dirname, 'icons')));
 
 // Files which were not found fall through to this handler
 app.use('*.png', (req, res, next) => {
