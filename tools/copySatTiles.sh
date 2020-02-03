@@ -18,10 +18,10 @@ satDir=$1
 # Maps directory
 destinationMapsDir=$2
 
-for mapDir in $satDir*/ ; do
+for mapDir in $satDir/*/ ; do
     worldName=$(basename $mapDir)
 
-    mapSatDir=$destinationMapsDir/$worldName/sat
-
-    cp -r $mapDir $mapSatDir
+    destMapDir=$destinationMapsDir/$worldName
+    mkdir -p $destMapDir
+    cp -r $mapDir $destMapDir/sat
 done
