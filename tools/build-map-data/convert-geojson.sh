@@ -4,10 +4,12 @@ set -e
 inDir=$1
 outDir=$2
 toolsDir=$3
-tmpDir=$4/process-geojson
+tmpDir=$4/convert-geojson
 
 mkdir -p $tmpDir
 rm -rf $tmpDir/*
+
+mkdir -p $outDir
 
 worldSize=$(ndjson-cat $inDir/meta.json | ndjson-map 'd.worldSize')
 

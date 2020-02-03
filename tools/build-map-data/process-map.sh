@@ -24,4 +24,4 @@ done
 
 
 echo "▶️   Converting geojson to correct coordinates ($worldName)"
-$toolsDir/convert-geojson.sh $mapDirectory $outDir $toolsDir $tmpDir
+$toolsDir/convert-geojson.sh $mapDirectory $outDir/geojson $toolsDir $tmpDir
