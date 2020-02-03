@@ -1,5 +1,5 @@
-########################## map-data-builder ##########################
-FROM osgeo/gdal:ubuntu-full-3.0.2 AS map-data-builder
+########################## geojson-builder ##########################
+FROM osgeo/gdal:ubuntu-full-3.0.2 AS geojson-builder
 
 RUN apt update
 RUN apt -y install curl
@@ -7,19 +7,24 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x | bash
 RUN apt -y install nodejs
 RUN npm i -g ndjson-cli@0.3.1
 
-WORKDIR /tmp/
+WORKDIR /etc/geojson-builder
 
 COPY maps maps
-COPY tools/build-map-data tools
+COPY tools/geojson-builder tools
 
 RUN gdalinfo --version
 RUN node --version
 RUN npm --version
 RUN ndjson-cat --version
 
-RUN ./tools/entrypoint.sh ./tools ./maps ./map-data /tmp/map-data-temp-data
+RUN ./tools/entrypoint.sh ./tools ./maps /out /tmp
 
-# TODO: Build sat tiles with gdal
+# After this the /out directory will contain a directory for each map.
+# Those map directories will look like this:
+#
+# stratis
+# ├── [...]
+# └── houses.geojson
 
 ######################################################################
 ######################### tippecanoe-builder #########################
@@ -48,6 +53,11 @@ RUN make
 RUN chmod +x ./tippecanoe
 RUN ./tippecanoe --version
 
+RUN mkdir -p /out/
+RUN mv ./tippecanoe /out/tippecanoe
+
+# This image will containa runnung tippecanoe executable in the /out/ directory
+
 ######################################################################
 ######################################################################
 
@@ -58,12 +68,12 @@ RUN apt update && apt -y install sqlite3
 
 # Build map tiles
 WORKDIR /tmp/map-data
-COPY --from=map-data-builder /tmp/map-data map-data
+COPY --from=geojson-builder /out geojson
 COPY tools/build-mvts.sh .
-COPY --from=tippecanoe-builder /tmp/tippecanoe-src/tippecanoe .
+COPY --from=tippecanoe-builder /out/tippecanoe .
 RUN ./tippecanoe --version
 RUN mkdir -p /usr/src/app/maps
-RUN ./build-mvts.sh ./tippecanoe ./map-data /usr/src/app/maps
+RUN ./build-mvts.sh ./tippecanoe ./geojson /usr/src/app/maps
 
 # Build frontend
 WORKDIR /tmp/frontend

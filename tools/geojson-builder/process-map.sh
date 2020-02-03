@@ -3,13 +3,13 @@ set -e
 
 worldName=$1
 mapDirectory=$2
-dataDir=$3
+outDir=$3
 toolsDir=$4
 tmpDir=$5
 
-outDir=$dataDir/$worldName
-mkdir -p $outDir
-rm -rf $outDir/*
+mapOutDir=$outDir/$worldName
+mkdir -p $mapOutDir
+rm -rf $mapOutDir/*
 
 
 echo "▶️   Building contour lines geojson from DEM ($worldName)"
@@ -22,6 +22,5 @@ for filePath in $mapDirectory/geojson/*.geojson.gz; do
     gzip -d $filePath    
 done
 
-
 echo "▶️   Converting geojson to correct coordinates ($worldName)"
-$toolsDir/convert-geojson.sh $mapDirectory $outDir/geojson $toolsDir $tmpDir
+$toolsDir/convert-geojson.sh $mapDirectory $mapOutDir $toolsDir $tmpDir
