@@ -7,7 +7,7 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x | bash
 RUN apt -y install nodejs
 RUN npm i -g ndjson-cli@0.3.1
 
-WORKDIR /etc/geojson-builder
+WORKDIR /usr/build
 
 COPY maps maps
 COPY tools/geojson-builder tools
@@ -25,6 +25,34 @@ RUN ./tools/entrypoint.sh ./tools ./maps /out /tmp
 # stratis
 # ├── [...]
 # └── houses.geojson
+
+
+######################################################################
+############################ sat-builder #############################
+FROM dpokidov/imagemagick:7.0.8-40 as sat-builder
+
+WORKDIR /usr/build
+
+COPY maps /maps
+
+# TODO: Update tools dir
+COPY  tools/sat-builder tools
+
+RUN ./tools/entrypoint.sh /maps /out
+
+
+# After this the /out directory will contain a directory for each map.
+# Those map directories will look like this:
+#
+# stratis
+# │
+# ├── [...]
+# ├── 2                 # This the LOD
+# │   ├── [...]
+# │   └── 0             # This a the column
+# │       ├── [...]
+# │       └── 1.png     # This is the row
+# └── sat.json
 
 ######################################################################
 ######################### tippecanoe-builder #########################
@@ -67,7 +95,7 @@ FROM node:10-slim
 RUN apt update && apt -y install sqlite3
 
 # Build map tiles
-WORKDIR /tmp/map-data
+WORKDIR /tmp/geojsons
 COPY --from=geojson-builder /out geojson
 COPY tools/build-mvts.sh .
 COPY --from=tippecanoe-builder /out/tippecanoe .
@@ -90,6 +118,12 @@ RUN find */meta.json -exec /bin/cp {} /usr/src/app/maps/{} \;
 
 # copy maps preview.png
 RUN find */preview.png -exec /bin/cp {} /usr/src/app/maps/{} \;
+
+# copy maps sat images
+WORKDIR /tmp/sat
+COPY --from=geojson-builder /out sat
+COPY tools/copySatTiles.sh .
+RUN ./copySatTiles.sh ./sat /usr/src/app/maps
 
 # Move to app directory
 WORKDIR /usr/src/app
