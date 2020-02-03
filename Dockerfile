@@ -72,10 +72,14 @@ RUN npm ci
 ENV BASE_URL=/preview/
 RUN npm run build
 
-# copy maps meta.json
 WORKDIR /tmp/maps
 COPY maps .
+
+# copy maps meta.json
 RUN find */meta.json -exec /bin/cp {} /usr/src/app/maps/{} \;
+
+# copy maps preview.png
+RUN find */preview.png -exec /bin/cp {} /usr/src/app/maps/{} \;
 
 # Move to app directory
 WORKDIR /usr/src/app
