@@ -121,7 +121,7 @@ RUN find */preview.png -exec /bin/cp {} /usr/src/app/maps/{} \;
 
 # copy maps sat images
 WORKDIR /tmp/sat
-COPY --from=geojson-builder /out sat
+COPY --from=sat-builder /out sat
 COPY tools/copySatTiles.sh .
 RUN ./copySatTiles.sh ./sat /usr/src/app/maps
 
