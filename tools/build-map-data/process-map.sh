@@ -16,10 +16,6 @@ echo "▶️   Building contour lines geojson from DEM ($worldName)"
 gzip -d $mapDirectory/dem.asc.gz
 $toolsDir/build-contours.sh $mapDirectory/dem.asc $mapDirectory/geojson $tmpDir
 
-echo "▶️   Building locations geojson from meta.json ($worldName)"
-echo "This is not implemented yet"
-# TODO
-
 echo "▶️   Unzipping geojsons ($worldName)"
 for filePath in $mapDirectory/geojson/*.geojson.gz; do
     echo "Unzipping $(basename $filePath)"
