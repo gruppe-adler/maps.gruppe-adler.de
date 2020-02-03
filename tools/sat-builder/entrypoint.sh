@@ -130,21 +130,23 @@ for mapPath in $mapsDir/*/ ; do
     cp -r $mapPath $tmpDir/$worldName
     satDir=$mapPath/sat
 
-    echo "Map $worldName"
+    echo "--------------------------------------------------"
+    echo "🗺️   $worldName"
+    echo "--------------------------------------------------"
 
     mergedImg=$mapTempDir/merged.png
 
-    echo "    Combining sat img"
+    echo "▶️   Combining satellite image ($worldName)"
     combine_sat_image $mapSatDir $mergedImg
 
     maxLod=$(calc_max_lod $mergedImg)
-    echo "    Calculated max lod: $maxLod"
+    echo "🧮   Calculated max lod: $maxLod ($worldName)"
 
     for lod in $(seq 0 $maxLod); do
-        echo "    Building tiles for lod $lod"
+        echo "▶️   Building tiles for LOD $lod ($worldName)"
         build_tile_set $lod $mergedImg $mapOutDir
     done
 
-    echo "    Creating sat.json"
+    echo "▶️   Creating sat.json ($worldName)"
     echo "{ \"maxLod\": $maxLod }" >> $mapOutDir/sat.json
 done

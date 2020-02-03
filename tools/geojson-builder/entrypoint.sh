@@ -23,5 +23,5 @@ for mapPath in $mapsDir/*/ ; do
 done
 
 #cleanup
-echo "➡️  Cleaning up"
+echo "▶️  Cleaning up"
 rm -rf $tmpDir

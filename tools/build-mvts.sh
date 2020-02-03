@@ -9,8 +9,8 @@ for mapDir in $inDir*/ ; do
     worldName=$(basename $mapDir)
     files=$(find $mapDir/* -type f -name "*.geojson" -o -name "*.geojson.gz*")
 
-    echo "➡️  Starting conversion from geojson to mapbox vector tiles for map $worldName"
-    echo "Found the following geojsons: \n$files"
+    echo "▶️  Converting geojsons to mapbox vector tiles ($worldName)"
+    echo "ℹ️  Found the following geojsons: \n$files"
 
     mkdir -p $outDir/$worldName
 
@@ -23,6 +23,4 @@ for mapDir in $inDir*/ ; do
         --minimum-zoom=0 \
         --output-to-directory $outDir/$worldName/mvt \
         $files
-
-    echo "✔️  Finished conversion from geojson to mapbox vector tiles for map $worldName"
 done

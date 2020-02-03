@@ -11,6 +11,9 @@ mapOutDir=$outDir/$worldName
 mkdir -p $mapOutDir
 rm -rf $mapOutDir/*
 
+echo "--------------------------------------------------"
+echo "🗺️   $worldName"
+echo "--------------------------------------------------"
 
 echo "▶️   Building contour lines geojson from DEM ($worldName)"
 gzip -d $mapDirectory/dem.asc.gz
@@ -18,7 +21,6 @@ $toolsDir/build-contours.sh $mapDirectory/dem.asc $mapDirectory/geojson $tmpDir
 
 echo "▶️   Unzipping geojsons ($worldName)"
 for filePath in $mapDirectory/geojson/*.geojson.gz; do
-    echo "Unzipping $(basename $filePath)"
     gzip -d $filePath    
 done
 
