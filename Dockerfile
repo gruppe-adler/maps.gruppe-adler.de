@@ -18,7 +18,7 @@ WORKDIR ./tippecanoe-src
 
 # Checkout version 1.34.3
 RUN git fetch && git fetch --tags
-RUN git checkout 1.34.3
+RUN git checkout 1.35.0
 
 # Build tippecanoe
 RUN make
