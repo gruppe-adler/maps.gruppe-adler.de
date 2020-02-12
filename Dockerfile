@@ -30,7 +30,6 @@ RUN mv ./tippecanoe /out/tippecanoe
 
 # This image will containa runnung tippecanoe executable in the /out/ directory
 
-
 ########################## geojson-builder ##########################
 FROM osgeo/gdal:ubuntu-full-3.0.2 AS geojson-builder
 
@@ -59,7 +58,6 @@ RUN ./tools/entrypoint.sh ./tools ./maps /out /tmp
 # ├── [...]
 # └── houses.geojson
 
-
 ######################################################################
 ############################ sat-builder #############################
 FROM dpokidov/imagemagick:7.0.8-40 as sat-builder
@@ -72,7 +70,6 @@ COPY maps /maps
 COPY  tools/sat-builder tools
 
 RUN ./tools/entrypoint.sh /maps /out
-
 
 # After this the /out directory will contain a directory for each map.
 # Those map directories will look like this:

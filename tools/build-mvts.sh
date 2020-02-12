@@ -18,6 +18,7 @@ for mapDir in $inDir*/ ; do
         --no-feature-limit \
         --no-tile-size-limit \
         --no-line-simplification \
+        --no-tile-compression \
         --read-parallel \
         --maximum-zoom=g \
         --minimum-zoom=0 \
