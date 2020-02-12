@@ -94,6 +94,7 @@ export default class MapsVue extends Vue {
         padding: 1rem;
         display: grid;
         align-content: flex-start;
+        justify-items: center;
         flex-shrink: 1;
         overflow-y: auto;
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
