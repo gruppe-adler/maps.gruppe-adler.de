@@ -50,7 +50,7 @@ app.get('/maps', (req, res) => {
         cachedMaps = dirs.map(dir => {
             const meta = JSON.parse(readFileSync(join(dir, 'meta.json'), 'utf-8'));
     
-            return { displayName: meta.displayName, worldName: meta.worldName };
+            return { displayName: meta.displayName, worldName: meta.worldName.toLowerCase(), author: meta.author };
         });
 
         cachedMapsDate = new Date().toGMTString()
