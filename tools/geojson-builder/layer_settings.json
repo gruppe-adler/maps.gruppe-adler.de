@@ -9,5 +9,7 @@
     { "layer": "shipwrecks", "minzoom": 1 },
     { "layer": "transmitters", "minzoom": 1 },
     { "layer": "trees", "minzoom": 4 },
-    { "layer": "watertowers", "minzoom": 1 }
+    { "layer": "watertowers", "minzoom": 1 },
+    { "layer": "contours_05", "minzoom": 5 },
+    { "layer": "contours_10", "minzoom": 3 }
 ]
