@@ -1,3 +1,36 @@
+######################################################################
+######################### tippecanoe-builder #########################
+
+FROM ubuntu:16.04 AS tippecanoe-builder
+
+WORKDIR /tmp
+
+# Update repos and install dependencies
+RUN apt update \
+  && apt -y upgrade \
+  && apt -y install build-essential libsqlite3-dev zlib1g-dev
+
+RUN apt update && apt install git build-essential -y
+RUN git --version
+RUN git clone --depth 1 https://github.com/mapbox/tippecanoe.git tippecanoe-src
+
+WORKDIR ./tippecanoe-src
+
+# Checkout version 1.34.3
+RUN git fetch && git fetch --tags
+RUN git checkout 1.34.3
+
+# Build tippecanoe
+RUN make
+RUN chmod +x ./tippecanoe
+RUN ./tippecanoe --version
+
+RUN mkdir -p /out/
+RUN mv ./tippecanoe /out/tippecanoe
+
+# This image will containa runnung tippecanoe executable in the /out/ directory
+
+
 ########################## geojson-builder ##########################
 FROM osgeo/gdal:ubuntu-full-3.0.2 AS geojson-builder
 
@@ -53,38 +86,6 @@ RUN ./tools/entrypoint.sh /maps /out
 # │       ├── [...]
 # │       └── 1.png     # This is the row
 # └── sat.json
-
-######################################################################
-######################### tippecanoe-builder #########################
-
-FROM ubuntu:16.04 AS tippecanoe-builder
-
-WORKDIR /tmp
-
-# Update repos and install dependencies
-RUN apt update \
-  && apt -y upgrade \
-  && apt -y install build-essential libsqlite3-dev zlib1g-dev
-
-RUN apt update && apt install git build-essential -y
-RUN git --version
-RUN git clone --depth 1 https://github.com/mapbox/tippecanoe.git tippecanoe-src
-
-WORKDIR ./tippecanoe-src
-
-# Checkout version 1.34.3
-RUN git fetch && git fetch --tags
-RUN git checkout 1.34.3
-
-# Build tippecanoe
-RUN make
-RUN chmod +x ./tippecanoe
-RUN ./tippecanoe --version
-
-RUN mkdir -p /out/
-RUN mv ./tippecanoe /out/tippecanoe
-
-# This image will containa runnung tippecanoe executable in the /out/ directory
 
 ######################################################################
 ######################################################################
