@@ -1,30 +1,49 @@
 <template>
-    <Map :worldName="mapName">
-        <template v-slot="{ map, metaData, layer, selectBasemap }">
-            <Layers :metaData="metaData" v-model="layer" :select="selectBasemap" />
-            <CoordsDisplay :map="map" :metaData="metaData" />
-            <Locations v-if="metaData.locations.length > 0" :map="map" :metaData="metaData" />
-        </template>
-    </Map>
+    <div style="height: 100vh;">
+
+    </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
 
-import MapVue from '@/components/Map/Map.vue';
-import CoordsDisplayVue from '@/components/Map/CoordsDisplay.vue';
-import LayersVue from '@/components/Map/Layers.vue';
-import LocationsVue from '@/components/Map/Locations.vue';
+import { Map as LeafletMap, LatLngBounds } from 'leaflet';
+import { satTileLayer } from '../utils';
 
-@Component({
-    components: {
-        Map: MapVue,
-        Layers: LayersVue,
-        CoordsDisplay: CoordsDisplayVue,
-        Locations: LocationsVue
+@Component
+export default class MapVue extends Vue {
+    @Prop({ default: '' }) private mapName!: string;
+    private map: LeafletMap|null = null;
+
+    private mounted() {
+        this.map = this.setupMap();
+        this.setupSatLayer();
     }
-})
-export default class ReplayVue extends Vue {
-    @Prop() private mapName?: string;
+
+    /**
+     * This methods sets up the leafelt map.
+     */
+    private setupMap(): LeafletMap {
+        if (this.map) return this.map;
+
+        this.map = new LeafletMap(this.$el as HTMLDivElement, {
+            attributionControl: false,
+            zoomControl: false,
+        });
+        this.map.setView([0, 0], 0);
+        this.map.setMaxBounds(
+            (new LatLngBounds([-90, -180], [90, 180])).pad(0.05)
+        );
+
+        return this.map;
+    }
+
+    private async setupSatLayer() {
+        if (this.map === null) return;
+
+        const layer = await satTileLayer(this.mapName);
+
+        this.map.addLayer(layer);
+    }
 }
 </script>
