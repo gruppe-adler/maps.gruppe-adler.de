@@ -1,6 +1,6 @@
 [
     { "layer": "house", "minzoom" : 0 },
-    { "layer": "contours_05", "minzoom": 5 },
-    { "layer": "contours_10", "minzoom": 3 },
-    { "layer": "contours_50", "minzoom": 1 }
+    { "layer": "contours_05", "minzoom": 8 },
+    { "layer": "contours_10", "minzoom": 5 },
+    { "layer": "contours_50", "minzoom": 2 }
 ]
