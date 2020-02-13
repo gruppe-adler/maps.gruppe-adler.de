@@ -1,19 +1,29 @@
 <template>
-    <div style="height: 100vh;">
-
+<div style="height: 100vh;">
+    <div style="height: 100%; background-color: #f7f4f2;" ref="map">
     </div>
+    <div
+        class="toggle-btn"
+        @click="toggleSat"
+    >
+        <i class="material-icons">{{ satShown ? 'layers_clear' : 'layers' }}</i>
+    </div>
+</div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
 
-import { Map as LeafletMap, LatLngBounds } from 'leaflet';
+import { Map as LeafletMap, LatLngBounds, TileLayer as LeafletTileLayer } from 'leaflet';
 import { satTileLayer } from '../utils';
+import { vectorTileLayer, test } from '@/utils/leaflet';
 
 @Component
 export default class MapVue extends Vue {
     @Prop({ default: '' }) private mapName!: string;
     private map: LeafletMap|null = null;
+    private satLayer: LeafletTileLayer|null = null;
+    private satShown: boolean = true;
 
     private mounted() {
         this.map = this.setupMap();
@@ -26,7 +36,7 @@ export default class MapVue extends Vue {
     private setupMap(): LeafletMap {
         if (this.map) return this.map;
 
-        this.map = new LeafletMap(this.$el as HTMLDivElement, {
+        this.map = new LeafletMap(this.$refs.map as HTMLDivElement, {
             attributionControl: false,
             zoomControl: false,
         });
@@ -35,15 +45,52 @@ export default class MapVue extends Vue {
             (new LatLngBounds([-90, -180], [90, 180])).pad(0.05)
         );
 
+        this.map.addLayer(vectorTileLayer(this.mapName))
+
+        test().addTo(this.map);
+
         return this.map;
     }
 
+    /**
+     * sets up sat layer
+     */
     private async setupSatLayer() {
         if (this.map === null) return;
 
-        const layer = await satTileLayer(this.mapName);
+        this.satLayer = await satTileLayer(this.mapName);
 
-        this.map.addLayer(layer);
+        if (this.satShown) this.satLayer.addTo(this.map);
+    }
+
+    /**
+     * Toggle sat layer on/off
+     */
+    private toggleSat() {
+        this.satShown = !this.satShown;
+        
+        if (this.map === null || this.satLayer === null) return;
+
+        if (this.satShown) {
+            this.satLayer.addTo(this.map);
+        } else {
+            this.satLayer.removeFrom(this.map);
+        }
     }
 }
 </script>
+
+<style lang="scss" scoped>
+.toggle-btn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    padding: 0.75rem;
+    z-index: 10000;
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+    cursor: pointer;
+    display: flex;
+}
+</style>

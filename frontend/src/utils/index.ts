@@ -1,6 +1,6 @@
 import { setApiUri, getApiUri } from './utils';
 import { fetchMapMetaData, fetchMaps, mapPreviewImgUrl } from './api';
-import { satTileLayer } from './leaflet';
+import { satTileLayer, vectorTileLayer } from './leaflet';
 import { MapMetaData, ResponseError } from './types';
 
 export {
@@ -12,6 +12,7 @@ export {
     mapPreviewImgUrl,
 
     satTileLayer,
+    vectorTileLayer,
 
     MapMetaData,
     ResponseError,
