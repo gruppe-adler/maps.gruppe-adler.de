@@ -31,9 +31,38 @@ RUN mkdir -p /out/
 RUN mv ./tippecanoe /out/tippecanoe
 
 RUN echo ::endgroup::
-RUN echo ::group::GEOJSON BUILDER SETUP
+RUN echo ::group::SAT BUILDER SETUP
 
 # This image will containa runnung tippecanoe executable in the /out/ directory
+
+######################################################################
+############################ sat-builder #############################
+FROM dpokidov/imagemagick:7.0.8-40 as sat-builder
+WORKDIR /usr/build
+
+COPY maps /maps
+
+# TODO: Update tools dir
+COPY  tools/sat-builder tools
+
+RUN echo ::endgroup::
+
+RUN ./tools/entrypoint.sh /maps /out
+
+RUN echo ::group::GEOJSON BUILDER SETUP
+
+# After this the /out directory will contain a directory for each map.
+# Those map directories will look like this:
+#
+# stratis
+# │
+# ├── [...]
+# ├── 2                 # This the LOD
+# │   ├── [...]
+# │   └── 0             # This a the column
+# │       ├── [...]
+# │       └── 1.png     # This is the row
+# └── sat.json
 
 ########################## geojson-builder ##########################
 FROM osgeo/gdal:ubuntu-full-3.0.2 AS geojson-builder
@@ -57,7 +86,7 @@ RUN ndjson-cat --version
 
 RUN ./tools/entrypoint.sh ./tools ./maps /out /tmp
 
-RUN echo ::group::SAT BUILDER SETUP
+RUN echo ::group::MAIN CONTAINER SETUP
 
 # After this the /out directory will contain a directory for each map.
 # Those map directories will look like this:
@@ -65,35 +94,6 @@ RUN echo ::group::SAT BUILDER SETUP
 # stratis
 # ├── [...]
 # └── houses.geojson
-
-######################################################################
-############################ sat-builder #############################
-FROM dpokidov/imagemagick:7.0.8-40 as sat-builder
-WORKDIR /usr/build
-
-COPY maps /maps
-
-# TODO: Update tools dir
-COPY  tools/sat-builder tools
-
-RUN echo ::endgroup::
-
-RUN ./tools/entrypoint.sh /maps /out
-
-RUN echo ::group::MAIN CONTAINER SETUP
-
-# After this the /out directory will contain a directory for each map.
-# Those map directories will look like this:
-#
-# stratis
-# │
-# ├── [...]
-# ├── 2                 # This the LOD
-# │   ├── [...]
-# │   └── 0             # This a the column
-# │       ├── [...]
-# │       └── 1.png     # This is the row
-# └── sat.json
 
 ######################################################################
 ######################################################################
