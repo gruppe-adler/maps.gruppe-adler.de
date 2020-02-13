@@ -2,7 +2,9 @@
 ######################### tippecanoe-builder #########################
 
 FROM ubuntu:16.04 AS tippecanoe-builder
-RUN echo ::group::tippecanoe-builder
+
+RUN echo ::group::BUILD TIPPECANOE
+
 WORKDIR /tmp
 
 # Update repos and install dependencies
@@ -27,12 +29,14 @@ RUN ./tippecanoe --version
 
 RUN mkdir -p /out/
 RUN mv ./tippecanoe /out/tippecanoe
+
 RUN echo ::endgroup::
+RUN echo ::group::GEOJSON BUILDER SETUP
+
 # This image will containa runnung tippecanoe executable in the /out/ directory
 
 ########################## geojson-builder ##########################
 FROM osgeo/gdal:ubuntu-full-3.0.2 AS geojson-builder
-RUN echo ::group::geojson-builder
 RUN apt update
 RUN apt -y install curl
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash
@@ -44,13 +48,17 @@ WORKDIR /usr/build
 COPY maps maps
 COPY tools/geojson-builder tools
 
+RUN echo ::endgroup::
+
 RUN gdalinfo --version
 RUN node --version
 RUN npm --version
 RUN ndjson-cat --version
 
 RUN ./tools/entrypoint.sh ./tools ./maps /out /tmp
-RUN echo ::endgroup::
+
+RUN echo ::group::SAT BUILDER SETUP
+
 # After this the /out directory will contain a directory for each map.
 # Those map directories will look like this:
 #
@@ -61,7 +69,6 @@ RUN echo ::endgroup::
 ######################################################################
 ############################ sat-builder #############################
 FROM dpokidov/imagemagick:7.0.8-40 as sat-builder
-RUN echo ::group::sat-builder
 WORKDIR /usr/build
 
 COPY maps /maps
@@ -69,8 +76,12 @@ COPY maps /maps
 # TODO: Update tools dir
 COPY  tools/sat-builder tools
 
-RUN ./tools/entrypoint.sh /maps /out
 RUN echo ::endgroup::
+
+RUN ./tools/entrypoint.sh /maps /out
+
+RUN echo ::group::MAIN CONTAINER SETUP
+
 # After this the /out directory will contain a directory for each map.
 # Those map directories will look like this:
 #
@@ -90,12 +101,11 @@ RUN echo ::endgroup::
 FROM node:10-slim
 
 # Install sqlite as it is needed for tippecanoe
-RUN echo ::group::install sqlite
 RUN apt update && apt -y install sqlite3
+
 RUN echo ::endgroup::
 
 # Build map tiles
-RUN echo ::group::Build map tiles
 WORKDIR /tmp/geojsons
 COPY --from=geojson-builder /out geojson
 COPY tools/build-mvts.sh .
@@ -103,15 +113,16 @@ COPY --from=tippecanoe-builder /out/tippecanoe .
 RUN ./tippecanoe --version
 RUN mkdir -p /usr/src/app/maps
 RUN ./build-mvts.sh ./tippecanoe ./geojson /usr/src/app/maps
-RUN echo ::endgroup::
 
 # Build frontend
-RUN echo ::group::Build frontend
+RUN echo ::group::BUILD FRONTEND
+
 WORKDIR /tmp/frontend
 COPY frontend .
 RUN npm ci
 ENV BASE_URL=/preview/
 RUN npm run build
+
 RUN echo ::endgroup::
 
 WORKDIR /tmp/maps
@@ -139,7 +150,7 @@ COPY index.js ./
 COPY icons icons
 
 # install dependencies
-RUN npm ci
+RUN npm ci --only=production
 
 # copy frontend to app dir 
 RUN mv /tmp/frontend/dist ./preview
