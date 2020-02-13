@@ -33,7 +33,7 @@ for filePath in $inDir/geojson/*.geojson; do
         tippecanoeSettings="d.tippecanoe = $settingsJson,"
     fi
 
-    cmd="ndjson-cat $filePath | ndjson-split 'd' | ndjson-map -r toLonLat=$toolsDir/armaToLonLat '$tippecanoeSettings d.properties = {}, d.geometry = toLonLat($worldSize, d.geometry) , d'"
+    cmd="ndjson-cat $filePath | ndjson-split 'd' | ndjson-map -r toLonLat=$toolsDir/armaToLonLat '$tippecanoeSettings d.geometry = toLonLat($worldSize, d.geometry) , d'"
     eval $cmd | ndjson-reduce > $outDir/$layer.geojson
     echo "✔️  Finished layer $layer"
 done
