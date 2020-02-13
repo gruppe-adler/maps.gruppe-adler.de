@@ -2,7 +2,7 @@
 ######################### tippecanoe-builder #########################
 
 FROM ubuntu:16.04 AS tippecanoe-builder
-
+RUN echo ::group::tippecanoe-builder
 WORKDIR /tmp
 
 # Update repos and install dependencies
@@ -27,12 +27,12 @@ RUN ./tippecanoe --version
 
 RUN mkdir -p /out/
 RUN mv ./tippecanoe /out/tippecanoe
-
+RUN echo ::endgroup::
 # This image will containa runnung tippecanoe executable in the /out/ directory
 
 ########################## geojson-builder ##########################
 FROM osgeo/gdal:ubuntu-full-3.0.2 AS geojson-builder
-
+RUN echo ::group::geojson-builder
 RUN apt update
 RUN apt -y install curl
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash
@@ -50,7 +50,7 @@ RUN npm --version
 RUN ndjson-cat --version
 
 RUN ./tools/entrypoint.sh ./tools ./maps /out /tmp
-
+RUN echo ::endgroup::
 # After this the /out directory will contain a directory for each map.
 # Those map directories will look like this:
 #
@@ -61,7 +61,7 @@ RUN ./tools/entrypoint.sh ./tools ./maps /out /tmp
 ######################################################################
 ############################ sat-builder #############################
 FROM dpokidov/imagemagick:7.0.8-40 as sat-builder
-
+RUN echo ::group::sat-builder
 WORKDIR /usr/build
 
 COPY maps /maps
@@ -70,7 +70,7 @@ COPY maps /maps
 COPY  tools/sat-builder tools
 
 RUN ./tools/entrypoint.sh /maps /out
-
+RUN echo ::endgroup::
 # After this the /out directory will contain a directory for each map.
 # Those map directories will look like this:
 #
@@ -90,9 +90,12 @@ RUN ./tools/entrypoint.sh /maps /out
 FROM node:10-slim
 
 # Install sqlite as it is needed for tippecanoe
+RUN echo ::group::install sqlite
 RUN apt update && apt -y install sqlite3
+RUN echo ::endgroup::
 
 # Build map tiles
+RUN echo ::group::Build map tiles
 WORKDIR /tmp/geojsons
 COPY --from=geojson-builder /out geojson
 COPY tools/build-mvts.sh .
@@ -100,13 +103,16 @@ COPY --from=tippecanoe-builder /out/tippecanoe .
 RUN ./tippecanoe --version
 RUN mkdir -p /usr/src/app/maps
 RUN ./build-mvts.sh ./tippecanoe ./geojson /usr/src/app/maps
+RUN echo ::endgroup::
 
 # Build frontend
+RUN echo ::group::Build frontend
 WORKDIR /tmp/frontend
 COPY frontend .
 RUN npm ci
 ENV BASE_URL=/preview/
 RUN npm run build
+RUN echo ::endgroup::
 
 WORKDIR /tmp/maps
 COPY maps .
@@ -131,7 +137,6 @@ COPY package*.json ./
 COPY error.png ./
 COPY index.js ./
 COPY icons icons
-
 
 # install dependencies
 RUN npm ci
