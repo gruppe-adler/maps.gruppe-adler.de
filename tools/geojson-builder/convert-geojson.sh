@@ -26,11 +26,11 @@ for filePath in $inDir/geojson/*.geojson; do
     settingsCmd="ndjson-cat $toolsDir/layer_settings.json | ndjson-split 'd' | ndjson-filter 'd.layer === \"$layer\"'"
     settingsJson=$(eval $settingsCmd)
 
-    if [ -z "$var" ]
+    if [ -z "$settingsJson" ]
     then
         tippecanoeSettings=""
     else
-        tippecanoeSettings="d.tippecanoe = $settingsJSON,"
+        tippecanoeSettings="d.tippecanoe = $settingsJson,"
     fi
 
     cmd="ndjson-cat $filePath | ndjson-split 'd' | ndjson-map -r toLonLat=$toolsDir/armaToLonLat '$tippecanoeSettings d.properties = {}, d.geometry = toLonLat($worldSize, d.geometry) , d'"
