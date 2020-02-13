@@ -20,7 +20,8 @@ for mapDir in $inDir*/ ; do
         --no-line-simplification \
         --no-tile-compression \
         --read-parallel \
-        --maximum-zoom=10 \
+        --extend-zooms-if-still-dropping \
+        --maximum-zoom=8 \
         --minimum-zoom=0 \
         --output-to-directory $outDir/$worldName/mvt \
         $files
