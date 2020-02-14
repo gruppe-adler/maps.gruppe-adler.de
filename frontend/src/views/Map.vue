@@ -16,7 +16,7 @@ import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
 
 import { Map as LeafletMap, LatLngBounds, TileLayer as LeafletTileLayer } from 'leaflet';
 import { satTileLayer } from '../utils';
-import { vectorTileLayer, test } from '@/utils/leaflet';
+import { vectorTileLayer } from '@/utils/leaflet';
 
 @Component
 export default class MapVue extends Vue {
@@ -46,8 +46,6 @@ export default class MapVue extends Vue {
         );
 
         this.map.addLayer(vectorTileLayer(this.mapName))
-
-        test().addTo(this.map);
 
         return this.map;
     }
