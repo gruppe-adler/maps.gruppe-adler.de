@@ -42,12 +42,16 @@ export default class MapsVue extends Vue {
     }
 
     private async fetchMaps() {
+        this.loading = true;
+
         try {
             this.maps = await fetchMaps();
         } catch (err) {
             console.error(err);
             this.error = true;
         }
+
+        this.loading = false;
     }
 
     private get filteredMaps(): partialMeta[] {
