@@ -1,7 +1,7 @@
 import { DomUtil } from 'leaflet';
 import { VectorTile as MapboxVectorTile, VectorTileLayer as MapboxVectorTileLayer, VectorTileFeature } from '@mapbox/vector-tile';
 import { Point } from '@mapbox/point-geometry';
-import styles from './styles';
+import styles, { Style } from './styles';
 
 export class VectorTile {
     private domElement: HTMLCanvasElement;
@@ -39,6 +39,11 @@ export class VectorTile {
         }
     }
 
+    /**
+     * Add mapbox layer to tile 
+     * @param ctx 2D context of canvas
+     * @param layer mapbox layer
+     */
     private addMapBoxLayer(ctx: CanvasRenderingContext2D, layer: MapboxVectorTileLayer) {
         const layerName = layer.name;
         const tileSize = layer.extent;
@@ -52,18 +57,50 @@ export class VectorTile {
     }
 
     private setStyle(ctx: CanvasRenderingContext2D, layerName: string, feature: VectorTileFeature) {
-        // if (styles[layerName] !== undefined) {
-        //     styles[layerName](ctx, feature.properties);
-        // }
+        let style: Style = {};
+
+        if (styles[layerName] !== undefined) {
+            style = styles[layerName](feature.properties);
+        }
+
+        // Line styles
+        ctx.lineWidth = style.lineWidth || 1;
+        ctx.lineCap = style.lineCap || 'butt';
+        ctx.lineJoin = style.lineJoin || 'miter';
+        ctx.miterLimit = style.miterLimit || 10;
+        ctx.setLineDash(style.lineDash || []);
+        ctx.lineDashOffset = style.lineDashOffset || 0;
+
+        // Text styles
+        ctx.font = style.font || '10px sans-serif';
+        ctx.textAlign = style.textAlign || 'start';
+        ctx.textBaseline = style.textBaseline || 'alphabetic';
+        ctx.direction = style.direction || 'inherit';
+
+        // Fill and stroke styles
+        ctx.fillStyle = style.fillStyle || '#000';
+        ctx.strokeStyle = style.strokeStyle || '#000';
+
+        // Shadows
+        ctx.shadowBlur = style.shadowBlur || 0;
+        ctx.shadowColor = style.shadowColor || 'rgba(0,0,0,0)';
+        ctx.shadowOffsetX = style.shadowOffsetX || 0;
+        ctx.shadowOffsetY = style.shadowOffsetY || 0;
+
+        // Compositing
+        ctx.globalAlpha = style.globalAlpha || 1;
     }
 
+    /**
+     * Draw mapbox feature to tile
+     * @param ctx 2D context of canvas
+     * @param tileSize mapbox tile size
+     * @param feature feature to draw
+     */
     private drawMapboxFeature(ctx: CanvasRenderingContext2D, tileSize: number, feature: VectorTileFeature) {
         const geo = feature.loadGeometry();
 
         switch (VectorTileFeature.types[feature.type]) {
-            case 'Unknown':
-                
-                break;
             case 'Point':
                 
                 break;
@@ -77,6 +114,7 @@ export class VectorTile {
                 break;
 
             default:
+                // TODO: Throw error
                 break;
         }
     }

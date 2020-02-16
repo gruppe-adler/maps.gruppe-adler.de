@@ -1,77 +1,77 @@
-type Style = (ctx: CanvasRenderingContext2D, properties: any) => void
+export interface Style {
+    // Line styles
+    lineWidth?: number;
+    lineCap?: 'butt'|'round'|'square';
+    lineJoin?: 'round'|'bevel'|'miter';
+    miterLimit?: number;
+    lineDash?: number[];
+    lineDashOffset?: number;
 
+    // Text styles
+    font?: string;
+    textAlign?: 'start'|'end'|'left'|'right'|'center';
+    textBaseline?: 'top'|'hanging'|'middle'|'alphabetic'|'ideographic'|'bottom';
+    direction?: 'ltr'|'rtl'|'inherit';
 
-const contourStyle = (ctx: CanvasRenderingContext2D, properties: { elevation: number }) => {
-    ctx.lineWidth = .5;
-    
+    // Fill and stroke styles
+    fillStyle?: string | CanvasGradient | CanvasPattern;
+    strokeStyle?: string | CanvasGradient | CanvasPattern;
+
+    // Shadows
+    shadowBlur?: number;
+    shadowColor?: string;
+    shadowOffsetX?: number;
+    shadowOffsetY?: number;
+
+    // Compositing
+    globalAlpha?: number;
+}
+
+const contourStyle = (properties: { elevation: number }) => {
     const color = (properties.elevation > 0) ? '#decec1' : '#a5bad6';
     
-    ctx.strokeStyle = (properties.elevation === 0) ? '#94a9c7' : color;
+    return {
+        strokeStyle: (properties.elevation === 0) ? '#94a9c7' : color,
+        lineWidth: .5
+    };
 }
 
 
-const styles: { [layerName: string]: Style } = {
+const styles: { [layerName: string]: (properties: any) => Style } = {
     contours_5: contourStyle,
     contours_10: contourStyle,
     contours_50: contourStyle,
     contours_100: contourStyle,
-    roads: (ctx, properties: { type: 'track'|'main road'|'road', width: number }) => {
-        ctx.lineWidth = properties.width;
-        
+    roads: (properties: { type: 'track'|'main road'|'road', width: number }) => {
+        let strokeStyle: string|undefined = undefined;
+
         switch (properties.type) {
             case 'track':
-                ctx.strokeStyle = '#d0ba95';
+                strokeStyle = '#d0ba95';
                 break;
             case 'road':
-                ctx.strokeStyle = '#ffffff';
+                strokeStyle = '#ffffff';
                 break;
             default:
-                ctx.strokeStyle = '#f79868';
+                strokeStyle = '#f79868';
                 break;
         }
-    }
+
+        return {
+            lineWidth: properties.width,
+            strokeStyle
+        };
+    },
+    house: ({ color }: { color: string }) => {
+        const [r, g, b, a]: [number, number, number, number] = eval(color);
+
+        const fillColor = `rgba(${r}, ${g}, ${b}, ${255 / a})`;
+
+        return {
+            strokeStyle: fillColor,
+            fillStyle: fillColor
+        };
+    },
 }
 
 export default styles;
-
-
-
-    
-// {
-//     vectorTileLayerStyles: {
-//         house: ({ color }: { color: string }, zoom: number) => {
-//             const [r, g, b, a]: [number, number, number, number] = eval(color);
-
-//             const fillColor = `rgba(${r}, ${g}, ${b}, ${255 / a})`;
-
-//             return {
-//                 weight: 0,
-//                 fillOpacity: 1,
-//                 fillColor,
-//                 interactive: false
-//             };
-//         },
-//         contours_5: contourStyle,
-//         contours_10: contourStyle,
-//         contours_50: contourStyle,
-//         contours_100: contourStyle,
-//         Hill: (properties: any, zoom: number) => {
-//             const icon = new Icon({
-//                 iconUrl: relativeUrl('icons/hill.png')
-//             });
-
-//             // console.log(properties, icon);
-//             return { icon: new Icon.Default() }
-//         },
-//         roads: (properties: any, zoom: number) => {
-//             return {
-//                 weight: 1,
-//                 fillOpacity: 1,
-//                 color: 'red',
-//                 interactive: false
-//             };
-//         }
-//     },
-//     bounds: new LatLngBounds([-90, -180], [90, 180]),
-// }
-// );
