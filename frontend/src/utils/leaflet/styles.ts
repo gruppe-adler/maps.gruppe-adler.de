@@ -44,23 +44,34 @@ const styles: { [layerName: string]: (properties: any) => Style } = {
     contours_100: contourStyle,
     roads: (properties: { type: 'track'|'main road'|'road', width: number }) => {
         let strokeStyle: string|undefined = undefined;
+        let fillStyle: string|undefined = undefined;
 
         switch (properties.type) {
             case 'track':
-                strokeStyle = '#d0ba95';
-                break;
+                return {
+                    strokeStyle: '#cebb9f',
+                    fillStyle: '#d6c2a6',
+                    lineWidth: 1
+                };
             case 'road':
-                strokeStyle = '#ffffff';
-                break;
-            default:
-                strokeStyle = '#f79868';
-                break;
+                return {
+                    strokeStyle: '#b2b2b2',
+                    fillStyle: '#ffffff',
+                    lineWidth: 1
+                };
+            case 'main road':
+                return {
+                    strokeStyle: '#c8774f',
+                    fillStyle: '#fb9764',
+                    lineWidth: 1
+                };
+            default: 
+                return {
+                    strokeStyle: '#c50000',
+                    fillStyle: '#FF0000',
+                    lineWidth: 1
+                };
         }
-
-        return {
-            lineWidth: properties.width,
-            strokeStyle
-        };
     },
     house: ({ color }: { color: string }) => {
         const [r, g, b, a]: [number, number, number, number] = eval(color);
