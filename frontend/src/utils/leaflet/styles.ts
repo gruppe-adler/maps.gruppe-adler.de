@@ -27,11 +27,17 @@ export interface Style {
     globalAlpha?: number;
 }
 
+/*
+colorCountlines             rgba(146, 90, 48, 0.25)
+colorCountlinesWater        rgba(125, 147, 179, 0.3)
+colorMainCountlines         rgba(146, 90, 48, 0.5)
+colorMainCountlinesWater    rbga(125, 147, 179, 0.6)
+*/
 const contourStyle = (properties: { elevation: number }) => {
-    const color = (properties.elevation > 0) ? '#decec1' : '#a5bad6';
+    const color = (properties.elevation > 0) ? 'rgba(146, 90, 48, 0.25)' : 'rgba(125, 147, 179, 0.3)';
     
     return {
-        strokeStyle: (properties.elevation === 0) ? '#94a9c7' : color,
+        strokeStyle: color,
         lineWidth: .5
     };
 }
@@ -49,20 +55,20 @@ const styles: { [layerName: string]: (properties: any) => Style } = {
         switch (properties.type) {
             case 'track':
                 return {
-                    strokeStyle: '#cebb9f',
-                    fillStyle: '#d6c2a6',
+                    strokeStyle: 'rgba(214, 194, 166, 0.25)',
+                    fillStyle: 'rgba(214, 194, 166, 1)',
                     lineWidth: 1
                 };
             case 'road':
                 return {
-                    strokeStyle: '#b2b2b2',
-                    fillStyle: '#ffffff',
+                    strokeStyle: 'rgba(179, 179, 179, 1)',
+                    fillStyle: 'rgba(255, 255, 255, 1)',
                     lineWidth: 1
                 };
             case 'main road':
                 return {
-                    strokeStyle: '#c8774f',
-                    fillStyle: '#fb9764',
+                    strokeStyle: 'rgba(230, 128, 77, 1)',
+                    fillStyle: 'rgba(255, 153, 102, 1)',
                     lineWidth: 1
                 };
             default: 
@@ -86,3 +92,6 @@ const styles: { [layerName: string]: (properties: any) => Style } = {
 }
 
 export default styles;
+
+
+// water color: rgba(119, 161, 217, 0.5)

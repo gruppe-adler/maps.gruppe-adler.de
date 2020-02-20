@@ -1,6 +1,6 @@
 <template>
 <div style="height: 100vh;">
-    <div style="height: 100%; background-color: #f7f4f2;" ref="map">
+    <div style="height: 100%; background-color: rgba(247, 244, 242, 1);" ref="map">
     </div>
     <div
         class="toggle-btn"
