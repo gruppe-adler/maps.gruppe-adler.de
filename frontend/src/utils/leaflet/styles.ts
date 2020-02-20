@@ -31,27 +31,34 @@ export interface Style {
 colorCountlines             rgba(146, 90, 48, 0.25)
 colorCountlinesWater        rgba(125, 147, 179, 0.3)
 colorMainCountlines         rgba(146, 90, 48, 0.5)
-colorMainCountlinesWater    rbga(125, 147, 179, 0.6)
+colorMainCountlinesWater    rgba(125, 147, 179, 0.6)
 */
-const contourStyle = (properties: { elevation: number }) => {
-    const color = (properties.elevation > 0) ? 'rgba(146, 90, 48, 0.25)' : 'rgba(125, 147, 179, 0.3)';
-    
-    return {
-        strokeStyle: color,
-        lineWidth: .5
-    };
+const contourStyle = (majorStep: number) => {
+    return ({ elevation }: { elevation: number }) => {
+        let strokeStyle: string;
+
+        if (elevation % majorStep === 0) {
+            strokeStyle = (elevation > 0) ? 'rgba(146, 90, 48, 0.5)' : 'rgba(125, 147, 179, 0.6)';
+        } else {
+            strokeStyle = (elevation > 0) ? 'rgba(146, 90, 48, 0.25)' : 'rgba(125, 147, 179, 0.3)';
+        }
+
+        return {
+            strokeStyle,
+            lineWidth: 1
+        };
+    }
 }
 
 
-const styles: { [layerName: string]: (properties: any) => Style } = {
-    contours_5: contourStyle,
-    contours_10: contourStyle,
-    contours_50: contourStyle,
-    contours_100: contourStyle,
-    roads: (properties: { type: 'track'|'main road'|'road', width: number }) => {
-        let strokeStyle: string|undefined = undefined;
-        let fillStyle: string|undefined = undefined;
 
+const styles: { [layerName: string]: (properties: any) => Style } = {
+    contours_01: contourStyle(5),
+    contours_05: contourStyle(10),
+    contours_10: contourStyle(25),
+    contours_50: contourStyle(100),
+    contours_100: contourStyle(500),
+    roads: (properties: { type: 'track'|'main road'|'road', width: number }) => {
         switch (properties.type) {
             case 'track':
                 return {
@@ -89,9 +96,12 @@ const styles: { [layerName: string]: (properties: any) => Style } = {
             fillStyle: fillColor
         };
     },
+    water: () => {
+        return {
+            strokeStyle: 'transparent',
+            fillStyle: 'rgb(119, 161, 217, 0.5)',
+        }
+    }
 }
 
 export default styles;
-
-
-// water color: rgba(119, 161, 217, 0.5)

@@ -10,11 +10,11 @@ export async function satTileLayer(map: string) {
         {
             maxNativeZoom: maxLod,
             noWrap: true,
-            opacity: 0.8,
+            opacity: 0.85,
             zIndex: -1,
             bounds: new LatLngBounds([-90, -180], [90, 180])
         }
-    );
+    ).setZIndex(0);
 }
 
 export function vectorTileLayer(map: string) {
