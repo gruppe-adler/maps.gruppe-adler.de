@@ -1,7 +1,9 @@
 [
     { "layer": "house", "minzoom" : 2 },
-    { "layer": "contours_05", "minzoom": 8 },
-    { "layer": "contours_10", "minzoom": 5, "maxzoom": 7 },
-    { "layer": "contours_50", "minzoom": 2, "maxzoom": 4 },
-    { "layer": "contours_100", "minzoom": 0, "maxzoom": 1 }
+    { "layer": "roads", "minzoom" : 3 },
+    { "layer": "contours_01", "minzoom": 8 },
+    { "layer": "contours_05", "minzoom": 7, "maxzoom": 7 },
+    { "layer": "contours_10", "minzoom": 5, "maxzoom": 6 },
+    { "layer": "contours_50", "minzoom": 3, "maxzoom": 4 },
+    { "layer": "contours_100", "minzoom": 0, "maxzoom": 2 }
 ]
