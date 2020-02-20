@@ -8,7 +8,9 @@ import styles, { Style } from './styles';
  */
 const LAYERS_ORDER = [
     "house",
-    "roads",
+    "main_road",
+    "road",
+    "track",
     "contours_01",
     "contours_05",
     "contours_10",

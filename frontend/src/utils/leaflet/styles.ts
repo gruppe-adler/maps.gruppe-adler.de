@@ -58,34 +58,21 @@ const styles: { [layerName: string]: (properties: any) => Style } = {
     contours_10: contourStyle(25),
     contours_50: contourStyle(100),
     contours_100: contourStyle(500),
-    roads: (properties: { type: 'track'|'main road'|'road', width: number }) => {
-        switch (properties.type) {
-            case 'track':
-                return {
-                    strokeStyle: 'rgba(214, 194, 166, 0.25)',
-                    fillStyle: 'rgba(214, 194, 166, 1)',
-                    lineWidth: 1
-                };
-            case 'road':
-                return {
-                    strokeStyle: 'rgba(179, 179, 179, 1)',
-                    fillStyle: 'rgba(255, 255, 255, 1)',
-                    lineWidth: 1
-                };
-            case 'main road':
-                return {
-                    strokeStyle: 'rgba(230, 128, 77, 1)',
-                    fillStyle: 'rgba(255, 153, 102, 1)',
-                    lineWidth: 1
-                };
-            default: 
-                return {
-                    strokeStyle: '#c50000',
-                    fillStyle: '#FF0000',
-                    lineWidth: 1
-                };
-        }
-    },
+    main_road: () => ({
+        strokeStyle: 'rgba(230, 128, 77, 1)',
+        fillStyle: 'rgba(255, 153, 102, 1)',
+        lineWidth: 1
+    }),
+    road: () => ({
+        strokeStyle: 'rgba(179, 179, 179, 1)',
+        fillStyle: 'rgba(255, 255, 255, 1)',
+        lineWidth: 1
+    }),
+    track: () => ({
+        strokeStyle: 'rgba(214, 194, 166, 0.25)',
+        fillStyle: 'rgba(214, 194, 166, 1)',
+        lineWidth: 1
+    }),
     house: ({ color }: { color: string }) => {
         const [r, g, b, a]: [number, number, number, number] = eval(color);
 
@@ -99,7 +86,8 @@ const styles: { [layerName: string]: (properties: any) => Style } = {
     water: () => {
         return {
             strokeStyle: 'transparent',
-            fillStyle: 'rgba(119, 161, 217, 0.5)'
+            fillStyle: 'transparent'
+            // fillStyle: 'rgba(119, 161, 217, 0.5)'
         }
     }
 }

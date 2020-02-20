@@ -10,8 +10,8 @@ import 'leaflet/dist/leaflet.css';
 @Component
 export default class AppVue extends Vue {
     private beforeCreate() {
-        setApiUri('http://localhost');
-        // setApiUri('https://zade.gruppe-adler.de');
+        setApiUri(process.env.NODE_ENV === 'development' ? 'http://localhost' : window.location.origin);
+        // setApiUri(window.location.origin);
     }
 }
 </script>
