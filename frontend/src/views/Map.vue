@@ -1,30 +1,94 @@
 <template>
-    <Map :worldName="mapName">
-        <template v-slot="{ map, metaData, layer, selectBasemap }">
-            <Layers :metaData="metaData" v-model="layer" :select="selectBasemap" />
-            <CoordsDisplay :map="map" :metaData="metaData" />
-            <Locations v-if="metaData.locations.length > 0" :map="map" :metaData="metaData" />
-        </template>
-    </Map>
+<div style="height: 100vh;">
+    <div style="height: 100%; background-color: rgba(247, 244, 242, 1);" ref="map">
+    </div>
+    <div
+        class="toggle-btn"
+        @click="toggleSat"
+    >
+        <i class="material-icons">{{ satShown ? 'layers_clear' : 'layers' }}</i>
+    </div>
+</div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
 
-import MapVue from '@/components/Map/Map.vue';
-import CoordsDisplayVue from '@/components/Map/CoordsDisplay.vue';
-import LayersVue from '@/components/Map/Layers.vue';
-import LocationsVue from '@/components/Map/Locations.vue';
+import { Map as LeafletMap, LatLngBounds, TileLayer as LeafletTileLayer } from 'leaflet';
+import { satTileLayer } from '../utils';
+import { vectorTileLayer } from '@/utils/leaflet';
 
-@Component({
-    components: {
-        Map: MapVue,
-        Layers: LayersVue,
-        CoordsDisplay: CoordsDisplayVue,
-        Locations: LocationsVue
+@Component
+export default class MapVue extends Vue {
+    @Prop({ default: '' }) private mapName!: string;
+    private map: LeafletMap|null = null;
+    private satLayer: LeafletTileLayer|null = null;
+    private satShown: boolean = true;
+
+    private mounted() {
+        this.map = this.setupMap();
+        this.setupSatLayer();
     }
-})
-export default class ReplayVue extends Vue {
-    @Prop() private mapName?: string;
+
+    /**
+     * This methods sets up the leafelt map.
+     */
+    private setupMap(): LeafletMap {
+        if (this.map) return this.map;
+
+        this.map = new LeafletMap(this.$refs.map as HTMLDivElement, {
+            attributionControl: false,
+            zoomControl: false,
+        });
+        this.map.setView([0, 0], 0);
+        this.map.setMaxBounds(
+            (new LatLngBounds([-90, -180], [90, 180])).pad(0.05)
+        );
+
+        this.map.addLayer(vectorTileLayer(this.mapName))
+
+        return this.map;
+    }
+
+    /**
+     * sets up sat layer
+     */
+    private async setupSatLayer() {
+        if (this.map === null) return;
+
+        this.satLayer = await satTileLayer(this.mapName);
+
+        if (this.satShown) this.satLayer.addTo(this.map);
+    }
+
+    /**
+     * Toggle sat layer on/off
+     */
+    private toggleSat() {
+        this.satShown = !this.satShown;
+        
+        if (this.map === null || this.satLayer === null) return;
+
+        if (this.satShown) {
+            this.satLayer.addTo(this.map);
+        } else {
+            this.satLayer.removeFrom(this.map);
+        }
+    }
 }
 </script>
+
+<style lang="scss" scoped>
+.toggle-btn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    padding: 0.75rem;
+    z-index: 10000;
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+    cursor: pointer;
+    display: flex;
+}
+</style>

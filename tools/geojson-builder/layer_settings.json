@@ -1,13 +1,10 @@
 [
-    { "layer": "bushes", "minzoom": 3 },
-    { "layer": "chapels", "minzoom": 1 },
-    { "layer": "crosses", "minzoom": 1 },
-    { "layer": "fuelstations", "minzoom": 1 },
-    { "layer": "houses" },
-    { "layer": "lighthouses", "minzoom": 1 },
-    { "layer": "rocks", "minzoom": 3 },
-    { "layer": "shipwrecks", "minzoom": 1 },
-    { "layer": "transmitters", "minzoom": 1 },
-    { "layer": "trees", "minzoom": 4 },
-    { "layer": "watertowers", "minzoom": 1 }
+    { "layer": "house", "minzoom" : 2 },
+    { "layer": "roads", "minzoom" : 3 },
+    { "layer": "contours_01", "minzoom": 8 },
+    { "layer": "contours_05", "minzoom": 7, "maxzoom": 7 },
+    { "layer": "contours_10", "minzoom": 5, "maxzoom": 6 },
+    { "layer": "contours_50", "minzoom": 3, "maxzoom": 4 },
+    { "layer": "contours_100", "minzoom": 0, "maxzoom": 2 },
+    { "layer": "water", "minzoom": 0 }
 ]
