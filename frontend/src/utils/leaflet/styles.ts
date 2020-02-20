@@ -99,7 +99,7 @@ const styles: { [layerName: string]: (properties: any) => Style } = {
     water: () => {
         return {
             strokeStyle: 'transparent',
-            fillStyle: 'rgb(119, 161, 217, 0.5)',
+            fillStyle: 'rgba(119, 161, 217, 0.5)'
         }
     }
 }

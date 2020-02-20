@@ -9,12 +9,12 @@ mkdir -p $tmpDir
 rm -rf $tmpDir/*
 
 toolsDir="/tools"
-gdal_contour -a elevation $demPath $tmpDir/contours_100.json -i 100.0
-gdal_contour -a elevation $demPath $tmpDir/contours_50.json -i 50.0
-gdal_contour -a elevation $demPath $tmpDir/contours_10.json -i 10.0
-gdal_contour -a elevation $demPath $tmpDir/contours_05.json -i 5.0
-gdal_contour -a elevation $demPath $tmpDir/contours_01.json -i 1.0
-gdal_contour -a elevation $demPath $tmpDir/water.json -fl 0
+gdal_contour -a elevation -i 100.0 $demPath $tmpDir/contours_100.json
+gdal_contour -a elevation -i 50.0 $demPath $tmpDir/contours_50.json
+gdal_contour -a elevation -i 10.0 $demPath $tmpDir/contours_10.json
+gdal_contour -a elevation -i 5.0 $demPath $tmpDir/contours_05.json
+gdal_contour -a elevation -i 1.0 $demPath $tmpDir/contours_01.json
+gdal_contour -p -fl 0 $demPath $tmpDir/water.json
 
 # convert FeatureGroup to array of features
 ndjson-cat $tmpDir/contours_100.json | ndjson-map 'd.features' > $outDir/contours_100.geojson

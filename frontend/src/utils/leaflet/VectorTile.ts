@@ -3,6 +3,20 @@ import { VectorTile as MapboxVectorTile, VectorTileLayer as MapboxVectorTileLaye
 import { Point } from '@mapbox/point-geometry';
 import styles, { Style } from './styles';
 
+/**
+ * Order of layers. lower index -> top
+ */
+const LAYERS_ORDER = [
+    "house",
+    "roads",
+    "contours_01",
+    "contours_05",
+    "contours_10",
+    "contours_50",
+    "contours_100",
+    "water",
+];
+
 export class VectorTile {
     private domElement: HTMLCanvasElement;
     private width: number;
@@ -34,7 +48,11 @@ export class VectorTile {
         ctx.fillStyle = '#FF0000';
         ctx.strokeStyle = '#00FF00';
 
-        for (const layerName in tile.layers) {
+        const sortedLayers = Object.keys(tile.layers).sort((a, b) => {
+            return (LAYERS_ORDER.indexOf(b) - LAYERS_ORDER.indexOf(a));
+        });
+
+        for (const layerName of sortedLayers) {
             this.addMapBoxLayer(ctx, tile.layers[layerName]);
         }
     }
@@ -64,31 +82,31 @@ export class VectorTile {
         }
 
         // Line styles
-        ctx.lineWidth = style.lineWidth || 1;
-        ctx.lineCap = style.lineCap || 'butt';
-        ctx.lineJoin = style.lineJoin || 'miter';
-        ctx.miterLimit = style.miterLimit || 10;
-        ctx.setLineDash(style.lineDash || []);
-        ctx.lineDashOffset = style.lineDashOffset || 0;
+        ctx.lineWidth = (style.lineWidth !== undefined) ? style.lineWidth : 1;
+        ctx.lineCap = (style.lineCap !== undefined) ? style.lineCap : 'butt';
+        ctx.lineJoin = (style.lineJoin !== undefined) ? style.lineJoin : 'miter';
+        ctx.miterLimit = (style.miterLimit !== undefined) ? style.miterLimit : 10;
+        ctx.setLineDash((style.lineDash !== undefined) ? style.lineDash : []);
+        ctx.lineDashOffset = (style.lineDashOffset !== undefined) ? style.lineDashOffset : 0;
 
         // Text styles
-        ctx.font = style.font || '10px sans-serif';
-        ctx.textAlign = style.textAlign || 'start';
-        ctx.textBaseline = style.textBaseline || 'alphabetic';
-        ctx.direction = style.direction || 'inherit';
+        ctx.font = (style.font !== undefined) ? style.font : '10px sans-serif';
+        ctx.textAlign = (style.textAlign !== undefined) ? style.textAlign : 'start';
+        ctx.textBaseline = (style.textBaseline !== undefined) ? style.textBaseline : 'alphabetic';
+        ctx.direction = (style.direction !== undefined) ? style.direction : 'inherit';
 
         // Fill and stroke styles
-        ctx.fillStyle = style.fillStyle || '#000';
-        ctx.strokeStyle = style.strokeStyle || '#000';
+        ctx.fillStyle = (style.fillStyle !== undefined) ? style.fillStyle : '#000';
+        ctx.strokeStyle = (style.strokeStyle !== undefined) ? style.strokeStyle : '#000';
 
         // Shadows
-        ctx.shadowBlur = style.shadowBlur || 0;
-        ctx.shadowColor = style.shadowColor || 'rgba(0,0,0,0)';
-        ctx.shadowOffsetX = style.shadowOffsetX || 0;
-        ctx.shadowOffsetY = style.shadowOffsetY || 0;
+        ctx.shadowBlur = (style.shadowBlur !== undefined) ? style.shadowBlur : 0;
+        ctx.shadowColor = (style.shadowColor !== undefined) ? style.shadowColor : 'rgba(0,0,0,0)';
+        ctx.shadowOffsetX = (style.shadowOffsetX !== undefined) ? style.shadowOffsetX : 0;
+        ctx.shadowOffsetY = (style.shadowOffsetY !== undefined) ? style.shadowOffsetY : 0;
 
         // Compositing
-        ctx.globalAlpha = style.globalAlpha || 1;
+        ctx.globalAlpha = (style.globalAlpha !== undefined) ? style.globalAlpha : 1;
     }
 
     /**
