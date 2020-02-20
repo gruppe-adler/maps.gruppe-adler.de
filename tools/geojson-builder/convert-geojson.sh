@@ -18,7 +18,9 @@ if [ ! -e $inDir/meta.json ]; then
     exit 1 # terminate and indicate error
 fi
 
-for filePath in $inDir/geojson/*.geojson; do
+
+
+for filePath in $(find $inDir/geojson -type f -name '*.geojson'); do
     fileName=$(basename $filePath)
     layer=${fileName%.*}
 

@@ -20,7 +20,7 @@ gzip -d $mapDirectory/dem.asc.gz
 $toolsDir/build-contours.sh $mapDirectory/dem.asc $mapDirectory/geojson $tmpDir
 
 echo "▶️   Unzipping geojsons ($worldName)"
-for filePath in $mapDirectory/geojson/*.geojson.gz; do
+for filePath in $(find $mapDirectory/geojson -type f -name '*.geojson.gz'); do
     gzip -d $filePath    
 done
 
