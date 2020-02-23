@@ -45,7 +45,7 @@ export default class MapVue extends Vue {
             (new LatLngBounds([-90, -180], [90, 180])).pad(0.05)
         );
 
-        this.map.addLayer(vectorTileLayer(this.mapName))
+        vectorTileLayer(this.mapName).then(layer => this.map!.addLayer(layer))
 
         return this.map;
     }
