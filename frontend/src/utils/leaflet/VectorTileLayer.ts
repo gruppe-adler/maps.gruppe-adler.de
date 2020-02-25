@@ -1,11 +1,11 @@
-import { TileLayer, DomUtil, Coords, DoneCallback, TileLayerOptions, Util, Browser } from 'leaflet';
+import { TileLayer, Coords, DoneCallback } from 'leaflet';
 import { ResponseError } from '..';
 import Protobuf from 'pbf';
 import { VectorTile as MapboxVectorTile } from '@mapbox/vector-tile';
 import { VectorTile } from './VectorTile';
 
 export default class VectorTileLayer extends TileLayer  {
-    
+
     /**
      * Called by leaflet. Creates tile and returns 
      * @param coords tile coordinates
@@ -15,14 +15,15 @@ export default class VectorTileLayer extends TileLayer  {
         // @ts-ignore | we know this exists, it's just missing in the typings
         const tileUrl = this.getTileUrl(coords)
         const { x: width, y: height } = this.getTileSize();
-        let tile: VectorTile = new VectorTile(width, height);
+        const tile: VectorTile = new VectorTile(width, height);
+        const domElem = tile.getDomElement();
     
         this.loadMbVectorTile(tileUrl).then(mbTile => {
             tile.addMapBoxTile(mbTile);
-            done(undefined, tile.getDomElement());
+            done(undefined, domElem);
         }).catch(err => done(err));
         
-        return tile.getDomElement();
+        return domElem;
     };
 
     /**

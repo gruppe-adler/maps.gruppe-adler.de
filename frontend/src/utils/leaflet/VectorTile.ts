@@ -1,7 +1,9 @@
-import { DomUtil } from 'leaflet';
 import { VectorTile as MapboxVectorTile, VectorTileLayer as MapboxVectorTileLayer, VectorTileFeature } from '@mapbox/vector-tile';
 import { Point } from '@mapbox/point-geometry';
 import styles, { Style } from './styles';
+import pointStyles from './pointStyles';
+
+const SVG_NAMESPACE = 'http://www.w3.org/2000/svg';
 
 /**
  * Order of layers. lower index -> top
@@ -20,18 +22,34 @@ const LAYERS_ORDER = [
 ];
 
 export class VectorTile {
-    private domElement: HTMLCanvasElement;
+    private domElement: HTMLDivElement;
+    private canvasElement: HTMLCanvasElement;
+    private svgElement: SVGSVGElement;
     private width: number;
     private height: number;
+    private pointDrawer: ((x: number, y: number, properties: Object) => SVGElement[])|null = null;
 
     constructor(w: number, h: number) {
         this.width = w;
         this.height = h;
 
-        this.domElement = DomUtil.create('canvas') as HTMLCanvasElement;
+        this.domElement = document.createElement('div');
+        this.domElement.classList.add('grad-vector-tile');
+        
+        this.canvasElement = document.createElement('canvas');
+        this.canvasElement.width = w;
+        this.canvasElement.height = h;
+        this.canvasElement.style.cssText = `position: absolute; top: 0px; left: 0px; right: 0px; bottom: 0px;`;
+        
+        this.svgElement = document.createElementNS(SVG_NAMESPACE, 'svg');
+        this.svgElement.setAttribute('viewBox', `0 0 ${w} ${h}`);
+        this.svgElement.setAttribute('overflow', 'visible');
+        this.svgElement.setAttribute('height', `${h}`);
+        this.svgElement.setAttribute('width', `${w}`);
+        this.svgElement.style.cssText = `position: absolute; top: 0px; left: 0px; right: 0px; bottom: 0px;`;
 
-        this.domElement.width = this.width;
-        this.domElement.height = this.height;
+        this.domElement.append(this.canvasElement);
+        this.domElement.append(this.svgElement);
     }
 
     /**
@@ -46,7 +64,7 @@ export class VectorTile {
      * @param tile mapbox tile
      */
     public addMapBoxTile(tile: MapboxVectorTile) {
-        const ctx = this.domElement.getContext('2d')!;
+        const ctx = this.canvasElement.getContext('2d')!;
         ctx.fillStyle = '#FF0000';
         ctx.strokeStyle = '#00FF00';
 
@@ -71,12 +89,13 @@ export class VectorTile {
         for (let i = 0; i < layer.length; i++) {
             const feature = layer.feature(i);
 
-            this.setStyle(ctx, layerName, feature);
+            this.set2dContextStyle(ctx, layerName, feature);
+            this.pointDrawer = pointStyles[layerName] || null;
             this.drawMapboxFeature(ctx, tileSize, feature);
         }
     }
 
-    private setStyle(ctx: CanvasRenderingContext2D, layerName: string, feature: VectorTileFeature) {
+    private set2dContextStyle(ctx: CanvasRenderingContext2D, layerName: string, feature: VectorTileFeature) {
         let style: Style = {};
 
         if (styles[layerName] !== undefined) {
@@ -122,7 +141,7 @@ export class VectorTile {
 
         switch (VectorTileFeature.types[feature.type]) {
             case 'Point':
-                
+                geo.forEach(g => this.drawPoint(g, tileSize, feature.properties));
                 break;
 
             case 'LineString':
@@ -179,14 +198,42 @@ export class VectorTile {
     }
 
     /**
+     * Draw point(s)
+     * @param points points of feature
+     * @param tileSize mapbox tileSize
+     * @param properties props of feature
+     */
+    private drawPoint(points: Point[], tileSize: number, properties: Object) {
+
+        let func = (x: number, y: number): SVGElement[] => {
+            const point = document.createElementNS(SVG_NAMESPACE, 'circle');
+            point.setAttributeNS(null, 'cx', `${x}`);
+            point.setAttributeNS(null, 'cy', `${y}`);
+            point.setAttributeNS(null, 'r', '2');
+            point.setAttributeNS(null, 'style', 'fill: red; stroke: blue; stroke-width: 1px;');
+
+            return [point];
+        }
+
+        if (this.pointDrawer !== null) {
+            func = (x: number, y: number) => this.pointDrawer!(x, y, properties);
+        }
+
+
+        for (const p of points) {
+            func( ...this.getPointPos(p, tileSize) ).forEach(e => this.svgElement.appendChild(e));
+        }
+    }
+
+    /**
      * Get draw pos of mapbox tile pos
      * @param point point to get pos for
      * @param tileSize mapbox tile size
      */
     private getPointPos({ x, y }: Point, tileSize: number): [number, number] {
         return [
-            (x / tileSize) * this.domElement.width,
-            (y / tileSize) * this.domElement.height
+            (x / tileSize) * this.width,
+            (y / tileSize) * this.height
         ];
     }
 }
