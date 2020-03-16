@@ -13,17 +13,27 @@ const createText = (x: number, y: number, text: string): SVGTextElement => {
     return elem;
 }
 
+const createImg = (x: number, y: number, size: number, href: string) => {
+    const img = document.createElementNS(SVG_NAMESPACE, 'image');
+
+    img.setAttributeNS(null, 'x', `${x - size/2}`);
+    img.setAttributeNS(null, 'y', `${y - size/2}`);
+    img.setAttributeNS(null, 'width', `${size}`);
+    img.setAttributeNS(null, 'height', `${size}`);
+    img.setAttributeNS(null, 'href', href);
+
+    return img;
+};
+
 const styles: { [layerName: string]: undefined|func } = {
     Hill: (x, y) => {
-        const img = document.createElementNS(SVG_NAMESPACE, 'image');
+        const img = createImg(x, y, 16, relativeUrl('icons/hill.png'));
 
-        const size = 16;
+        return [img];
+    },
+    tree: (x, y) => {
+        const img = createImg(x, y, 24, relativeUrl('icons/bush.png'));
 
-        img.setAttributeNS(null, 'x', `${x - size/2}`);
-        img.setAttributeNS(null, 'y', `${y - size/2}`);
-        img.setAttributeNS(null, 'width', `${size}`);
-        img.setAttributeNS(null, 'height', `${size}`);
-        img.setAttributeNS(null, 'href', relativeUrl('icons/hill.png'));
         return [img];
     },
     NameCity: (x, y, { name }: { name: string }) => {
