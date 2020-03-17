@@ -11,14 +11,12 @@ rm -rf $tmpDir/*
 
 mkdir -p $outDir
 
-worldSize=$(ndjson-cat $inDir/meta.json | ndjson-map 'd.worldSize')
-
 if [ ! -e $inDir/meta.json ]; then
     echo "⚠️   ERROR: Failed to find a valid meta.json in /in"
     exit 1 # terminate and indicate error
 fi
 
-
+worldSize=$(ndjson-cat $inDir/meta.json | ndjson-map 'd.worldSize')
 
 for filePath in $(find $inDir/geojson -type f -name '*.geojson'); do
     fileName=$(basename $filePath)
