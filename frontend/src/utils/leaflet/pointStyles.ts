@@ -31,11 +31,6 @@ const styles: { [layerName: string]: undefined|func } = {
 
         return [img];
     },
-    forest: (x, y) => {
-        const img = createImg(x, y, 24, relativeUrl('icons/bush.png'));
-
-        return [img];
-    },
     tree: (x, y) => {
         const img = createImg(x, y, 24, relativeUrl('icons/bush.png'));
 
