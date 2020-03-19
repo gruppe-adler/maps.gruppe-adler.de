@@ -20,7 +20,7 @@ export const getApiUri = (): string => {
 
 
 export const relativeUrl = (path: string): string => {
-    return `${API_URI}/${path}`.toLowerCase();
+    return `${API_URI}/${path}`;
 };
 
 export const fetchJSON = async (input: RequestInfo, init: RequestInit = {}) => {

@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const glob = require('glob');
 const { lstatSync, readdirSync, readFileSync } = require('fs');
 const { join } = require('path');
 
@@ -31,7 +32,19 @@ app.all('*', (req, res, next) => {
 });
 
 // Host maps directory
-app.use(express.static(MAPS_DIR));
+app.use('*', async (req, res, next) => {
+    // check if file exists
+
+    const files = await glob.sync(join(MAPS_DIR, req.originalUrl), {
+        nocase: true
+    });
+
+    if (files.length > 0) {
+        res.sendFile(files[0]);
+    } else {
+        next();
+    }
+});
 
 // Host icons directory
 app.use('/icons', express.static(join(__dirname, 'icons')));
@@ -50,7 +63,7 @@ app.get('/maps', (req, res) => {
         cachedMaps = dirs.map(dir => {
             const meta = JSON.parse(readFileSync(join(dir, 'meta.json'), 'utf-8'));
     
-            return { displayName: meta.displayName, worldName: meta.worldName.toLowerCase(), author: meta.author };
+            return { displayName: meta.displayName, worldName: meta.worldName, author: meta.author };
         });
 
         cachedMapsDate = new Date().toGMTString()
