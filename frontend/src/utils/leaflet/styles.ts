@@ -73,6 +73,15 @@ const styles: { [layerName: string]: (properties: any) => Style } = {
         fillStyle: 'rgba(214, 194, 166, 1)',
         lineWidth: 1
     }),
+    runway: () => ({
+        strokeStyle: 'rgba(128, 128, 128, 1)',
+        fillStyle: 'transparent',
+        lineWidth: 1
+    }),
+    powerline: () => ({
+        strokeStyle: 'rgba(0, 0, 0, 1)',
+        lineWidth: 1
+    }),
     house: ({ color }: { color: string }) => {
         const [r, g, b, a]: [number, number, number, number] = eval(color);
 
