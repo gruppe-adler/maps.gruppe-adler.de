@@ -1,1 +1,4 @@
 
+[submodule "maps"]
+	path = maps
+	url = https://github.com/gruppe-adler/meh-data.git
