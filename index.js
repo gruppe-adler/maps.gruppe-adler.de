@@ -31,28 +31,22 @@ app.all('*', (req, res, next) => {
     next();
 });
 
-// Host maps directory
-app.use('*', async (req, res, next) => {
-    // check if file exists
+app.get('/', (req, res) => {
+    res.redirect('/preview/');
+});
 
-    const files = await glob.sync(join(MAPS_DIR, req.originalUrl), {
-        nocase: true
-    });
+app.use('/preview', express.static(join(__dirname, 'preview')));
 
-    if (files.length > 0) {
-        res.sendFile(files[0]);
-    } else {
+app.get('/preview/*', (req, res, next) => {
+    if (!req.accepts('html')) {
         next();
+        return;
     }
+    res.sendFile(join(__dirname, 'preview/index.html'));
 });
 
 // Host icons directory
 app.use('/icons', express.static(join(__dirname, 'icons')));
-
-// Files which were not found fall through to this handler
-app.use('*.png', (req, res, next) => {
-    res.sendFile(join(__dirname, 'error.png'));
-});
 
 // /maps request
 app.get('/maps', (req, res) => {
@@ -74,22 +68,21 @@ app.get('/maps', (req, res) => {
     res.status(200).json(cachedMaps);
 });
 
-app.get('/index.html', (req, res) => {
-    res.redirect('/preview/');
-});
+// Host maps directory
+app.use('*', async (req, res, next) => {
+    // check if file exists
+    const files = await glob.sync(
+        join(MAPS_DIR, req.originalUrl), 
+        {
+            nocase: true
+        }
+    );
 
-app.get('/', (req, res) => {
-    res.redirect('/preview/');
-});
-
-app.use('/preview', express.static(join(__dirname, 'preview')));
-
-app.get('/preview/*', (req, res, next) => {
-    if (!req.accepts('html')) {
-        next();
-        return;
-    } 
-    res.sendFile(join(__dirname, 'preview/index.html'));
+    if (files.length > 0) {
+        res.sendFile(files[0]);
+    } else {
+        res.status(404).end();
+    }
 });
 
 app.listen(80, ()=> console.log('App listening on Port 80'));
