@@ -9,6 +9,7 @@ const SVG_NAMESPACE = 'http://www.w3.org/2000/svg';
  * Order of layers. lower index -> top
  */
 const LAYERS_ORDER = [
+    "debug",
     "NameCity",
     "NameCityCapital",
     "NameLocal",

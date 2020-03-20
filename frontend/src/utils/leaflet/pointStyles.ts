@@ -104,7 +104,13 @@ const styles: { [layerName: string]: undefined|func } = {
         text.setAttributeNS(null, 'style', 'font-size: 0.9em; fill: #2f7bd1;');
 
         return [text];
-    }
+    },
+    debug: (x, y, { text }: { text: string }) => {
+        const textElem = createText(x, y, text);
+        textElem.setAttributeNS(null, 'style', 'font-size: 0.9em; fill: red;');
+
+        return [textElem];
+    },
 };
 
 export default styles;

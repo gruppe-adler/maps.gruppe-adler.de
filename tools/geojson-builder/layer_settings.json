@@ -1,4 +1,5 @@
 [
+    { "layer": "debug", "minzoom" : 6 },
     { "layer": "house", "minzoom" : 2 },
     { "layer": "road", "minzoom" : 3 },
     { "layer": "main_road", "minzoom" : 3 },
