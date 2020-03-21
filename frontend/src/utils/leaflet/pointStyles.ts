@@ -31,6 +31,21 @@ const styles: { [layerName: string]: undefined|func } = {
 
         return [img];
     },
+    VegetationBroadleaf: (x, y) => {
+        const img = createImg(x, y, 24, relativeUrl('icons/vegetationbroadleaf.png'));
+
+        return [img];
+    },
+    VegetationVineyard: (x, y) => {
+        const img = createImg(x, y, 24, relativeUrl('icons/vegetationvineyard.png'));
+
+        return [img];
+    },
+    ViewPoint: (x, y, attrs) => {
+        const img = createImg(x, y, 24, relativeUrl('icons/viewpoint.png'));
+
+        return [img];
+    },
     tree: (x, y) => {
         const img = createImg(x, y, 24, relativeUrl('icons/bush.png'));
 
