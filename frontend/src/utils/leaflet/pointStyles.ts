@@ -120,6 +120,12 @@ const styles: { [layerName: string]: undefined|func } = {
 
         return [text];
     },
+    airport: (x, y, { name }: { name: string }) => {
+        const text = createText(x, y, name);
+        text.setAttributeNS(null, 'style', 'font-size: 0.9em; fill: rgb(61,100,46);');
+
+        return [text];
+    },
     debug: (x, y, { text }: { text: string }) => {
         const textElem = createText(x, y, text);
         textElem.setAttributeNS(null, 'style', 'font-size: 0.9em; fill: red;');
