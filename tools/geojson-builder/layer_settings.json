@@ -1,8 +1,8 @@
 [
-    { "layer": "Hill", "minzoom": 0 },
-    { "layer": "VegetationBroadleaf", "minzoom": 0 },
-    { "layer": "VegetationVineyard", "minzoom": 0 },
-    { "layer": "ViewPoint", "minzoom": 0 },
+    { "layer": "hill", "minzoom": 0 },
+    { "layer": "vegetationbroadleaf", "minzoom": 0 },
+    { "layer": "vegetationvineyard", "minzoom": 0 },
+    { "layer": "viewpoint", "minzoom": 0 },
     { "layer": "fuelstation", "minzoom": 4 },
     { "layer": "chapel", "minzoom": 4 },
     { "layer": "cross", "minzoom": 4 },

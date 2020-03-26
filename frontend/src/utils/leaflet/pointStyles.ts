@@ -26,22 +26,22 @@ const createImg = (x: number, y: number, size: number, href: string) => {
 };
 
 const styles: { [layerName: string]: undefined|func } = {
-    Hill: (x, y) => {
+    hill: (x, y) => {
         const img = createImg(x, y, 16, relativeUrl('icons/hill.png'));
 
         return [img];
     },
-    VegetationBroadleaf: (x, y) => {
+    vegetationbroadleaf: (x, y) => {
         const img = createImg(x, y, 24, relativeUrl('icons/vegetationbroadleaf.png'));
 
         return [img];
     },
-    VegetationVineyard: (x, y) => {
+    vegetationvineyard: (x, y) => {
         const img = createImg(x, y, 24, relativeUrl('icons/vegetationvineyard.png'));
 
         return [img];
     },
-    ViewPoint: (x, y, attrs) => {
+    viewpoint: (x, y, attrs) => {
         const img = createImg(x, y, 24, relativeUrl('icons/viewpoint.png'));
 
         return [img];
@@ -91,30 +91,30 @@ const styles: { [layerName: string]: undefined|func } = {
 
         return [img];
     },
-    NameCity: (x, y, { name }: { name: string }) => {
+    namecity: (x, y, { name }: { name: string }) => {
         const text = createText(x, y, name);
 
         return [text];
     },
-    NameCityCapital: (x, y, { name }: { name: string }) => {
+    namecitycapital: (x, y, { name }: { name: string }) => {
         const text = createText(x, y, name);
         text.setAttributeNS(null, 'style', 'font-size: 1.2em; font-weight: bolder; fill: black;');
 
         return [text];
     },
-    NameLocal: (x, y, { name }: { name: string }) => {
+    namelocal: (x, y, { name }: { name: string }) => {
         const text = createText(x, y, name);
         text.setAttributeNS(null, 'style', 'font-size: 0.9em; fill: #70614c;');
 
         return [text];
     },
-    NameVillage: (x, y, { name }: { name: string }) => {
+    namevillage: (x, y, { name }: { name: string }) => {
         const text = createText(x, y, name);
         text.setAttributeNS(null, 'style', 'font-size: 0.9em; fill: black;');
 
         return [text];
     },
-    NameMarine: (x, y, { name }: { name: string }) => {
+    namemarine: (x, y, { name }: { name: string }) => {
         const text = createText(x, y, name);
         text.setAttributeNS(null, 'style', 'font-size: 0.9em; fill: #2f7bd1;');
 
