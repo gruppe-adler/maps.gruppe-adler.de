@@ -73,6 +73,11 @@ const styles: { [layerName: string]: (properties: any) => Style } = {
         fillStyle: 'rgba(214, 194, 166, 1)',
         lineWidth: 1
     }),
+    trail: () => ({
+        strokeStyle: 'rgba(214, 194, 166, 0.15)',
+        fillStyle: 'rgba(214, 194, 166, 0.65)',
+        lineWidth: 1
+    }),
     runway: () => ({
         strokeStyle: 'rgba(128, 128, 128, 1)',
         fillStyle: 'transparent',
@@ -80,6 +85,11 @@ const styles: { [layerName: string]: (properties: any) => Style } = {
     }),
     powerline: () => ({
         strokeStyle: 'rgba(0, 0, 0, 1)',
+        lineWidth: 1
+    }),
+    railway: () => ({
+        // colorRailWay[] = {0.8,0.2,0,1};
+        strokeStyle: 'rgb(204, 51, 0)',
         lineWidth: 1
     }),
     house: ({ color }: { color: string }) => {

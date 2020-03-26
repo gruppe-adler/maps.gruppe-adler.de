@@ -16,6 +16,7 @@
     { "layer": "road", "minzoom": 3 },
     { "layer": "main_road", "minzoom": 3 },
     { "layer": "track", "minzoom": 3 },
+    { "layer": "trail", "minzoom": 4 },
     { "layer": "powerline", "minzoom": 4 },
     { "layer": "contours_01", "minzoom": 8 },
     { "layer": "contours_05", "minzoom": 7, "maxzoom": 7 },
@@ -24,5 +25,6 @@
     { "layer": "contours_100", "minzoom": 0, "maxzoom": 2 },
     { "layer": "water", "minzoom": 0 },
     { "layer": "tree", "minzoom": 6 },
-    { "layer": "forest", "minzoom": 4 }
+    { "layer": "forest", "minzoom": 4 },
+    { "layer": "railway", "minzoom": 4 }
 ]
