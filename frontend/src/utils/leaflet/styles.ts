@@ -108,7 +108,11 @@ const styles: { [layerName: string]: (properties: any) => Style } = {
             fillStyle: 'transparent'
             // fillStyle: 'rgba(119, 161, 217, 0.5)'
         }
-    }
+    },
+    forest: () => ({
+        fillStyle: 'rgba(159, 199, 99, 0.5)',
+        strokeStyle: 'rgba(159, 199, 99, 0.5)'
+    })
 }
 
 export default styles;
