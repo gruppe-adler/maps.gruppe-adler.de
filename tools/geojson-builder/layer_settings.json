@@ -25,6 +25,6 @@
     { "layer": "contours_100", "minzoom": 0, "maxzoom": 2 },
     { "layer": "water", "minzoom": 0 },
     { "layer": "tree", "minzoom": 6 },
-    { "layer": "forest", "minzoom": 4 },
+    { "layer": "forest", "minzoom": 3 },
     { "layer": "railway", "minzoom": 4 }
 ]
