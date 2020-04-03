@@ -25,6 +25,12 @@ const createImg = (x: number, y: number, size: number, href: string) => {
     return img;
 };
 
+const justIcon = (img: string, size: number = 24): func => {
+    return (x: number, y: number) => [
+        createImg(x, y, size, relativeUrl(`icons/${img}.png`))
+    ];
+};
+
 const styles: { [layerName: string]: undefined|func } = {
     hill: (x, y) => {
         const img = createImg(x, y, 16, relativeUrl('icons/hill.png'));
@@ -43,51 +49,6 @@ const styles: { [layerName: string]: undefined|func } = {
     },
     viewpoint: (x, y, attrs) => {
         const img = createImg(x, y, 24, relativeUrl('icons/viewpoint.png'));
-
-        return [img];
-    },
-    tree: (x, y) => {
-        const img = createImg(x, y, 24, relativeUrl('icons/bush.png'));
-
-        return [img];
-    },
-    fuelstation: (x, y) => {
-        const img = createImg(x, y, 24, relativeUrl('icons/fuelstation.png'));
-
-        return [img];
-    },
-    chapel: (x, y) => {
-        const img = createImg(x, y, 24, relativeUrl('icons/chapel.png'));
-
-        return [img];
-    },
-    cross: (x, y) => {
-        const img = createImg(x, y, 24, relativeUrl('icons/cross.png'));
-
-        return [img];
-    },
-    lighthouse: (x, y) => {
-        const img = createImg(x, y, 24, relativeUrl('icons/lighthouse.png'));
-
-        return [img];
-    },
-    rock: (x, y) => {
-        const img = createImg(x, y, 24, relativeUrl('icons/rock.png'));
-
-        return [img];
-    },
-    shipwreck: (x, y) => {
-        const img = createImg(x, y, 24, relativeUrl('icons/shipwreck.png'));
-
-        return [img];
-    },
-    transmitter: (x, y) => {
-        const img = createImg(x, y, 24, relativeUrl('icons/transmitter.png'));
-
-        return [img];
-    },
-    watertower: (x, y) => {
-        const img = createImg(x, y, 24, relativeUrl('icons/watertower.png'));
 
         return [img];
     },
@@ -132,6 +93,29 @@ const styles: { [layerName: string]: undefined|func } = {
 
         return [textElem];
     },
+    bunker: justIcon('bunker'),
+    chapel: justIcon('chapel'),
+    church: justIcon('church'),
+    cross: justIcon('cross'),
+    fuelstation: justIcon('fuelstation'),
+    lighthouse: justIcon('lighthouse'),
+    rock: justIcon('rock'),
+    shipwreck: justIcon('shipwreck'),
+    transmitter: justIcon('transmitter'),
+    tree: justIcon('bush'),
+    watertower: justIcon('watertower'),
+    fortress: justIcon('fortress'),
+    fountain: justIcon('fountain'),
+    quay: justIcon('quay'),
+    hospital: justIcon('hospital'),
+    busstop: justIcon('busstop'),
+    stack: justIcon('stack'),
+    ruin: justIcon('ruin'),
+    tourism: justIcon('tourism'),
+    powersolar: justIcon('powersolar'),
+    powerwave: justIcon('powerwave'),
+    powerwind: justIcon('powerwind'),
+    'view-tower': justIcon('viewtower'),
 };
 
 export default styles;

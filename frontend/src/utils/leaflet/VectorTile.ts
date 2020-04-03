@@ -3,40 +3,9 @@ import { Point } from '@mapbox/point-geometry';
 import styles, { Style } from './styles';
 import pointStyles from './pointStyles';
 
-const SVG_NAMESPACE = 'http://www.w3.org/2000/svg';
+import LAYERS_ORDER from './layerOrder';
 
-/**
- * Order of layers. lower index -> top
- */
-const LAYERS_ORDER = [
-    "debug",
-    "NameCity",
-    "NameCityCapital",
-    "NameLocal",
-    "NameVillage",
-    "NameMarine",
-    "runway",
-    "powerline",
-    "Hill",
-    "fuelstation",
-    "chapel",
-    "cross",
-    "lighthouse",
-    "rock",
-    "shipwreck",
-    "transmitter",
-    "watertower",
-    "house",
-    "main_road",
-    "road",
-    "track",
-    "contours_01",
-    "contours_05",
-    "contours_10",
-    "contours_50",
-    "contours_100",
-    "water",
-];
+const SVG_NAMESPACE = 'http://www.w3.org/2000/svg';
 
 export class VectorTile {
     private domElement: HTMLDivElement;
