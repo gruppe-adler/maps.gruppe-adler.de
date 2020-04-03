@@ -2,11 +2,17 @@
 <div style="height: 100vh;">
     <div style="height: 100%; background-color: rgba(247, 244, 242, 1);" ref="map">
     </div>
-    <div
-        class="toggle-btn"
-        @click="toggleSat"
-    >
-        <i class="material-icons">{{ satShown ? 'layers_clear' : 'layers' }}</i>
+    <div class="actions">
+        <button
+            @click="toggleGrid"
+        >
+            <i class="material-icons">{{ gridShown ? 'grid_off' : 'grid_on' }}</i>
+        </button>
+        <button
+            @click="toggleSat"
+        >
+            <i class="material-icons">{{ satShown ? 'layers_clear' : 'layers' }}</i>
+        </button>
     </div>
 </div>
 </template>
@@ -24,6 +30,7 @@ export default class MapVue extends Vue {
     private map: LeafletMap|null = null;
     private satLayer: LeafletTileLayer|null = null;
     private satShown: boolean = true;
+    private gridShown: boolean = true;
 
     private mounted() {
         this.map = this.setupMap();
@@ -75,20 +82,34 @@ export default class MapVue extends Vue {
             this.satLayer.removeFrom(this.map);
         }
     }
+
+    private toggleGrid() {
+        this.gridShown = !this.gridShown;
+        // TODO
+    }
 }
 </script>
 
 <style lang="scss" scoped>
-.toggle-btn {
+.actions {
     position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
-    padding: 0.75rem;
+    margin: 0.5rem;
+    top: 0;
+    right: 0;
     z-index: 10000;
-    background-color: white;
-    border-radius: 50%;
-    box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
-    cursor: pointer;
-    display: flex;
+    display: grid;
+    grid-auto-flow: column;
+    grid-column-gap: .5rem;
+
+    > button {
+        padding: 0.75rem;
+        background-color: white;
+        border-radius: 50%;
+        box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+        cursor: pointer;
+        display: flex;
+        border: none;
+        outline: none;
+    }
 }
 </style>
