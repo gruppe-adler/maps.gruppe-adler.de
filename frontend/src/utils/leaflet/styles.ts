@@ -112,6 +112,10 @@ const styles: { [layerName: string]: (properties: any) => Style } = {
     forest: () => ({
         fillStyle: 'rgba(159, 199, 99, 0.5)',
         strokeStyle: 'rgba(159, 199, 99, 0.5)'
+    }),
+    rocks: () => ({
+        fillStyle: 'rgba(0, 0, 0, 0.3)',
+        strokeStyle: 'rgba(0, 0, 0, 0.3)'
     })
 }
 
