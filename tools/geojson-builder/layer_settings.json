@@ -20,6 +20,7 @@
     { "layer": "shipwreck", "minzoom": 4 },
     { "layer": "transmitter", "minzoom": 4 },
     { "layer": "tree", "minzoom": 6 },
+    { "layer": "bush", "minzoom": 8 },
     { "layer": "watertower", "minzoom": 4 },
     { "layer": "fortress", "minzoom": 4 },
     { "layer": "fountain", "minzoom": 4 },

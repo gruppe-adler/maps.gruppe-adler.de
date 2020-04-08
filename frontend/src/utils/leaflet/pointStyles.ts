@@ -103,6 +103,7 @@ const styles: { [layerName: string]: undefined|func } = {
     shipwreck: justIcon('shipwreck'),
     transmitter: justIcon('transmitter'),
     tree: justIcon('bush', 12),
+    bush: justIcon('bush', 7),
     watertower: justIcon('watertower'),
     fortress: justIcon('fortress', 16),
     fountain: justIcon('fountain', 11),

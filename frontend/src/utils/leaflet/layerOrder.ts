@@ -27,6 +27,7 @@ export default [
     "shipwreck",
     "transmitter",
     "tree",
+    "bush",
     "watertower",
     "fortress",
     "fountain",
