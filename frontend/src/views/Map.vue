@@ -29,7 +29,7 @@ export default class MapVue extends Vue {
     @Prop({ default: '' }) private mapName!: string;
     private map: LeafletMap|null = null;
     private satLayer: LeafletTileLayer|null = null;
-    private satShown: boolean = true;
+    private satShown: boolean = false;
     private gridShown: boolean = true;
 
     private mounted() {
