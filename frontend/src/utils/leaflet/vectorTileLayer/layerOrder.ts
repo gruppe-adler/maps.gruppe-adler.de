@@ -42,7 +42,7 @@ export default [
     "powerwind",
     "view-tower",
 
-    // runways / powerlines / railways
+    // runways / power lines / railways
     "runway",
     "powerline",
     "railway",

@@ -2,9 +2,11 @@ import { TileLayer, Coords, DoneCallback } from 'leaflet';
 import { ResponseError } from '..';
 import Protobuf from 'pbf';
 import { VectorTile as MapboxVectorTile } from '@mapbox/vector-tile';
-import { VectorTile } from './VectorTile';
+import { VectorTile } from './vectorTileLayer/VectorTile';
 
 export default class VectorTileLayer extends TileLayer  {
+
+    private tileCache: Map<string, MapboxVectorTile> = new Map();
 
     /**
      * Called by leaflet. Creates tile and returns 
@@ -31,6 +33,8 @@ export default class VectorTileLayer extends TileLayer  {
      * @param url url of tile
      */
     private async loadMbVectorTile(url: string): Promise<MapboxVectorTile> {
+        if (this.tileCache.has(url)) return this.tileCache.get(url)!;
+
         let response: Response;
         try {
             response = await fetch(url);
@@ -42,6 +46,10 @@ export default class VectorTileLayer extends TileLayer  {
         
         const buffer = await response.arrayBuffer();
 
-        return new MapboxVectorTile(new Protobuf(buffer))
+        const tile = new MapboxVectorTile(new Protobuf(buffer));
+
+        this.tileCache.set(url, tile);
+
+        return tile;
     }
 };

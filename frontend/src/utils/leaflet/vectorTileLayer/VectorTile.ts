@@ -1,7 +1,6 @@
 import { VectorTile as MapboxVectorTile, VectorTileLayer as MapboxVectorTileLayer, VectorTileFeature } from '@mapbox/vector-tile';
 import { Point } from '@mapbox/point-geometry';
-import styles, { Style } from './styles';
-import pointStyles from './pointStyles';
+import styles, { CanvasStyle } from './styles';
 
 import LAYERS_ORDER from './layerOrder';
 
@@ -13,6 +12,7 @@ export class VectorTile {
     private svgElement: SVGSVGElement;
     private width: number;
     private height: number;
+    private canvasStyler: ((properties: any) => CanvasStyle)|null = null;
     private pointDrawer: ((x: number, y: number, properties: Object) => SVGElement[])|null = null;
 
     constructor(w: number, h: number) {
@@ -51,8 +51,6 @@ export class VectorTile {
      */
     public addMapBoxTile(tile: MapboxVectorTile) {
         const ctx = this.canvasElement.getContext('2d')!;
-        ctx.fillStyle = '#FF0000';
-        ctx.strokeStyle = '#00FF00';
 
         const sortedLayers = Object.keys(tile.layers).sort((a, b) => {
             return (LAYERS_ORDER.indexOf(b) - LAYERS_ORDER.indexOf(a));
@@ -72,48 +70,60 @@ export class VectorTile {
         const layerName = layer.name;
         const tileSize = layer.extent;
 
+        this.pointDrawer = null;
+        this.canvasStyler = null;
+
+        const layerStyle = styles[layerName];
+
+        if (layerStyle === undefined) {
+            console.warn(`Couldn't find style for layer "${layerName}"`);
+        } else {
+            this.pointDrawer = layerStyle.svg || null;
+
+            if (layerStyle.canvas === undefined) {
+                this.set2dContextStyle(ctx, styles.default.canvas);
+            } else if (typeof layerStyle.canvas !== 'function') {
+                // if layerStyle.canvas is not a function the style is not dependent on any
+                // single feature, but constant for the whole layer
+                this.set2dContextStyle(ctx, layerStyle.canvas);
+            } else {
+                this.canvasStyler = layerStyle.canvas;
+            }
+        }
+
         for (let i = 0; i < layer.length; i++) {
             const feature = layer.feature(i);
-
-            this.set2dContextStyle(ctx, layerName, feature);
-            this.pointDrawer = pointStyles[layerName] || null;
             this.drawMapboxFeature(ctx, tileSize, feature);
         }
     }
 
-    private set2dContextStyle(ctx: CanvasRenderingContext2D, layerName: string, feature: VectorTileFeature) {
-        let style: Style = {};
-
-        if (styles[layerName] !== undefined) {
-            style = styles[layerName](feature.properties);
-        }
-
+    private set2dContextStyle(ctx: CanvasRenderingContext2D, style: CanvasStyle) {
         // Line styles
-        ctx.lineWidth = (style.lineWidth !== undefined) ? style.lineWidth : 1;
-        ctx.lineCap = (style.lineCap !== undefined) ? style.lineCap : 'butt';
-        ctx.lineJoin = (style.lineJoin !== undefined) ? style.lineJoin : 'miter';
-        ctx.miterLimit = (style.miterLimit !== undefined) ? style.miterLimit : 10;
-        ctx.setLineDash((style.lineDash !== undefined) ? style.lineDash : []);
-        ctx.lineDashOffset = (style.lineDashOffset !== undefined) ? style.lineDashOffset : 0;
+        ctx.lineWidth = (style.lineWidth !== undefined) ? style.lineWidth : styles.default.canvas.lineWidth;
+        ctx.lineCap = (style.lineCap !== undefined) ? style.lineCap  : styles.default.canvas.lineCap;
+        ctx.lineJoin = (style.lineJoin !== undefined) ? style.lineJoin :  styles.default.canvas.lineJoin;
+        ctx.miterLimit = (style.miterLimit !== undefined) ? style.miterLimit : styles.default.canvas.miterLimit;
+        ctx.setLineDash((style.lineDash !== undefined) ? style.lineDash : styles.default.canvas.lineDash);
+        ctx.lineDashOffset = (style.lineDashOffset !== undefined) ? style.lineDashOffset : styles.default.canvas.lineDashOffset;
 
         // Text styles
-        ctx.font = (style.font !== undefined) ? style.font : '10px sans-serif';
-        ctx.textAlign = (style.textAlign !== undefined) ? style.textAlign : 'start';
-        ctx.textBaseline = (style.textBaseline !== undefined) ? style.textBaseline : 'alphabetic';
-        ctx.direction = (style.direction !== undefined) ? style.direction : 'inherit';
+        ctx.font = (style.font !== undefined) ? style.font : styles.default.canvas.font;
+        ctx.textAlign = (style.textAlign !== undefined) ? style.textAlign : styles.default.canvas.textAlign;
+        ctx.textBaseline = (style.textBaseline !== undefined) ? style.textBaseline : styles.default.canvas.textBaseline;
+        ctx.direction = (style.direction !== undefined) ? style.direction : styles.default.canvas.direction;
 
         // Fill and stroke styles
-        ctx.fillStyle = (style.fillStyle !== undefined) ? style.fillStyle : '#000';
-        ctx.strokeStyle = (style.strokeStyle !== undefined) ? style.strokeStyle : '#000';
+        ctx.fillStyle = (style.fillStyle !== undefined) ? style.fillStyle : styles.default.canvas.fillStyle;
+        ctx.strokeStyle = (style.strokeStyle !== undefined) ? style.strokeStyle : styles.default.canvas.strokeStyle;
 
         // Shadows
-        ctx.shadowBlur = (style.shadowBlur !== undefined) ? style.shadowBlur : 0;
-        ctx.shadowColor = (style.shadowColor !== undefined) ? style.shadowColor : 'rgba(0,0,0,0)';
-        ctx.shadowOffsetX = (style.shadowOffsetX !== undefined) ? style.shadowOffsetX : 0;
-        ctx.shadowOffsetY = (style.shadowOffsetY !== undefined) ? style.shadowOffsetY : 0;
+        ctx.shadowBlur = (style.shadowBlur !== undefined) ? style.shadowBlur : styles.default.canvas.shadowBlur;
+        ctx.shadowColor = (style.shadowColor !== undefined) ? style.shadowColor : styles.default.canvas.shadowColor;
+        ctx.shadowOffsetX = (style.shadowOffsetX !== undefined) ? style.shadowOffsetX : styles.default.canvas.shadowOffsetX;
+        ctx.shadowOffsetY = (style.shadowOffsetY !== undefined) ? style.shadowOffsetY : styles.default.canvas.shadowOffsetY;
 
         // Compositing
-        ctx.globalAlpha = (style.globalAlpha !== undefined) ? style.globalAlpha : 1;
+        ctx.globalAlpha = (style.globalAlpha !== undefined) ? style.globalAlpha : styles.default.canvas.globalAlpha;
     }
 
     /**
@@ -123,24 +133,26 @@ export class VectorTile {
      * @param feature feature to draw
      */
     private drawMapboxFeature(ctx: CanvasRenderingContext2D, tileSize: number, feature: VectorTileFeature) {
-        const geo = feature.loadGeometry();
+        const geometry = feature.loadGeometry();
+
+        // apply feature dependent canvas style
+        if (this.canvasStyler !== null) this.set2dContextStyle(ctx, this.canvasStyler(feature.properties));
 
         switch (VectorTileFeature.types[feature.type]) {
             case 'Point':
-                geo.forEach(g => this.drawPoint(g, tileSize, feature.properties));
+                geometry.forEach(point => this.drawPoint(point, tileSize, feature.properties));
                 break;
 
             case 'LineString':
-                geo.forEach(g => this.drawLine(ctx, g, tileSize));
+                geometry.forEach(line => this.drawLine(ctx, line, tileSize));
                 break;
 
             case 'Polygon':
-                geo.forEach(g => this.drawPolygon(ctx, g, tileSize));
+                geometry.forEach(polygon => this.drawPolygon(ctx, polygon, tileSize));
                 break;
 
             default:
-                // TODO: Throw error
-                break;
+                throw new Error(`Feature is not of any known type, instead it is type "${VectorTileFeature.types[feature.type]}"`)
         }
     }
 
@@ -153,10 +165,10 @@ export class VectorTile {
     private drawPolygon(ctx: CanvasRenderingContext2D, points: Point[], tileSize: number) {
         ctx.beginPath();
         
-        const [start, ...restPoints] = points;
+        const [start, ...remainingPoints] = points;
         
         ctx.moveTo(...this.getPointPos(start, tileSize));
-        for (const p of restPoints) {
+        for (const p of remainingPoints) {
             ctx.lineTo(...this.getPointPos(p, tileSize));
         }
         ctx.closePath();
@@ -173,10 +185,10 @@ export class VectorTile {
     private drawLine(ctx: CanvasRenderingContext2D, points: Point[], tileSize: number) {
         ctx.beginPath();
 
-        const [start, ...restPoints] = points;
+        const [start, ...remainingPoints] = points;
         
         ctx.moveTo(...this.getPointPos(start, tileSize));
-        for (const p of restPoints) {
+        for (const p of remainingPoints) {
             ctx.lineTo(...this.getPointPos(p, tileSize));
         }
 
@@ -191,29 +203,17 @@ export class VectorTile {
      */
     private drawPoint(points: Point[], tileSize: number, properties: Object) {
 
-        let func = (x: number, y: number): SVGElement[] => {
-            const point = document.createElementNS(SVG_NAMESPACE, 'circle');
-            point.setAttributeNS(null, 'cx', `${x}`);
-            point.setAttributeNS(null, 'cy', `${y}`);
-            point.setAttributeNS(null, 'r', '2');
-            point.setAttributeNS(null, 'style', 'fill: red; stroke: blue; stroke-width: 1px;');
-
-            return [point];
-        }
-
-        if (this.pointDrawer !== null) {
-            func = (x: number, y: number) => this.pointDrawer!(x, y, properties);
-        }
-
+        let func = (this.pointDrawer !== null) ? this.pointDrawer : styles.default.svg;
 
         for (const p of points) {
-            func( ...this.getPointPos(p, tileSize) ).forEach(e => this.svgElement.appendChild(e));
+            const [x, y] = this.getPointPos(p, tileSize);
+            func(x, y, properties).forEach(e => this.svgElement.appendChild(e));
         }
     }
 
     /**
-     * Get draw pos of mapbox tile pos
-     * @param point point to get pos for
+     * Get draw pos from mapbox tile pos
+     * @param point mapbox point to get pos for
      * @param tileSize mapbox tile size
      */
     private getPointPos({ x, y }: Point, tileSize: number): [number, number] {

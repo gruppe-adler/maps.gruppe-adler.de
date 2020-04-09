@@ -2,7 +2,7 @@ import { TileLayer, LatLngBounds, Icon, Marker } from 'leaflet';
 import VectorTileLayer from './leaflet/VectorTileLayer';
 import { fetchJSON, relativeUrl } from './utils';
 
-export async function satTileLayer(map: string) {
+export async function satTileLayer(map: string): Promise<TileLayer> {
     const { maxLod } = await fetchJSON(relativeUrl(`${map}/sat/sat.json`)) as { maxLod: number };
 
     return new TileLayer(
@@ -17,7 +17,7 @@ export async function satTileLayer(map: string) {
     ).setZIndex(0);
 }
 
-export async function vectorTileLayer(map: string) {
+export async function vectorTileLayer(map: string): Promise<VectorTileLayer> {
     const { maxzoom, minzoom } = await fetchJSON(relativeUrl(`${map}/mvt/metadata.json`)) as { maxzoom: string, minzoom: string };
 
     return new VectorTileLayer(
