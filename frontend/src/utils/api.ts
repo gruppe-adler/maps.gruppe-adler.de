@@ -13,7 +13,7 @@ export async function fetchMaps(): Promise<Array<Pick<MapMetaData, 'displayName'
  * @param map id of map
  */
 export async function fetchMapMetaData(map: string): Promise<MapMetaData> {
-    return await fetchJSON(relativeUrl(map));
+    return await fetchJSON(relativeUrl(`${map}/meta.json`));
 }
 
 /**

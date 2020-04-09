@@ -20,72 +20,47 @@
 <script lang="ts">
 import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
 
-import { Map as LeafletMap, LatLngBounds, TileLayer as LeafletTileLayer } from 'leaflet';
-import { satTileLayer } from '../utils';
-import { vectorTileLayer } from '@/utils/leaflet';
+import { GradMap } from '../utils';
 
 @Component
 export default class MapVue extends Vue {
     @Prop({ default: '' }) private mapName!: string;
-    private map: LeafletMap|null = null;
-    private satLayer: LeafletTileLayer|null = null;
-    private satShown: boolean = false;
-    private gridShown: boolean = true;
+    private map: GradMap|null = null;
 
     private mounted() {
-        this.map = this.setupMap();
-        this.setupSatLayer();
-    }
-
-    /**
-     * This methods sets up the leafelt map.
-     */
-    private setupMap(): LeafletMap {
-        if (this.map) return this.map;
-
-        this.map = new LeafletMap(this.$refs.map as HTMLDivElement, {
-            attributionControl: false,
-            zoomControl: false,
-        });
-        this.map.setView([0, 0], 0);
-        this.map.setMaxBounds(
-            (new LatLngBounds([-90, -180], [90, 180])).pad(0.05)
-        );
-
-        vectorTileLayer(this.mapName).then(layer => this.map!.addLayer(layer))
-
-        return this.map;
-    }
-
-    /**
-     * sets up sat layer
-     */
-    private async setupSatLayer() {
-        if (this.map === null) return;
-
-        this.satLayer = await satTileLayer(this.mapName);
-
-        if (this.satShown) this.satLayer.addTo(this.map);
+        this.map = new GradMap(this.mapName, this.$refs.map as HTMLDivElement);
     }
 
     /**
      * Toggle sat layer on/off
      */
     private toggleSat() {
-        this.satShown = !this.satShown;
-        
-        if (this.map === null || this.satLayer === null) return;
+        if (this.map === null) return;
 
-        if (this.satShown) {
-            this.satLayer.addTo(this.map);
-        } else {
-            this.satLayer.removeFrom(this.map);
-        }
+        this.map.satShown = !this.map.satShown;
     }
 
     private toggleGrid() {
-        this.gridShown = !this.gridShown;
-        // TODO
+        if (this.map === null) return;
+
+        this.map.gridShown = !this.map.gridShown;
+        // this.gridShown = this.map.toggleGrid();
+    }
+
+    private get satShown(): boolean {
+        if (this.map === null) return false;
+        return this.map.satShown;
+    }
+
+    private get gridShown(): boolean {
+        if (this.map === null) return false;
+        return this.map.gridShown;
+    }
+
+    private get worldSize(): number {
+        if (this.map === null) return 0;
+
+        return (this.map.armaMapMetaData || { worldSize: 0 }).worldSize;
     }
 }
 </script>
