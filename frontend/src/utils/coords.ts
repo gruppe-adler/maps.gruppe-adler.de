@@ -25,35 +25,36 @@
  *          
  */
 
-const  rad2deg = (rad: number) => rad * (180/Math.PI);
-const  deg2rad = (deg: number) => deg * (Math.PI/180);
+const  rad2deg = (rad: number): number => rad * (180/Math.PI);
+const  deg2rad = (deg: number): number => deg * (Math.PI/180);
 
 /**
- * Convert web mercator (EPSG:3857) latitude longitude to arma coordinates
- * @param worldSize arma's worldSize in m
- * @param  {[number, number]} pos array [latitude, longitude]
- * @returns Arma position as array [x, y]
+ * Convert web mercator (EPSG:3857) latitude longitude to Arma coordinates
+ * @param {number} worldSize Arma's worldSize in m
+ * @param {[number, number]} pos array [latitude, longitude]
+ * @returns {[number, number]} Arma position as array [x, y]
  */
 export const latLngToArma = (worldSize: number, [lat, lon]: [number, number]): [number, number] => {
-    const lonRad = deg2rad(lon);
-    const latRad = deg2rad(lat);
 
-    const x = worldSize / (2 * Math.PI) * (lonRad + Math.PI);
-    const y = worldSize - (worldSize / (2 * Math.PI)) * (Math.PI - Math.log(Math.tan(Math.PI / 4 + latRad / 2)));
+    if (worldSize <= 0) throw new Error('worldSize must be larger than 0');
+
+    const x = worldSize / (2 * Math.PI) * (deg2rad(lon) + Math.PI);
+    const y = worldSize - (worldSize / (2 * Math.PI)) * (Math.PI - Math.log(Math.tan(Math.PI / 4 + deg2rad(lat) / 2)));
 
     return [x, y];
 };
 
 /**
- * Convert arma coordinates to web mercator (EPSG:3857) latitude longitude
- * @param worldSize Arma's worldSize in m
- * @param pos Arma position as array [x, y]
+ * Convert Arma coordinates to web mercator (EPSG:3857) latitude longitude
+ * @param {number} worldSize Arma's worldSize in m (must be > 0)
+ * @param {[number, number]} pos Arma position as array [x, y]
  * @returns {[number, number]} position in web mercator as array [latitude, longitude]
  */
 export const armaToLatLng = (worldSize: number, [x, y]: [number, number]): [number, number] => {
 
+    if (worldSize <= 0) throw new Error('worldSize must be larger than 0');
+
     const latRad = 2 * Math.atan(Math.pow( Math.E, Math.PI * ((2*y) / worldSize - 1) )) - Math.PI / 2;
-    
     const lonRad = (2 * Math.PI * x) / worldSize - Math.PI;
     
     return [rad2deg(latRad), rad2deg(lonRad)];
