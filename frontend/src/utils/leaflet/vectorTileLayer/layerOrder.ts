@@ -58,6 +58,7 @@ export default [
 
     // forests / water / rocks
     "water",
+    "rocks",
     "forest",
 
     // contours
