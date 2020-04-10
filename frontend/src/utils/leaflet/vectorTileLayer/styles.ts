@@ -154,173 +154,6 @@ const styles: {
             return [point];
         }
     },
-    contours_01: {
-        canvas: contourStyle(5)
-    },
-    contours_05: {
-        canvas: contourStyle(10)
-    },
-    contours_10: {
-        canvas: contourStyle(25)
-    },
-    contours_50: {
-        canvas: contourStyle(100)
-    },
-    contours_100: {
-        canvas: contourStyle(500)
-    },
-    main_road: {
-        canvas: {
-            strokeStyle: 'rgba(230, 128, 77, 1)',
-            fillStyle: 'rgba(255, 153, 102, 1)',
-            lineWidth: 1
-        }
-    },
-    road: {
-        canvas: {
-            strokeStyle: 'rgba(179, 179, 179, 1)',
-            fillStyle: 'rgba(255, 255, 255, 1)',
-            lineWidth: 1
-        }
-    },
-    track: {
-        canvas: {
-            strokeStyle: 'rgba(214, 194, 166, 0.25)',
-            fillStyle: 'rgba(214, 194, 166, 1)',
-            lineWidth: 1
-        }
-    },
-    trail: {
-        canvas: {
-            strokeStyle: 'rgba(214, 194, 166, 0.15)',
-            fillStyle: 'rgba(214, 194, 166, 0.65)',
-            lineWidth: 1
-        }
-    },
-    runway: {
-        canvas: {
-            strokeStyle: 'rgba(128, 128, 128, 1)',
-            fillStyle: 'transparent',
-            lineWidth: 1
-        }
-    },
-    powerline: {
-        canvas: {
-            strokeStyle: 'rgba(0, 0, 0, 1)',
-            lineWidth: 1
-        }
-    },
-    railway: {
-        canvas: {
-            strokeStyle: 'rgb(204, 51, 0)',
-            lineWidth: 1
-        }
-    },
-    house: {
-            canvas: ({ color }: { color: string }) => {
-            const [r, g, b, a]: [number, number, number, number] = eval(color);
-
-            const fillColor = `rgba(${r}, ${g}, ${b}, ${255 / a})`;
-
-            return {
-                strokeStyle: fillColor,
-                fillStyle: fillColor
-            };
-        }
-    },
-    water: {
-        canvas: {
-            strokeStyle: 'transparent',
-            fillStyle: 'transparent'
-        }
-    },
-    forest: {
-        canvas: {
-            fillStyle: 'rgba(159, 199, 99, 0.5)',
-            strokeStyle: 'rgba(159, 199, 99, 0.5)'
-        }
-    },
-    rocks: {
-        canvas: {
-            fillStyle: 'rgba(0, 0, 0, 0.3)',
-            strokeStyle: 'rgba(0, 0, 0, 0.3)'
-        }
-    },
-    hill: {
-        svg: (x, y) => {
-            const img = createImg(x, y, 16, relativeUrl('icons/hill.png'));
-
-            return [img];
-        }
-    },
-    vegetationbroadleaf: {
-        svg: (x, y) => {
-            const img = createImg(x, y, 24, relativeUrl('icons/vegetationbroadleaf.png'));
-
-            return [img];
-        }
-    },
-    vegetationvineyard: {
-        svg: (x, y) => {
-            const img = createImg(x, y, 24, relativeUrl('icons/vegetationvineyard.png'));
-
-            return [img];
-        }
-    },
-    viewpoint: {
-        svg: (x, y, attrs) => {
-            const img = createImg(x, y, 24, relativeUrl('icons/viewpoint.png'));
-
-            return [img];
-        }
-    },
-    namecity: {
-        svg: (x, y, { name }: { name: string }) => {
-            const text = createText(x, y, name);
-
-            return [text];
-        }
-    },
-    namecitycapital: {
-        svg: (x, y, { name }: { name: string }) => {
-            const text = createText(x, y, name);
-            text.setAttributeNS(null, 'style', 'font-size: 1.2em; font-weight: bolder; fill: black;');
-
-            return [text];
-        }
-    },
-    namelocal: {
-        svg: (x, y, { name }: { name: string }) => {
-            const text = createText(x, y, name);
-            text.setAttributeNS(null, 'style', 'font-size: 0.9em; fill: #70614c;');
-
-            return [text];
-        }
-    },
-    namevillage: {
-        svg: (x, y, { name }: { name: string }) => {
-            const text = createText(x, y, name);
-            text.setAttributeNS(null, 'style', 'font-size: 0.9em; fill: black;');
-
-            return [text];
-        }
-    },
-    namemarine: {
-        svg: (x, y, { name }: { name: string }) => {
-            const text = createText(x, y, name);
-            text.setAttributeNS(null, 'style', 'font-size: 0.9em; fill: #2f7bd1;');
-
-            return [text];
-        }
-    },
-    airport: {
-        svg: (x, y, { name }: { name: string }) => {
-            const text = createText(x, y, name);
-            text.setAttributeNS(null, 'style', 'font-size: 0.9em; fill: rgb(61,100,46);');
-
-            return [text];
-        }
-    },
     debug: {
         svg: (x, y, { text }: { text: string }) => {
             const textElem = createText(x, y, text);
@@ -329,6 +162,8 @@ const styles: {
             return [textElem];
         }
     },
+    
+    // obj with only icons ------------------------------------------------------------------------------------------------
     bunker: {
         svg: justIcon('bunker', 14)
     },
@@ -400,7 +235,109 @@ const styles: {
     },
     'view-tower': {
         svg: justIcon('viewtower', 16)
-    }
+    },
+
+    // runways / power lines / railways ----------------------------------------------------------------
+    runway: {
+        canvas: {
+            strokeStyle: 'rgba(128, 128, 128, 1)',
+            fillStyle: 'transparent',
+            lineWidth: 1
+        }
+    },
+    powerline: {
+        canvas: {
+            strokeStyle: 'rgba(0, 0, 0, 1)',
+            lineWidth: 1
+        }
+    },
+    railway: {
+        canvas: {
+            strokeStyle: 'rgb(204, 51, 0)',
+            lineWidth: 1
+        }
+    },
+
+    // all houses -------------------------------------------------------------------------------------------
+    house: {
+        canvas: ({ color }: { color: string }) => {
+            const [r, g, b, a]: [number, number, number, number] = eval(color);
+
+            const fillColor = `rgba(${r}, ${g}, ${b}, ${255 / a})`;
+
+            return {
+                strokeStyle: fillColor,
+                fillStyle: fillColor
+            };
+        }
+    },
+
+    // roads -------------------------------------------------------------------------------------
+    main_road: {
+        canvas: {
+            strokeStyle: 'rgba(230, 128, 77, 1)',
+            fillStyle: 'rgba(255, 153, 102, 1)',
+            lineWidth: 1
+        }
+    },
+    road: {
+        canvas: {
+            strokeStyle: 'rgba(179, 179, 179, 1)',
+            fillStyle: 'rgba(255, 255, 255, 1)',
+            lineWidth: 1
+        }
+    },
+    track: {
+        canvas: {
+            strokeStyle: 'rgba(214, 194, 166, 0.25)',
+            fillStyle: 'rgba(214, 194, 166, 1)',
+            lineWidth: 1
+        }
+    },
+    trail: {
+        canvas: {
+            strokeStyle: 'rgba(214, 194, 166, 0.15)',
+            fillStyle: 'rgba(214, 194, 166, 0.65)',
+            lineWidth: 1
+        }
+    },
+
+    // forests / water / rocks ------------------------------------------------------------------------------------------------
+    water: {
+        canvas: {
+            strokeStyle: 'transparent',
+            fillStyle: 'transparent'
+        }
+    },
+    forest: {
+        canvas: {
+            fillStyle: 'rgba(159, 199, 99, 0.5)',
+            strokeStyle: 'rgba(159, 199, 99, 0.5)'
+        }
+    },
+    rocks: {
+        canvas: {
+            fillStyle: 'rgba(0, 0, 0, 0.3)',
+            strokeStyle: 'rgba(0, 0, 0, 0.3)'
+        }
+    },
+
+    // contours ------------------------------------------------------------------------------------------------
+    contours_01: {
+        canvas: contourStyle(5)
+    },
+    contours_05: {
+        canvas: contourStyle(10)
+    },
+    contours_10: {
+        canvas: contourStyle(25)
+    },
+    contours_50: {
+        canvas: contourStyle(100)
+    },
+    contours_100: {
+        canvas: contourStyle(500)
+    },
 }
 
 export default styles;
