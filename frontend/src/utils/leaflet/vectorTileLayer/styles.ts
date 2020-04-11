@@ -30,6 +30,23 @@ export interface CanvasStyle {
 }
 type SvgStyle = (x: number, y: number, properties: any) => SVGElement[];
 
+interface LocationType {
+    drawStyle: 'name'|'icon';
+    color: string;
+    textSize: number;
+};
+
+interface LocationTypeName extends LocationType {
+    drawStyle: 'name';
+};
+
+interface LocationTypeIcon extends LocationType {
+    drawStyle: 'icon';
+    size: number;
+    texture: string;
+};
+
+const TEXT_SIZE_FACTOR = 20;
 
 const contourStyle = (majorStep: number) => {
     return ({ elevation }: { elevation: number }) => {
@@ -51,11 +68,14 @@ const contourStyle = (majorStep: number) => {
 
 const SVG_NAMESPACE = 'http://www.w3.org/2000/svg';
 
-const createText = (x: number, y: number, text: string): SVGTextElement => {
+const createText = (x: number, y: number, text: string, style?: string): SVGTextElement => {
     const elem = document.createElementNS(SVG_NAMESPACE, 'text');
     elem.setAttributeNS(null, 'x', `${x}`);
     elem.setAttributeNS(null, 'y', `${y}`);
+    elem.setAttributeNS(null, 'dominant-baseline', 'central');
     elem.innerHTML = text;
+    
+    if (style !== undefined) elem.setAttributeNS(null, 'style', style);
 
     return elem;
 }
@@ -77,6 +97,38 @@ const objectIcon = (img: string, size: number = 24): SvgStyle => {
         createImg(x, y, size, relativeUrl(`icons/objects/${img}.png`))
     ];
 };
+
+const location = (options: LocationTypeIcon|LocationTypeName): SvgStyle => {
+    
+    type LocationProperties = { angle: number, name: string, radiusA: number, radiusB: number };
+
+    const textStyle = `font-size: ${TEXT_SIZE_FACTOR * options.textSize}em; fill: ${options.color};`;
+
+    switch (options.drawStyle) {
+        case 'name':
+            // angle, radiusA and radiusB have no effect
+            return (x, y, { name }: LocationProperties) => [
+                createText(x, y, name, textStyle)
+            ];
+        case 'icon':
+            // radiusA and radiusB have no effect
+            return (x, y, { angle, name }: LocationProperties) => {
+                const img = createImg(x, y, options.size, relativeUrl(`icons/locations/${options.texture}`));
+
+                if (angle !== 0) img.setAttributeNS(null, 'transform', `rotate(${angle}, ${x}, ${y})`);
+                
+                if (name.length > 0) {
+                    return [
+                        img,
+                        createText (x + options.size / 2, y, name, textStyle)
+                    ];
+                }
+
+                return [img];
+            }
+    }
+
+}
 
 const styles: {
     [layerName: string]: undefined|{
@@ -155,14 +207,127 @@ const styles: {
         }
     },
     debug: {
-        svg: (x, y, { text }: { text: string }) => {
-            const textElem = createText(x, y, text);
-            textElem.setAttributeNS(null, 'style', 'font-size: 0.9em; fill: red;');
-
-            return [textElem];
-        }
+        svg: (x, y, { text }: { text: string }) => [
+            createText(x, y, text, 'font-size: 0.9em; fill: red;')
+        ]
     },
-    
+
+    // locations
+    mount: { svg: () => [] },
+    name: { svg: location({ drawStyle: 'name', color: 'black', textSize: 0.04 }) },
+    strategic: { svg: location({ color: 'rgba(64, 102, 51 0.7)',  textSize: 0.05, drawStyle: 'name' }) },
+    strongpointarea: { svg: location({ color: 'rgba(64, 102, 51 0.7)', textSize: 0.05, drawStyle: 'name' }) },
+    flatarea: { svg: location({ color: 'rgba(64, 102, 51 0.7)', textSize: 0.05, drawStyle: 'name' }) },
+    flatareacity: { svg: location({ color: 'rgba(64, 102, 51 0.7)', textSize: 0.05, drawStyle: 'name' }) },
+    flatareacitysmall: { svg: location({ color: 'rgba(64, 102, 51 0.7)', textSize: 0.05, drawStyle: 'name' }) },
+    citycenter: { svg: () => [] },
+    airport: { svg: location({ color: 'rgba(64, 102, 51 0.7)', textSize: 0.05, drawStyle: 'name' }) },
+    namemarine: { svg: location({ color: 'rgba(13, 102, 204, 0.8)', textSize: 0.05, drawStyle: 'name' }) },
+    namecitycapital: { svg: location({ textSize: 0.07, drawStyle: 'name', color: 'black' }) },
+    namecity: { svg: location({ textSize: 0.06, drawStyle: 'name', color: 'black' }) },
+    namevillage: { svg: location({ textSize: 0.05, drawStyle: 'name', color: 'black' }) },
+    namelocal: { svg: location({ color: '#70614d', textSize: 0.05, drawStyle: 'name' }) },
+    hill: { svg: location({ drawStyle: 'icon', color: 'black', size: 14, textSize: 0.04, texture: 'hill.png' }) },
+    viewpoint: { svg: location({ drawStyle: 'icon', color: '#c6000d', textSize: 0.04, texture: 'viewpoint.png', size: 16 }) },
+    rockarea: { svg: location({ color: 'black', size: 12, texture: 'rockarea.png', drawStyle: 'icon', textSize: 0.04 }) },
+    bordercrossing: { svg: location({ color: '#c6000d', size: 16, texture: 'bordercrossing.png', drawStyle: 'icon', textSize: 0.04 }) },
+    vegetationbroadleaf: { svg: location({ color: '#406633', size: 18, texture: 'vegetationbroadleaf.png', drawStyle: 'icon', textSize: 0.04 }) },
+    vegetationfir: { svg: location({ color: '#406633', size: 18, texture: 'vegetationfir.png', drawStyle: 'icon', textSize: 0.04 }) },
+    vegetationpalm: { svg: location({ color: '#406633', size: 18, texture: 'vegetationpalm.png', drawStyle: 'icon', textSize: 0.04 }) },
+    vegetationvineyard: { svg: location({ color: '#406633', size: 16, texture: 'vegetationvineyard.png', drawStyle: 'icon', textSize: 0.04 }) },
+    faketown: { svg: location({ drawStyle: 'name', color: 'black', textSize: 0.04 }) },
+    area: { svg: () => [] },
+    flag: { svg: location({ drawStyle: 'icon', color: 'black', size: 14, textSize: 0.04, texture: 'hill.png' }) },
+    b_unknown: { svg: location({ texture: 'b_unknown.png', size: 29, color: '#004c99', drawStyle: 'icon', textSize: 0.04 }) },
+    o_unknown: { svg: location({ texture: 'o_unknown.png', color: '#7f0000', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    n_unknown: { svg: location({ texture: 'n_unknown.png', color: '#007f00', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    b_inf: { svg: location({ texture: 'b_inf.png', size: 29, color: '#004c99', drawStyle: 'icon', textSize: 0.04 }) },
+    o_inf: { svg: location({ texture: 'o_inf.png', color: '#7f0000', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    n_inf: { svg: location({ texture: 'n_inf.png', color: '#007f00', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    b_motor_inf: { svg: location({ texture: 'b_motor_inf.png', size: 29, color: '#004c99', drawStyle: 'icon', textSize: 0.04 }) },
+    o_motor_inf: { svg: location({ texture: 'o_motor_inf.png', color: '#7f0000', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    n_motor_inf: { svg: location({ texture: 'n_motor_inf.png', color: '#007f00', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    b_mech_inf: { svg: location({ texture: 'b_mech_inf.png', size: 29, color: '#004c99', drawStyle: 'icon', textSize: 0.04 }) },
+    o_mech_inf: { svg: location({ texture: 'o_mech_inf.png', color: '#7f0000', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    n_mech_inf: { svg: location({ texture: 'n_mech_inf.png', color: '#007f00', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    b_armor: { svg: location({ texture: 'b_armor.png', size: 29, color: '#004c99', drawStyle: 'icon', textSize: 0.04 }) },
+    o_armor: { svg: location({ texture: 'o_armor.png', color: '#7f0000', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    n_armor: { svg: location({ texture: 'n_armor.png', color: '#007f00', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    b_recon: { svg: location({ texture: 'b_recon.png', size: 29, color: '#004c99', drawStyle: 'icon', textSize: 0.04 }) },
+    o_recon: { svg: location({ texture: 'o_recon.png', color: '#7f0000', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    n_recon: { svg: location({ texture: 'n_recon.png', color: '#007f00', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    b_air: { svg: location({ texture: 'b_air.png', size: 29, color: '#004c99', drawStyle: 'icon', textSize: 0.04 }) },
+    o_air: { svg: location({ texture: 'o_air.png', color: '#7f0000', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    n_air: { svg: location({ texture: 'n_air.png', color: '#007f00', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    b_plane: { svg: location({ texture: 'b_plane.png', size: 29, color: '#004c99', drawStyle: 'icon', textSize: 0.04 }) },
+    o_plane: { svg: location({ texture: 'o_plane.png', color: '#7f0000', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    n_plane: { svg: location({ texture: 'n_plane.png', color: '#007f00', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    b_uav: { svg: location({ texture: 'b_uav.png', size: 29, color: '#004c99', drawStyle: 'icon', textSize: 0.04 }) },
+    o_uav: { svg: location({ texture: 'o_uav.png', color: '#7f0000', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    n_uav: { svg: location({ texture: 'n_uav.png', color: '#007f00', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    b_naval: { svg: location({ texture: 'b_naval.png', size: 29, color: '#004c99', drawStyle: 'icon', textSize: 0.04 }) },
+    o_naval: { svg: location({ texture: 'o_naval.png', color: '#7f0000', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    n_naval: { svg: location({ texture: 'n_naval.png', color: '#007f00', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    b_med: { svg: location({ texture: 'b_med.png', size: 29, color: '#004c99', drawStyle: 'icon', textSize: 0.04 }) },
+    o_med: { svg: location({ texture: 'o_med.png', color: '#7f0000', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    n_med: { svg: location({ texture: 'n_med.png', color: '#007f00', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    b_art: { svg: location({ texture: 'b_art.png', size: 29, color: '#004c99', drawStyle: 'icon', textSize: 0.04 }) },
+    o_art: { svg: location({ texture: 'o_art.png', color: '#7f0000', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    n_art: { svg: location({ texture: 'n_art.png', color: '#007f00', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    b_mortar: { svg: location({ texture: 'b_mortar.png', size: 29, color: '#004c99', drawStyle: 'icon', textSize: 0.04 }) },
+    o_mortar: { svg: location({ texture: 'o_mortar.png', color: '#7f0000', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    n_mortar: { svg: location({ texture: 'n_mortar.png', color: '#007f00', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    b_hq: { svg: location({ texture: 'b_hq.png', size: 29, color: '#004c99', drawStyle: 'icon', textSize: 0.04 }) },
+    o_hq: { svg: location({ texture: 'o_hq.png', color: '#7f0000', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    n_hq: { svg: location({ texture: 'n_hq.png', color: '#007f00', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    b_support: { svg: location({ texture: 'b_support.png', size: 29, color: '#004c99', drawStyle: 'icon', textSize: 0.04 }) },
+    o_support: { svg: location({ texture: 'o_support.png', color: '#7f0000', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    n_support: { svg: location({ texture: 'n_support.png', color: '#007f00', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    b_maint: { svg: location({ texture: 'b_maint.png', size: 29, color: '#004c99', drawStyle: 'icon', textSize: 0.04 }) },
+    o_maint: { svg: location({ texture: 'o_maint.png', color: '#7f0000', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    n_maint: { svg: location({ texture: 'n_maint.png', color: '#007f00', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    b_service: { svg: location({ texture: 'b_service.png', size: 29, color: '#004c99', drawStyle: 'icon', textSize: 0.04 }) },
+    o_service: { svg: location({ texture: 'o_service.png', color: '#7f0000', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    n_service: { svg: location({ texture: 'n_service.png', color: '#007f00', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    b_installation: { svg: location({ texture: 'b_installation.png', size: 29, color: '#004c99', drawStyle: 'icon', textSize: 0.04 }) },
+    o_installation: { svg: location({ texture: 'o_installation.png', color: '#7f0000', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    n_installation: { svg: location({ texture: 'n_installation.png', color: '#007f00', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    u_installation: { svg: location({ texture: 'u_installation.png', color: '#007f00', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    b_antiair: { svg: location({ texture: 'b_antiair.png', size: 29, color: '#004c99', drawStyle: 'icon', textSize: 0.04 }) },
+    o_antiair: { svg: location({ texture: 'o_antiair.png', color: '#7f0000', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    n_antiair: { svg: location({ texture: 'n_antiair.png', color: '#007f00', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    c_unknown: { svg: location({ texture: 'c_unknown.png', color: '#66007f', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    c_car: { svg: location({ texture: 'c_car.png', color: '#66007f', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    c_ship: { svg: location({ texture: 'c_ship.png', color: '#66007f', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    c_air: { svg: location({ texture: 'c_air.png', color: '#66007f', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    c_plane: { svg: location({ texture: 'c_plane.png', color: '#66007f', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    group_0: { svg: location({ texture: 'group_0.png', color: 'black', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    group_1: { svg: location({ texture: 'group_1.png', color: 'black', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    group_2: { svg: location({ texture: 'group_2.png', color: 'black', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    group_3: { svg: location({ texture: 'group_3.png', color: 'black', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    group_4: { svg: location({ texture: 'group_4.png', color: 'black', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    group_5: { svg: location({ texture: 'group_5.png', color: 'black', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    group_6: { svg: location({ texture: 'group_6.png', color: 'black', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    group_7: { svg: location({ texture: 'group_7.png', color: 'black', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    group_8: { svg: location({ texture: 'group_8.png', color: 'black', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    group_9: { svg: location({ texture: 'group_9.png', color: 'black', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    group_10: { svg: location({ texture: 'group_10.png', color: 'black', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    group_11: { svg: location({ texture: 'group_11.png', color: 'black', size: 29, drawStyle: 'icon', textSize: 0.04 }) },
+    respawn_unknown: { svg: location({ texture: 'respawn_unknown.png', color: 'black', drawStyle: 'icon', size: 14, textSize: 0.04 }) },
+    respawn_inf: { svg: location({ texture: 'respawn_inf.png', color: 'black', drawStyle: 'icon', size: 14, textSize: 0.04 }) },
+    respawn_motor: { svg: location({ texture: 'respawn_motor.png', color: 'black', drawStyle: 'icon', size: 14, textSize: 0.04 }) },
+    respawn_armor: { svg: location({ texture: 'respawn_armor.png', color: 'black', drawStyle: 'icon', size: 14, textSize: 0.04 }) },
+    respawn_air: { svg: location({ texture: 'respawn_air.png', color: 'black', drawStyle: 'icon', size: 14, textSize: 0.04 }) },
+    respawn_plane: { svg: location({ texture: 'respawn_plane.png', color: 'black', drawStyle: 'icon', size: 14, textSize: 0.04 }) },
+    respawn_naval: { svg: location({ texture: 'respawn_naval.png', color: 'black', drawStyle: 'icon', size: 14, textSize: 0.04 }) },
+    respawn_para: { svg: location({ texture: 'respawn_para.png', color: 'black', drawStyle: 'icon', size: 14, textSize: 0.04 }) },
+    invisible: { svg: () => [] },
+    historicalsite: { svg: () => [] },
+    civildefense: { svg: location({ color: 'white', textSize: 0.05, drawStyle: 'name' }) },
+    culturalproperty: { svg: location({ color: 'white', textSize: 0.05, drawStyle: 'name' }) },
+    dangerousforces: { svg: location({ color: 'white', textSize: 0.05, drawStyle: 'name' }) },
+    safetyzone: { svg: location({ color: 'white', textSize: 0.05, drawStyle: 'name' } ) },
+
     // obj with only icons ------------------------------------------------------------------------------------------------
     bunker: { svg: objectIcon('bunker', 14) },
     chapel: { svg: objectIcon('chapel') },
