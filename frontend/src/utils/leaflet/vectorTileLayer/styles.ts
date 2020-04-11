@@ -72,9 +72,9 @@ const createImg = (x: number, y: number, size: number, href: string) => {
     return img;
 };
 
-const justIcon = (img: string, size: number = 24): SvgStyle => {
+const objectIcon = (img: string, size: number = 24): SvgStyle => {
     return (x: number, y: number) => [
-        createImg(x, y, size, relativeUrl(`icons/${img}.png`))
+        createImg(x, y, size, relativeUrl(`icons/objects/${img}.png`))
     ];
 };
 
@@ -164,78 +164,31 @@ const styles: {
     },
     
     // obj with only icons ------------------------------------------------------------------------------------------------
-    bunker: {
-        svg: justIcon('bunker', 14)
-    },
-    chapel: {
-        svg: justIcon('chapel')
-    },
-    church: {
-        svg: justIcon('church')
-    },
-    cross: {
-        svg: justIcon('cross')
-    },
-    fuelstation: {
-        svg: justIcon('fuelstation')
-    },
-    lighthouse: {
-        svg: justIcon('lighthouse')
-    },
-    rock: {
-        svg: justIcon('rock', 12)
-    },
-    shipwreck: {
-        svg: justIcon('shipwreck')
-    },
-    transmitter: {
-        svg: justIcon('transmitter')
-    },
-    tree: {
-        svg: justIcon('bush', 12)
-    },
-    bush: {
-        svg: justIcon('bush', 7)
-    },
-    watertower: {
-        svg: justIcon('watertower')
-    },
-    fortress: {
-        svg: justIcon('fortress', 16)
-    },
-    fountain: {
-        svg: justIcon('fountain', 11)
-    },
-    quay: {
-        svg: justIcon('quay')
-    },
-    hospital: {
-        svg: justIcon('hospital')
-    },
-    busstop: {
-        svg: justIcon('busstop')
-    },
-    stack: {
-        svg: justIcon('stack', 16)
-    },
-    ruin: {
-        svg: justIcon('ruin', 16)
-    },
-    tourism: {
-        svg: justIcon('tourism', 16)
-    },
-    powersolar: {
-        svg: justIcon('powersolar')
-    },
-    powerwave: {
-        svg: justIcon('powerwave')
-    },
-    powerwind: {
-        svg: justIcon('powerwind')
-    },
-    'view-tower': {
-        svg: justIcon('viewtower', 16)
-    },
+    bunker: { svg: objectIcon('bunker', 14) },
+    chapel: { svg: objectIcon('chapel') },
+    church: { svg: objectIcon('church') },
+    cross: { svg: objectIcon('cross') },
+    fuelstation: { svg: objectIcon('fuelstation') },
+    lighthouse: { svg: objectIcon('lighthouse') },
+    rock: { svg: objectIcon('rock', 12) },
+    shipwreck: { svg: objectIcon('shipwreck') },
+    transmitter: { svg: objectIcon('transmitter') },
+    tree: { svg: objectIcon('bush', 12) },
+    bush: { svg: objectIcon('bush', 7) },
+    watertower: { svg: objectIcon('watertower') },
+    fortress: { svg: objectIcon('bunker', 16) },
+    fountain: { svg: objectIcon('fountain', 11) },
+    quay: { svg: objectIcon('quay') },
+    hospital: { svg: objectIcon('hospital') },
+    busstop: { svg: objectIcon('busstop') },
+    stack: { svg: objectIcon('stack', 16) },
+    ruin: { svg: objectIcon('ruin', 16) },
+    tourism: { svg: objectIcon('tourism', 16) },
+    power: { svg: objectIcon('power') },
+    powersolar: { svg: objectIcon('powersolar') },
+    powerwave: { svg: objectIcon('powerwave') },
+    powerwind: { svg: objectIcon('powerwind') },
+    'view-tower': { svg: objectIcon('viewtower', 16) },
 
     // runways / power lines / railways ----------------------------------------------------------------
     runway: {
