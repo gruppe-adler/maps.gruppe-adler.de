@@ -1,14 +1,8 @@
 const express = require('express');
 const cors = require('cors');
-const glob = require('glob');
-const { lstatSync, readdirSync, readFileSync } = require('fs');
 const { join } = require('path');
 
-const MAPS_DIR = join(__dirname, 'maps');
-let cachedMaps = null;
-let cachedMapsDate = null;
-const isDirectory = source => lstatSync(source).isDirectory();
-const getDirectories = source => readdirSync(source).map(name => join(source, name)).filter(isDirectory);
+const mapsRouter = require('./mapsRouter');
 
 const app = express();
 
@@ -48,41 +42,10 @@ app.get('/preview/*', (req, res, next) => {
 // Host icons directory
 app.use('/icons', express.static(join(__dirname, 'icons')));
 
-// /maps request
-app.get('/maps', (req, res) => {
+app.use('/', mapsRouter);
 
-    if (!cachedMaps) {
-        const dirs = getDirectories(MAPS_DIR);
+const {
+    PORT = 80
+} = process.env;
 
-        cachedMaps = dirs.map(dir => {
-            const meta = JSON.parse(readFileSync(join(dir, 'meta.json'), 'utf-8'));
-    
-            return { displayName: meta.displayName, worldName: meta.worldName, author: meta.author };
-        });
-
-        cachedMapsDate = new Date().toGMTString()
-    }
-
-    res.header('Cache-Control', 'no-cache');
-    res.header('Last-Modified', cachedMapsDate);
-    res.status(200).json(cachedMaps);
-});
-
-// Host maps directory
-app.use('*', async (req, res, next) => {
-    // check if file exists
-    const files = await glob.sync(
-        join(MAPS_DIR, req.originalUrl), 
-        {
-            nocase: true
-        }
-    );
-
-    if (files.length > 0) {
-        res.sendFile(files[0]);
-    } else {
-        res.status(404).end();
-    }
-});
-
-app.listen(80, ()=> console.log('App listening on Port 80'));
+app.listen(PORT, ()=> console.log(`App listening on Port ${PORT}`));

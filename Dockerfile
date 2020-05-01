@@ -25,6 +25,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 COPY error.png ./
 COPY index.js ./
+COPY mapsRouter.js ./
 COPY icons icons
 
 # install dependencies
