@@ -3,12 +3,12 @@ import VectorTileLayer from './leaflet/VectorTileLayer';
 import { fetchJSON, relativeUrl } from './utils';
 
 export async function satTileLayer(map: string): Promise<TileLayer> {
-    const { maxLod } = await fetchJSON(relativeUrl(`${map}/sat/sat.json`)) as { maxLod: number };
+    const { maxzoom } = await fetchJSON(relativeUrl(`${map}/sat/tile.json`)) as { maxzoom: number };
 
     return new TileLayer(
         relativeUrl(`${map}/sat/{z}/{x}/{y}.png`),
         {
-            maxNativeZoom: maxLod,
+            maxNativeZoom: maxzoom,
             noWrap: true,
             opacity: 0.85,
             zIndex: -1,
@@ -18,15 +18,15 @@ export async function satTileLayer(map: string): Promise<TileLayer> {
 }
 
 export async function vectorTileLayer(map: string): Promise<VectorTileLayer> {
-    const { maxzoom, minzoom } = await fetchJSON(relativeUrl(`${map}/mvt/metadata.json`)) as { maxzoom: string, minzoom: string };
+    const { maxzoom, minzoom } = await fetchJSON(relativeUrl(`${map}/mvt/tile.json`)) as { maxzoom: number, minzoom: number };
 
     return new VectorTileLayer(
         relativeUrl(`${map}/mvt/{z}/{x}/{y}.pbf`),
         {
             bounds: new LatLngBounds([-90, -180], [90, 180]),
             noWrap: true,
-            minNativeZoom: Number.parseInt(minzoom, 10),
-            maxNativeZoom: Number.parseInt(maxzoom, 10)
+            minNativeZoom: minzoom,
+            maxNativeZoom: maxzoom,
             // tileSize: 4096
         }    
     );
