@@ -166,9 +166,9 @@ export default [
     "forest",
 
     // contours
-    "contours_01",
-    "contours_05",
-    "contours_10",
-    "contours_50",
-    "contours_100",
+    "contours/01",
+    "contours/05",
+    "contours/10",
+    "contours/50",
+    "contours/100",
 ];

@@ -441,19 +441,19 @@ const styles: {
     },
 
     // contours ------------------------------------------------------------------------------------------------
-    contours_01: {
+    'contours/01': {
         canvas: contourStyle(5)
     },
-    contours_05: {
+    'contours/05': {
         canvas: contourStyle(10)
     },
-    contours_10: {
+    'contours/10': {
         canvas: contourStyle(25)
     },
-    contours_50: {
+    'contours/50': {
         canvas: contourStyle(100)
     },
-    contours_100: {
+    'contours/100': {
         canvas: contourStyle(500)
     },
 }
