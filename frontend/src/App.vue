@@ -4,13 +4,13 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { setApiUri } from '@/utils';
+import { setApiUri } from '@gruppe-adler/maps-frontend-utils';
 import 'leaflet/dist/leaflet.css';
 
 @Component
 export default class AppVue extends Vue {
     private beforeCreate() {
-        setApiUri(process.env.NODE_ENV === 'development' ? 'http://localhost' : window.location.origin);
+        setApiUri(process.env.NODE_ENV === 'development' ? 'https://maps.gruppe-adler.de' : window.location.origin);
         // setApiUri(window.location.origin);
     }
 }

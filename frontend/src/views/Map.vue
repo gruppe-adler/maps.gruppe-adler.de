@@ -20,7 +20,7 @@
 <script lang="ts">
 import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
 
-import { GradMap } from '../utils';
+import { GradMap } from '@gruppe-adler/maps-frontend-utils';
 
 @Component
 export default class MapVue extends Vue {

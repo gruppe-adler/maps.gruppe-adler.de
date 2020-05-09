@@ -8,8 +8,8 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
-import { mapPreviewImgUrl } from '@/utils';
-import { MapMetaData } from '@/utils/types';
+import { mapPreviewImgUrl } from '@gruppe-adler/maps-frontend-utils';
+import { MapMetaData } from '@gruppe-adler/maps-frontend-utils';
 import { PropType } from 'vue';
 
 @Component

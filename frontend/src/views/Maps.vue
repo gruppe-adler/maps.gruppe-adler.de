@@ -20,8 +20,8 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { fetchMaps } from '@/utils';
-import { MapMetaData } from '@/utils/types';
+import { fetchMaps } from '@gruppe-adler/maps-frontend-utils';
+import { MapMetaData } from '@gruppe-adler/maps-frontend-utils';
 import GradMapItemVue from '@/components/Maps/MapItem.vue';
 
 type partialMeta = Pick<MapMetaData, 'worldName'|'displayName'|'author'>;
