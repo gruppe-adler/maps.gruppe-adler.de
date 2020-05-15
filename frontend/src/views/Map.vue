@@ -28,7 +28,11 @@ export default class MapVue extends Vue {
     private map: GradMap|null = null;
 
     private mounted() {
-        this.map = new GradMap(this.mapName, this.$refs.map as HTMLDivElement);
+        this.loadMap();
+    }
+
+    private async loadMap() {
+        this.map = await GradMap.new(this.mapName, this.$refs.map as HTMLDivElement);
     }
 
     /**
