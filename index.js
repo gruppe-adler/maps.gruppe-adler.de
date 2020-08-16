@@ -29,6 +29,8 @@ app.get('/', (req, res) => {
     res.redirect('/preview/');
 });
 
+app.set('trust proxy', true);
+
 app.use('/preview', express.static(join(__dirname, 'preview')));
 
 app.get('/preview/*', (req, res, next) => {
