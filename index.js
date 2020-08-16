@@ -41,8 +41,9 @@ app.get('/preview/*', (req, res, next) => {
     res.sendFile(join(__dirname, 'preview/index.html'));
 });
 
-// Host icons directory
-app.use('/icons', express.static(join(__dirname, 'icons')));
+// Host sprites directory
+app.use('/sprites', express.static(join(__dirname, 'sprites')));
+app.use('/sprites/*', (req, res) => res.status(404).end());
 
 app.use('/', mapsRouter);
 

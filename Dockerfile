@@ -18,6 +18,16 @@ RUN npm run build
 
 RUN echo ::endgroup::
 
+# Build sprites
+RUN echo ::group::BUILD SPRITES
+
+WORKDIR /tmp/sprites
+COPY sprites .
+RUN npm ci
+RUN npm run build
+
+RUN echo ::endgroup::
+
 # Move to app directory
 WORKDIR /usr/src/app
 
@@ -26,13 +36,15 @@ COPY package*.json ./
 COPY error.png ./
 COPY index.js ./
 COPY mapsRouter.js ./
-COPY icons icons
 
 # install dependencies
 RUN npm ci --only=production
 
 # copy frontend to app dir 
 RUN mv /tmp/frontend/dist ./preview
+
+# copy sprites to app dir 
+RUN mv /tmp/sprites/out ./sprites
 
 # cleanup 
 RUN rm -rf /tmp/*
