@@ -33,9 +33,7 @@ WORKDIR /usr/src/app
 
 # copy static assets
 COPY package*.json ./
-COPY error.png ./
-COPY index.js ./
-COPY mapsRouter.js ./
+COPY src/ ./src
 
 # install dependencies
 RUN npm ci --only=production

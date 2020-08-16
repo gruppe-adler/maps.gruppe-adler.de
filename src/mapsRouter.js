@@ -1,10 +1,11 @@
-const { lstatSync, readdirSync, readFileSync } = require('fs');
-const express = require('express');
+const { lstatSync, readdirSync, readFileSync }  = require('fs');
+const express  = require('express');
 const { join, basename } = require('path');
 
-const mapsRouter = express.Router();
+const allStyleLayers  = require('./style/index');
 
-const MAPS_DIR = join(__dirname, 'maps');
+const mapsRouter = express.Router();
+const MAPS_DIR = join(__dirname, '..', 'maps');
 const isDirectory = source => lstatSync(source).isDirectory();
 const getDirectories = source => readdirSync(source).map(name => join(source, name)).filter(isDirectory);
 
@@ -90,6 +91,29 @@ mapsRouter.get('/:map/:layer/tile.json', (req, res, next) => {
         tiles: [
             `${req.protocol}://${req.get('Host')}/${worldName}/${layer}/{z}/{x}/{y}.${layer === 'sat' ? 'png' : 'pbf'}`
         ]
+    })
+});
+
+// mvt style.json
+mapsRouter.get('/:map/mvt/style.json', (req, res, next) => {
+    const worldName = req.gradMapMeta.worldName;
+
+    const tileJSON = JSON.parse(readFileSync(join(MAPS_DIR, worldName, 'mvt', 'tile.json')));
+    const mapLayers = tileJSON.vector_layers.map(l => l.id);
+
+    res.json({
+        version: 8,
+        name: `${req.gradMapMeta.displayName} Vector Tiles`,
+        sprite: `${req.protocol}://${req.get('Host')}/sprites/sprite`,
+        glyphs: 'https://orangemug.github.io/font-glyphs/glyphs/{fontstack}/{range}.pbf',
+        sources: {
+            [req.get('Host')]: {
+                attribution: '<a href="https://www.gruppe-adler.de" target="_blank">Gruppe Adler</a>',
+                type: 'vector',
+                url: `${req.protocol}://${req.get('Host')}/${worldName}/mvt/tile.json`
+            }
+        },
+        layers: allStyleLayers.filter(l => mapLayers.includes(l['source-layer'])).map(l => ({ ...l, source: req.get('Host') }))
     })
 });
 

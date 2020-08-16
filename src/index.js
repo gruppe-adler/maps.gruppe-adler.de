@@ -7,6 +7,7 @@ const mapsRouter = require('./mapsRouter');
 const app = express();
 
 app.set('case sensitive routing', false);
+app.set('trust proxy', true);
 
 // cors
 app.use(cors({
@@ -29,20 +30,19 @@ app.get('/', (req, res) => {
     res.redirect('/preview/');
 });
 
-app.set('trust proxy', true);
 
-app.use('/preview', express.static(join(__dirname, 'preview')));
+app.use('/preview', express.static(join(__dirname, '..', 'preview')));
 
 app.get('/preview/*', (req, res, next) => {
     if (!req.accepts('html')) {
         next();
         return;
     }
-    res.sendFile(join(__dirname, 'preview/index.html'));
+    res.sendFile(join(__dirname, '..', 'preview/index.html'));
 });
 
 // Host sprites directory
-app.use('/sprites', express.static(join(__dirname, 'sprites')));
+app.use('/sprites', express.static(join(__dirname, '..', 'sprites')));
 app.use('/sprites/*', (req, res) => res.status(404).end());
 
 app.use('/', mapsRouter);
