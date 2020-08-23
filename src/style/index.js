@@ -14,9 +14,8 @@ const allLayers = [
         }
     },
 
-    // land / water
+    // water
     fillLayerFactory('water', '#77A1D9', 0.5),
-    fillLayerFactory('land', '#F7F4F2'),
 
     // contours
     countourLayerFactory('contours/100', 500),
