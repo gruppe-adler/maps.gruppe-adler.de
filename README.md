@@ -63,8 +63,8 @@ The vector tiles are generated from the GeoJSONs exported with [grad_meh](https:
 ### Mapbox Sprites
 We host our own [sprite sheets](https://docs.mapbox.com/mapbox-gl-js/style-spec/sprite/), which include several Arma 3 icons for our mapbox style documents.
 ```
-https://maps.gruppe-adler.de/sprites/sprite@1x.png
-https://maps.gruppe-adler.de/sprites/sprite@1x.json
+https://maps.gruppe-adler.de/sprites/sprite.png
+https://maps.gruppe-adler.de/sprites/sprite.json
 https://maps.gruppe-adler.de/sprites/sprite@2x.png
 https://maps.gruppe-adler.de/sprites/sprite@2x.json
 https://maps.gruppe-adler.de/sprites/sprite@4x.png
