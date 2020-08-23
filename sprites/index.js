@@ -17,8 +17,8 @@ const imgs = glob.sync(path.join(inputPath, '**', '*.svg')).map(filePath => ({
 }));
 
 for (const pixelRatio of pxRatios) {
-    const pngPath = path.resolve(path.join(outputPath, `sprite@${pixelRatio}x.png`));
-    const jsonPath = path.resolve(path.join(outputPath, `sprite@${pixelRatio}x.json`));
+    const pngPath = path.resolve(path.join(outputPath, `sprite${pixelRatio === 1 ? '' : `@${pixelRatio}x`}.png`));
+    const jsonPath = path.resolve(path.join(outputPath, `sprite${pixelRatio === 1 ? '' : `@${pixelRatio}x`}.json`));
 
     generateLayout(imgs, pixelRatio * 64, pixelRatio).then(({ json, img }) => {
         fs.writeFileSync(pngPath, img);
