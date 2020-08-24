@@ -1,4 +1,4 @@
-const { OBJECT_IMAGE_SIZE } = require('./constants');
+const { ICON_SIZE_FACTOR } = require('./constants');
 
 /**
  * Create MapboxLayer-Object for generic Arma 3 objects
@@ -17,7 +17,7 @@ module.exports = function objectIconLayerFactory (name, size = 24, source) {
             'icon-image': `objects/${source || name}`,
             'icon-anchor': 'center',
             'icon-allow-overlap': true,
-            'icon-size': size / OBJECT_IMAGE_SIZE
+            'icon-size': size * ICON_SIZE_FACTOR
         }
     };
 }

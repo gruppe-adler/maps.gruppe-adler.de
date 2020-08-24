@@ -1,4 +1,4 @@
-const { FONT_SIZE_FACTOR, OBJECT_IMAGE_SIZE } = require('./constants');
+const { FONT_SIZE_FACTOR, ICON_SIZE_FACTOR } = require('./constants');
 
 /**
  * Create MapboxLayer-Object for locations with drawStyle="icon"
@@ -19,7 +19,7 @@ module.exports = function locationIconLayerFactory ({ name, color, opacity, font
             'icon-image': name,
             'icon-allow-overlap': true,
             'icon-anchor': 'center',
-            'icon-size': iconSize / OBJECT_IMAGE_SIZE,
+            'icon-size': iconSize * ICON_SIZE_FACTOR,
             'text-allow-overlap': true,
             'text-field': ['get', 'name'],
             'text-font': ['Roboto Condensed Regular'],

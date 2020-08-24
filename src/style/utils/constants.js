@@ -1,7 +1,7 @@
-const OBJECT_IMAGE_SIZE = 64;
-const FONT_SIZE_FACTOR = 250;
+const ICON_SIZE_FACTOR = 0.025;
+const FONT_SIZE_FACTOR = 325;
 
 module.exports = {
-    OBJECT_IMAGE_SIZE,
+    ICON_SIZE_FACTOR,
     FONT_SIZE_FACTOR
 };
