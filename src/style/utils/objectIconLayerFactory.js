@@ -16,7 +16,6 @@ module.exports = function objectIconLayerFactory (name, size = 24, source) {
         layout: {
             'icon-image': `objects/${source || name}`,
             'icon-anchor': 'center',
-            'icon-allow-overlap': true,
             'icon-size': size * ICON_SIZE_FACTOR
         }
     };

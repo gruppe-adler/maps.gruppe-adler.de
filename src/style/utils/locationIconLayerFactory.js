@@ -17,10 +17,8 @@ module.exports = function locationIconLayerFactory ({ name, color, opacity, font
         'source-layer': name,
         layout: {
             'icon-image': name,
-            'icon-allow-overlap': true,
             'icon-anchor': 'center',
             'icon-size': iconSize * ICON_SIZE_FACTOR,
-            'text-allow-overlap': true,
             'text-field': ['get', 'name'],
             'text-font': ['Roboto Condensed Regular'],
             'text-anchor': 'left',
