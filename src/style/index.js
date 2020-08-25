@@ -10,7 +10,7 @@ const allLayers = [
         id: 'background',
         type: 'background',
         paint: {
-            'background-color': '#F7F4F2'
+            'background-color': '#F7F4F1'
         }
     },
 
@@ -55,6 +55,7 @@ const allLayers = [
     fillLayerFactory('roads/main_road', '#FF9966', undefined, { 'fill-outline-color': '#E6804D' }),
 
     // all houses
+    // TODO: fix color
     {
         id: 'house',
         type: 'fill',
@@ -72,18 +73,19 @@ const allLayers = [
     },
 
     // runways / power lines / railways
-    lineLayerFactory('railway', '#FF0000', 1),
+    lineLayerFactory('railway', '#CC3300', 1),
     lineLayerFactory('powerline', '#1A1A1A', 1),
     lineLayerFactory('runway', '#808080', 1),
 
     // obj with only icons
     objectIconLayerFactory('bush', 7),
-    objectIconLayerFactory('busstop', 7),
     objectIconLayerFactory('rock', 12),
-    objectIconLayerFactory('cross'),
     objectIconLayerFactory('fountain', 11),
     objectIconLayerFactory('tree', 12, 'bush'),
+    objectIconLayerFactory('tourism', 16),
     objectIconLayerFactory('ruin', 16),
+    objectIconLayerFactory('busstop'),
+    objectIconLayerFactory('cross'),
     objectIconLayerFactory('chapel'),
     objectIconLayerFactory('church'),
     objectIconLayerFactory('fuelstation'),
@@ -101,7 +103,6 @@ const allLayers = [
     objectIconLayerFactory('fortress', 16, 'bunker'),
     objectIconLayerFactory('stack', 16),
     objectIconLayerFactory('view-tower', 16, 'viewtower'),
-    objectIconLayerFactory('tourism', 16),
 
     // locations
     locationIconLayerFactory({ name: 'locations/respawn_unknown', color: '#000000', opacity: 1, iconSize: 14, fontSize: 0.04 }),
