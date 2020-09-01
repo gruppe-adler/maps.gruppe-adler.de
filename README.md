@@ -7,7 +7,7 @@ We use the [meh-data](https://github.com/gruppe-adler/meh-data) repository for a
 After the map is added you just have to [update the `maps/` git submodule](https://git-scm.com/book/en/v2/Git-Tools-Submodules#_pulling_in_upstream_changes_from_the_submodule_remote) in this repository. 
 
 ## Consuming data
-The following assumes that your docker container is reachable via `https://maps.gruppe-adler.de`.  
+The following assumes that your docker container is reachable via `https://mehps.gruppe-adler.de`.  
 All requests are simple HTTP GET requests. So no body or extra HTTP headers are needed.
 ### List maps
 A JSON containing a list of all maps with their respective display names can be accessed via:
