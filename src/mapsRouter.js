@@ -113,7 +113,7 @@ mapsRouter.get('/:map/mvt/style.json', (req, res, next) => {
                 url: `${req.protocol}://${req.get('Host')}/${worldName}/mvt/tile.json`
             }
         },
-        layers: allStyleLayers.filter(l => mapLayers.includes(l['source-layer'])).map(l => ({ ...l, source: req.get('Host') }))
+        layers: allStyleLayers.filter(l => (mapLayers.includes(l['source-layer']) || l.id === 'background')).map(l => ({ ...l, source: req.get('Host') }))
     })
 });
 
