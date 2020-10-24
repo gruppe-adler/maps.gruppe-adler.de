@@ -1,6 +1,6 @@
 <template>
 <div style="height: 100vh;">
-    <div style="height: 100%; background-color: rgba(247, 244, 242, 1);" ref="map">
+    <div ref="map" style="height:100%">
     </div>
     <div class="actions">
         <button
@@ -20,7 +20,7 @@
 <script lang="ts">
 import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
 
-import { GradMap } from '@gruppe-adler/maps-frontend-utils';
+import { GradMap } from '@gruppe-adler/maps-frontend-utils/lib/mapbox';
 
 @Component
 export default class MapVue extends Vue {
@@ -28,11 +28,7 @@ export default class MapVue extends Vue {
     private map: GradMap|null = null;
 
     private mounted() {
-        this.loadMap();
-    }
-
-    private async loadMap() {
-        this.map = await GradMap.new(this.mapName, this.$refs.map as HTMLDivElement);
+        this.map = new GradMap(this.mapName, { container: this.$refs.map as HTMLDivElement });
     }
 
     /**
@@ -48,7 +44,6 @@ export default class MapVue extends Vue {
         if (this.map === null) return;
 
         this.map.gridShown = !this.map.gridShown;
-        // this.gridShown = this.map.toggleGrid();
     }
 
     private get satShown(): boolean {
