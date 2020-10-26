@@ -22,7 +22,11 @@ module.exports = function locationIconLayerFactory ({ name, color, opacity, font
             'text-field': ['get', 'name'],
             'text-font': ['Roboto Condensed Regular'],
             'text-anchor': 'left',
-            'text-size': fontSize * FONT_SIZE_FACTOR,
+            'text-size': [
+                "interpolate", ["linear"], ["zoom"],
+                4, fontSize * FONT_SIZE_FACTOR,
+                6, fontSize * FONT_SIZE_FACTOR * 2
+            ],
             'text-offset': [1, 0]
         },
         paint: {
