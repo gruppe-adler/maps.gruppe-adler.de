@@ -18,7 +18,11 @@ module.exports = function locationNameLayerFactory (name, fontSize, color, opaci
             'text-field': ['get', 'name'],
             'text-font': ['Roboto Condensed Regular'],
             'text-anchor': 'left',
-            'text-size': fontSize === undefined ? undefined : fontSize * FONT_SIZE_FACTOR
+            'text-size': fontSize === undefined ? undefined : [
+                "interpolate", ["linear"], ["zoom"],
+                4, fontSize * FONT_SIZE_FACTOR,
+                6, fontSize * FONT_SIZE_FACTOR * 3.5
+            ]
         },
         paint: {
             'text-color': color,
