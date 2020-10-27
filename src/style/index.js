@@ -21,8 +21,15 @@ const allLayers = [
     countourLayerFactory('contours/100', 500),
     countourLayerFactory('contours/50', 250),
     countourLayerFactory('contours/10', 50),
-    countourLayerFactory('contours/05', 25),
-    countourLayerFactory('contours/01', 5),
+    {
+        ...countourLayerFactory('contours/05', 25),
+        minzoom: 8
+    },
+    {
+        ...countourLayerFactory('contours/01', 5),
+        minzoom: 7,
+        maxzoom: 7
+    },
 
     // forests / rocks
     fillLayerFactory('forest', '#9FC763', 0.5),
@@ -72,10 +79,16 @@ const allLayers = [
     lineLayerFactory('runway', '#808080', 1),
 
     // obj with only icons
-    objectIconLayerFactory('bush', 7),
+    {
+        ...objectIconLayerFactory('bush', 7),
+        minzoom: 8
+    },
     objectIconLayerFactory('rock', 12),
     objectIconLayerFactory('fountain', 11),
-    objectIconLayerFactory('tree', 12, 'bush'),
+    {
+        ...objectIconLayerFactory('tree', 12, 'bush'),
+        minzoom: 6
+    },
     objectIconLayerFactory('tourism', 16),
     objectIconLayerFactory('ruin', 16),
     objectIconLayerFactory('busstop'),
