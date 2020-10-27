@@ -20,15 +20,19 @@ const allLayers = [
     // contours
     countourLayerFactory('contours/100', 500),
     countourLayerFactory('contours/50', 250),
-    countourLayerFactory('contours/10', 50),
+    {
+        ...countourLayerFactory('contours/10', 50),
+        minzoom: 5,
+        maxzoom: 5
+    },
     {
         ...countourLayerFactory('contours/05', 25),
-        minzoom: 7,
-        maxzoom: 7
+        minzoom: 6,
+        maxzoom: 6
     },
     {
         ...countourLayerFactory('contours/01', 5),
-        minzoom: 8
+        minzoom: 7
     },
 
     // forests / rocks
@@ -81,13 +85,13 @@ const allLayers = [
     // obj with only icons
     {
         ...objectIconLayerFactory('bush', 7),
-        minzoom: 8
+        minzoom: 7
     },
     objectIconLayerFactory('rock', 12),
     objectIconLayerFactory('fountain', 11),
     {
         ...objectIconLayerFactory('tree', 12, 'bush'),
-        minzoom: 6
+        minzoom: 5
     },
     objectIconLayerFactory('tourism', 16),
     objectIconLayerFactory('ruin', 16),
