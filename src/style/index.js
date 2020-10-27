@@ -23,12 +23,12 @@ const allLayers = [
     countourLayerFactory('contours/10', 50),
     {
         ...countourLayerFactory('contours/05', 25),
-        minzoom: 8
+        minzoom: 7,
+        maxzoom: 7
     },
     {
         ...countourLayerFactory('contours/01', 5),
-        minzoom: 7,
-        maxzoom: 7
+        minzoom: 8
     },
 
     // forests / rocks
