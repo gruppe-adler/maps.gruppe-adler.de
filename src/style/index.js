@@ -62,13 +62,7 @@ const allLayers = [
         source: 'maps.gruppe-adler.de',
         'source-layer': 'house',
         paint: {
-            'fill-color': [
-                'rgba',
-                ['at', 0, ['get', 'color']],
-                ['at', 1, ['get', 'color']],
-                ['at', 2, ['get', 'color']],
-                ['at', 3, ['get', 'color']]
-            ]
+            'fill-color': ['get', 'color']
         }
     },
 
