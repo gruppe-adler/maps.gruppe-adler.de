@@ -23,12 +23,12 @@ const allLayers = [
     {
         ...countourLayerFactory('contours/10', 50),
         minzoom: 5,
-        maxzoom: 5
+        maxzoom: 6
     },
     {
         ...countourLayerFactory('contours/05', 25),
         minzoom: 6,
-        maxzoom: 6
+        maxzoom: 7
     },
     {
         ...countourLayerFactory('contours/01', 5),
