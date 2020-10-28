@@ -10,7 +10,7 @@ const { ICON_SIZE_FACTOR } = require('./constants');
  * @param {string} [source] Icon sprite name (if it doesn't match name param)
  * @returns MapboxLayer-Object
  */
-module.exports = function objectIconLayerFactory (name, size = 24, { coefMin, coefMax } = { coefMin: 1, coefMax: 1 }, source) {
+module.exports = function objectIconLayerFactory (name, size = 24, { coefMin, coefMax } = { coefMin: 0.85, coefMax: 1 }, source) {
     return {
         id: name,
         type: 'symbol',
