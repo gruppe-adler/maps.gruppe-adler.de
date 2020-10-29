@@ -22,7 +22,7 @@ module.exports = function objectIconLayerFactory (name, size = 24, { coefMin, co
             'icon-size': [
                 "interpolate", ["linear"], ["zoom"],
                 4, size * ICON_SIZE_FACTOR * coefMin,
-                6, size * ICON_SIZE_FACTOR * coefMax
+                10, size * ICON_SIZE_FACTOR * coefMax
             ]
         }
     };
