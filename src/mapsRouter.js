@@ -86,7 +86,7 @@ mapsRouter.get('/:map/:layer/tile.json', (req, res, next) => {
         tilejson: "2.2.0",
         name: `${req.gradMapMeta.displayName} ${layer === 'sat' ? 'Satellite Tiles' : 'Vector Tiles'}`,
         description: `${layer === 'sat' ? 'Satellite Tiles' : 'Mapbox Vector Tiles'} of the Arma 3 Map '${req.gradMapMeta.displayName}' from ${req.gradMapMeta.author}`,
-        attribution: "<a href='https://gruppe-adler.de'>Gruppe Adler</a>",
+        attribution: '<a href="https://gruppe-adler.de" target="_blank">Gruppe Adler</a>',
         scheme: "xyz",
         tiles: [
             `${req.protocol}://${req.get('Host')}/${worldName}/${layer}/{z}/{x}/{y}.${layer === 'sat' ? 'png' : 'pbf'}`
@@ -108,7 +108,7 @@ mapsRouter.get('/:map/mvt/style.json', (req, res, next) => {
         glyphs: 'https://orangemug.github.io/font-glyphs/glyphs/{fontstack}/{range}.pbf',
         sources: {
             [req.get('Host')]: {
-                attribution: '<a href="https://www.gruppe-adler.de" target="_blank">Gruppe Adler</a>',
+                attribution: '<a href="https://gruppe-adler.de" target="_blank">Gruppe Adler</a>',
                 type: 'vector',
                 url: `${req.protocol}://${req.get('Host')}/${worldName}/mvt/tile.json`
             }
