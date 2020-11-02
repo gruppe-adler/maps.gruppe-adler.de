@@ -69,27 +69,39 @@ mapsRouter.get('/:map/:layer', (req, res, next) => {
     res.redirect(`/${req.params.map}/${req.params.layer}/tile.json`);
 });
 
-// sat/mvt tile.json
+// sat/mvt/terrainrgb tile.json
 mapsRouter.get('/:map/:layer/tile.json', (req, res, next) => {
     const worldName = req.gradMapMeta.worldName;
     const layer = req.params.layer.toLowerCase();
 
-    if (!['sat', 'mvt'].includes(layer)) {
+    if (!['sat', 'mvt', 'terrainrgb'].includes(layer)) {
         res.status(404).end();
         return;
     }
 
     const tileJSON = JSON.parse(readFileSync(join(MAPS_DIR, worldName, layer.toLowerCase(), 'tile.json')));
 
+    const displayName = {
+        'sat': 'Satellite Tiles',
+        'mvt': 'Mapbox Vector Tiles',
+        'terrainrgb': 'Mapbox Terrain-RGB Tiles',
+    }[layer];
+
+    const extension = {
+        'sat': 'png',
+        'mvt': 'pbf',
+        'terrainrgb': 'png',
+    }[layer];
+
     res.json({
         ...tileJSON,
         tilejson: "2.2.0",
-        name: `${req.gradMapMeta.displayName} ${layer === 'sat' ? 'Satellite Tiles' : 'Vector Tiles'}`,
-        description: `${layer === 'sat' ? 'Satellite Tiles' : 'Mapbox Vector Tiles'} of the Arma 3 Map '${req.gradMapMeta.displayName}' from ${req.gradMapMeta.author}`,
+        name: `${req.gradMapMeta.displayName} ${displayName}`,
+        description: `${displayName} of the Arma 3 Map '${req.gradMapMeta.displayName}' from ${req.gradMapMeta.author}`,
         attribution: '<a href="https://gruppe-adler.de" target="_blank">Gruppe Adler</a>',
         scheme: "xyz",
         tiles: [
-            `${req.protocol}://${req.get('Host')}/${worldName}/${layer}/{z}/{x}/{y}.${layer === 'sat' ? 'png' : 'pbf'}`
+            `${req.protocol}://${req.get('Host')}/${worldName}/${layer}/{z}/{x}/{y}.${extension}`
         ]
     })
 });
@@ -131,5 +143,8 @@ for (const mapDir of mapDirectories) {
     }
 }
 
+mapsRouter.get('*/terrainrgb/*.png', (req, res) => {
+    res.status(404).json({ message: "Tile not found" });
+});
 
 module.exports = mapsRouter;

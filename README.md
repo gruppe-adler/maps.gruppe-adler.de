@@ -64,6 +64,13 @@ https://mehps.gruppe-adler.de/{worldName}/mvt/style.json
 ``` 
 The vector tiles are generated from the GeoJSONs exported with [grad_meh](https://github.com/gruppe-adler/grad_meh). All feature properties are just copied over. Check out the [grad_meh GeoJSON documentation](https://github.com/gruppe-adler/grad_meh/blob/master/docs/geojson_spec.md) for details.
 
+### Terrain-RGB Tiles
+We host [Mapbox Terrain-RGB](https://docs.mapbox.com/help/troubleshooting/access-elevation-data/#mapbox-terrain-rgb) tiles for all maps. The corresponding [TileJSON](https://github.com/mapbox/tilejson-spec) can be accessed here:
+```
+https://mehps.gruppe-adler.de/{worldName}/terrainrgb/tile.json
+``` 
+This TileJSON includes everything you need to add the Terrain-RGB tile layer to your map. 
+
 ### Mapbox Sprites
 We host our own [sprite sheets](https://docs.mapbox.com/mapbox-gl-js/style-spec/sprite/), which include several Arma 3 icons for our mapbox style documents.
 ```
