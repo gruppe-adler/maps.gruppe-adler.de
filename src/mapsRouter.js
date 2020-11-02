@@ -19,8 +19,6 @@ for (const dir of mapDirectories) {
     cachedMapMetas.set(worldName, meta);
 }
 
-cachedMapsDate = new Date().toGMTString()
-
 // /maps request
 mapsRouter.get('/maps', (req, res) => {
 
@@ -57,11 +55,13 @@ mapsRouter.get('/:map/meta.json', (req, res, next) => {
     res.json(req.gradMapMeta);
 });
 
-// preview.png
-mapsRouter.get('/:map/preview.png', (req, res, next) => {
+// preview images
+mapsRouter.get('/:map/preview(_(128|256|512|1024))?.png', (req, res, next) => {
     const worldName = req.gradMapMeta.worldName;
 
-    res.sendFile(join(MAPS_DIR, worldName, 'preview.png'))
+    const split = req.url.split('/');
+
+    res.sendFile(join(MAPS_DIR, worldName, split[split.length -1]))
 });
 
 // redirect from layer to tile.json

@@ -38,7 +38,11 @@ https://mehps.gruppe-adler.de/{worldName}/meta.json
 The format matches the `meta.json` of [grad_meh](https://github.com/gruppe-adler/grad_meh), which is further specified [here](https://github.com/gruppe-adler/grad_meh/blob/master/docs/metajson_spec.md). 
 
 ### Preview Image
-The preview image of each map can be accessed via the following URL: 
+There are different resolutions for the preview image avaliable. We support the following heights: `128`, `256`, `512`, `1024`
+```
+https://mehps.gruppe-adler.de/{worldName}/preview_{height}.png
+```
+The original preview image can be accessed via the following URL:
 ```
 https://mehps.gruppe-adler.de/{worldName}/preview.png
 ```

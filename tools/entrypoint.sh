@@ -29,9 +29,12 @@ for mapPath in $mapsDir/*/ ; do
     echo "$ARROW Creating output directory ($worldName)\n"
     mkdir -p $mapOutDir
 
-    echo "$ARROW Copying meta.json and preview.png ($worldName)\n"
+    echo "$ARROW Copying meta.json ($worldName)\n"
     cp $mapPath/meta.json $mapOutDir/meta.json
-    cp $mapPath/preview.png $mapOutDir/preview.png
+
+    echo "$ARROW Building preview images ($worldName)\n"
+    $mehUtils preview -in $mapPath -out $mapOutDir
+
 
     echo "$ARROW Building satellite tiles ($worldName)\n"
     mkdir -p $mapOutDir/sat
