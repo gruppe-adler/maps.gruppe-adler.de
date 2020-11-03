@@ -1,7 +1,17 @@
-const fs = require('fs');
-const glob = require('glob');
-const path = require('path');
-const sharp = require('sharp');
+import * as fs from 'fs';
+import * as path from 'path';
+import glob from 'glob';
+import sharp from 'sharp';
+
+interface SpriteJSON {
+    [key: string]: {
+        height: number,
+        pixelRatio: number,
+        width: number,
+        x: number,
+        y: number,
+    }
+}
 
 const pxRatios = [1, 2, 4];
 const inputPath = path.join(__dirname, 'svg');
@@ -17,8 +27,10 @@ const imgs = glob.sync(path.join(inputPath, '**', '*.svg')).map(filePath => ({
 }));
 
 for (const pixelRatio of pxRatios) {
-    const pngPath = path.resolve(path.join(outputPath, `sprite${pixelRatio === 1 ? '' : `@${pixelRatio}x`}.png`));
-    const jsonPath = path.resolve(path.join(outputPath, `sprite${pixelRatio === 1 ? '' : `@${pixelRatio}x`}.json`));
+    const name = pixelRatio === 1 ? 'sprite' : `sprite@${pixelRatio}x`;
+
+    const pngPath = path.resolve(path.join(outputPath, `${name}.png`));
+    const jsonPath = path.resolve(path.join(outputPath, `${name}.json`));
 
     generateLayout(imgs, pixelRatio * 64, pixelRatio).then(({ json, img }) => {
         fs.writeFileSync(pngPath, img);
@@ -28,14 +40,13 @@ for (const pixelRatio of pxRatios) {
 }
 
 /**
- * 
- * @param {Array<{ path: string, id: string }} images 
+ * @param {Array<{ path: string, id: string }>} images 
  * @param {number} size Size of sprites
  * @param {number} padding Padding inbetween sprites
  * @param {number} pixelRatio Pixel ratio
- * @return {Promise<{ json: Object, img: Buffer }>} 
+ * @return {Promise<{ json: SpriteJSON, img: Buffer }>} 
  */
-async function generateLayout(images, size, pixelRatio, padding = 2) {
+async function generateLayout(images: Array<{ path: string, id: string }>, size: number, pixelRatio: number, padding = 2): Promise<{ json: SpriteJSON, img: Buffer }> {
     
     const colsNum = Math.ceil(Math.sqrt(images.length));
     const widthHeight = colsNum * size + (colsNum - 1) * padding;
@@ -51,8 +62,8 @@ async function generateLayout(images, size, pixelRatio, padding = 2) {
 
     let col = 0;
     let row = 0;
-    const overlays = [];
-    const json = {};
+    const overlays: Array<{ top: number, left: number, input: Buffer }> = [];
+    const json: SpriteJSON = {};
     
     for (const image of images) {
         const { data, info } = await sharp(image.path).resize(size, size, { kernel: sharp.kernel.nearest, fit: 'inside' }).toBuffer({ resolveWithObject: true });
