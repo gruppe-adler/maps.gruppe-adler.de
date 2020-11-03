@@ -17,7 +17,7 @@ export default class GradMapItemVue extends Vue {
     @Prop({ required: true, type: Object as PropType<Pick<MapMetaData,'worldName'|'displayName'|'author'>> }) private map!: Pick<MapMetaData,'worldName'|'displayName'|'author'>;
 
     private get imageUrl(): string {
-        return mapPreviewImgUrl(this.map.worldName);
+        return mapPreviewImgUrl(this.map.worldName, 256);
     }
 }
 </script>
