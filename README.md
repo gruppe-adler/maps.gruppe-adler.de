@@ -14,17 +14,19 @@ A JSON containing a list of all maps with their respective display names can be 
 ```
 https://mehps.gruppe-adler.de/maps
 ```
-The response is an array of objects, each having a `displayName` and a `worldName` field:
+The response is an array of objects, each having a `displayName`, a `author` and a `worldName` field:
 ```jsonc
 [
     // [...]
     {
-        "displayName": "Bystrica",
-        "worldName": "Woodland_ACR"
+        "displayName": "Cham",
+        "worldName": "tem_cham",
+        "author": "Temppa"
     },
     {
         "displayName": "Stratis",
-        "worldName": "Stratis"
+        "worldName": "Stratis",
+        "author": "Bohemia Interactive"
     },
     // [...]
 ]
