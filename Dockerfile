@@ -1,5 +1,5 @@
 # Build sprites
-FROM node:12.7-alpine as sprite-builder
+FROM node:12.7-slim as sprite-builder
 RUN echo ::group::BUILD SPRITES
 WORKDIR /tmp/sprites
 COPY sprites .
@@ -7,6 +7,7 @@ RUN npm ci
 RUN npm run build
 RUN npm start
 RUN mv ./out /out
+RUN ls -la /out
 RUN echo ::endgroup::
 
 # Build styles
