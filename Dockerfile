@@ -5,6 +5,7 @@ WORKDIR /tmp/sprites
 COPY sprites .
 RUN npm ci
 RUN npm run build
+RUN npm start
 RUN mv ./out /out
 RUN echo ::endgroup::
 

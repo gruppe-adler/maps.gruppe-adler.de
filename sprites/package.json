@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc; node index.js"
+    "build": "tsc",
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "Gruppe Adler",
