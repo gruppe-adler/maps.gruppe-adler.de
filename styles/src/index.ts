@@ -1,11 +1,15 @@
-const fillLayerFactory  = require('./utils/fillLayerFactory');
-const countourLayerFactory  = require('./utils/countourLayerFactory');
-const objectIconLayerFactory  = require('./utils/objectIconLayerFactory');
-const lineLayerFactory  = require('./utils/lineLayerFactory');
-const locationNameLayerFactory  = require('./utils/locationNameLayerFactory');
-const locationIconLayerFactory  = require('./utils/locationIconLayerFactory');
+import * as path from 'path';
+import * as fs from 'fs';
+import { Layer as MapboxLayer } from 'mapbox-gl';
 
-const allLayers = [
+import fillLayerFactory  from './layerFactories/fill';
+import countourLayerFactory  from './layerFactories/countour';
+import objectIconLayerFactory  from './layerFactories/objectIcon';
+import lineLayerFactory  from './layerFactories/line';
+import locationNameLayerFactory  from './layerFactories/locationName';
+import locationIconLayerFactory  from './layerFactories/locationIcon';
+
+const allLayers: MapboxLayer[] = [
     {
         id: 'background',
         type: 'background',
@@ -44,7 +48,6 @@ const allLayers = [
     {
         id: 'roads/trail-outline',
         type: 'line',
-        source: 'maps.gruppe-adler.de',
         'source-layer': 'roads/trail',
         paint: {
             'line-opacity': 0.15,
@@ -55,7 +58,6 @@ const allLayers = [
     {
         id: 'roads/track-outline',
         type: 'line',
-        source: 'maps.gruppe-adler.de',
         'source-layer': 'roads/track',
         paint: {
             'line-opacity': 0.15,
@@ -66,11 +68,9 @@ const allLayers = [
     fillLayerFactory('roads/main_road', '#FF9966', undefined, { 'fill-outline-color': '#E6804D' }),
 
     // all houses
-    // TODO: fix color
     {
         id: 'house',
         type: 'fill',
-        source: 'maps.gruppe-adler.de',
         'source-layer': 'house',
         paint: {
             'fill-color': ['get', 'color']
@@ -237,4 +237,9 @@ const allLayers = [
     // 'debug',
 ];
 
-module.exports = allLayers;
+const outputPath = path.join(__dirname, '..', 'out');
+if (!fs.existsSync(outputPath)){
+    fs.mkdirSync(outputPath);
+}
+
+fs.writeFileSync(path.join(outputPath, 'layers.json'), JSON.stringify(allLayers), 'utf8');

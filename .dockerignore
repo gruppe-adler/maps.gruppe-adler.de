@@ -1,14 +1,11 @@
 .git/
 .github/
 
-maps/*/.git/
+maps/.git/
+maps/README.md
 
-node_modules/
 .gitattributes
 .gitignore
 .gitmodules
 
 README.md
-
-frontend/node_modules/
-sprites/node_modules/

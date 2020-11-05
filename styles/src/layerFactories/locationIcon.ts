@@ -1,4 +1,6 @@
-const { FONT_SIZE_FACTOR, ICON_SIZE_FACTOR } = require('./constants');
+import { Layer as MapboxLayer } from 'mapbox-gl';
+
+import { FONT_SIZE_FACTOR, ICON_SIZE_FACTOR } from '../constants';
 
 /**
  * Create MapboxLayer-Object for locations with drawStyle="icon"
@@ -9,11 +11,10 @@ const { FONT_SIZE_FACTOR, ICON_SIZE_FACTOR } = require('./constants');
  * @param {number} location.fontSize corresponds with "sizeEx" property in config
  * @param {number} location.iconSize corresponds with "size" property in config
  */
-module.exports = function locationIconLayerFactory ({ name, color, opacity, fontSize, iconSize }) {
+export default function locationIconLayerFactory ({ name, color, opacity, fontSize, iconSize }: { name: string, color: string, opacity: number, fontSize: number , iconSize: number }): MapboxLayer {
     return {
         id: name,
         type: 'symbol',
-        source: 'maps.gruppe-adler.de',
         'source-layer': name,
         layout: {
             'icon-image': name,

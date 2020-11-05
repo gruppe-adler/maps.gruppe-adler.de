@@ -1,14 +1,15 @@
+import { Layer as MapboxLayer } from 'mapbox-gl';
+
 /**
  * Create MapboxLayer-Object for contours
  * @param {string} name Contour source layer name
  * @param {number} majorStep Major step of contours in m (which lines should display darker)
  * @returns MapboxLayer-Object
  */
-module.exports = function countourLayerFactory (name, majorStep) {
+export default function countourLayerFactory (name: string, majorStep: number): MapboxLayer {
     return {
         id: name,
         type: 'line',
-        source: 'maps.gruppe-adler.de',
         'source-layer': name,
         paint: {
             'line-color': [

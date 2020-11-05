@@ -1,3 +1,5 @@
+import { Layer as MapboxLayer } from 'mapbox-gl';
+
 /**
  * Create MapboxLayer-Object for normal line layer
  * @param {string} name Source layer name
@@ -5,11 +7,10 @@
  * @param {number|undefined} [opacity] line-width paint property
  * @returns MapboxLayer-Object
  */
-module.exports = function lineLayerFactory (name, color, width) {
+export default function lineLayerFactory (name: string, color?: string, width?: number): MapboxLayer {
     return {
         id: name,
         type: 'line',
-        source: 'maps.gruppe-adler.de',
         'source-layer': name,
         paint: {
             'line-color': color,

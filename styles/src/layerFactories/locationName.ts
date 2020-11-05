@@ -1,4 +1,6 @@
-const { FONT_SIZE_FACTOR } = require('./constants');
+import { Layer as MapboxLayer } from 'mapbox-gl';
+
+import { FONT_SIZE_FACTOR }  from '../constants';
 
 /**
  * Create MapboxLayer-Object for locations with drawStyle="name"
@@ -8,11 +10,10 @@ const { FONT_SIZE_FACTOR } = require('./constants');
  * @param {number} [opacity] "text-opacity" paint property (default = 1)
  * @returns MapboxLayer-Object
  */
-module.exports = function locationNameLayerFactory (name, fontSize, color, opacity = 1) {
+export default function locationNameLayerFactory (name: string, fontSize?: number, color?: string, opacity = 1): MapboxLayer {
     return {
         id: name,
         type: 'symbol',
-        source: 'maps.gruppe-adler.de',
         'source-layer': name,
         layout: {
             'text-field': ['get', 'name'],

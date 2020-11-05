@@ -1,4 +1,6 @@
-const { ICON_SIZE_FACTOR } = require('./constants');
+import { Layer as MapboxLayer } from 'mapbox-gl';
+
+import { ICON_SIZE_FACTOR } from '../constants';
 
 /**
  * Create MapboxLayer-Object for generic Arma 3 objects
@@ -10,11 +12,10 @@ const { ICON_SIZE_FACTOR } = require('./constants');
  * @param {string} [source] Icon sprite name (if it doesn't match name param)
  * @returns MapboxLayer-Object
  */
-module.exports = function objectIconLayerFactory (name, size = 24, { coefMin, coefMax } = { coefMin: 0.85, coefMax: 1 }, source) {
+export default function objectIconLayerFactory (name: string, size = 24, { coefMin, coefMax } = { coefMin: 0.85, coefMax: 1 }, source?: string): MapboxLayer {
     return {
         id: name,
         type: 'symbol',
-        source: 'maps.gruppe-adler.de',
         'source-layer': name,
         layout: {
             'icon-image': `objects/${source || name}`,
