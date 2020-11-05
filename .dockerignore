@@ -9,3 +9,15 @@ maps/README.md
 .gitmodules
 
 README.md
+
+styles/node_modules/
+styles/out/
+styles/dist/
+
+sprites/node_modules/
+sprites/out/
+sprites/index.js
+
+frontend/node_modules/
+frontend/dist/
+frontend/README.md
