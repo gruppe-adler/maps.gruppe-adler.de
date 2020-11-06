@@ -1,4 +1,4 @@
-import { FillPaint as MapboxFillPaint, Layer as MapboxLayer } from 'mapbox-gl';
+import { FillPaint as MapboxFillPaint, Layer as MapboxLayer, Expression as MapboxExpression } from 'mapbox-gl';
 
 /**
  * Create MapboxLayer-Object for normal fill layer
@@ -8,7 +8,7 @@ import { FillPaint as MapboxFillPaint, Layer as MapboxLayer } from 'mapbox-gl';
  * @param {object} [paintObj] Additional pain properties for layer (default: {})
  * @returns MapboxLayer-Object
  */
-export default function fillLayerFactory (name: string, color?: string, opacity = 1, paintObj: MapboxFillPaint = {}): MapboxLayer {
+export default function fillLayerFactory (name: string, color?: string|MapboxExpression, opacity = 1, paintObj: MapboxFillPaint = {}): MapboxLayer {
     return {
         id: name,
         type: 'fill',
@@ -16,6 +16,7 @@ export default function fillLayerFactory (name: string, color?: string, opacity 
         paint: {
             'fill-color': color,
             'fill-opacity': opacity,
+            'fill-antialias': false,
             ...paintObj
         }
     };

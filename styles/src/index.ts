@@ -68,14 +68,7 @@ const allLayers: MapboxLayer[] = [
     fillLayerFactory('roads/main_road', '#FF9966', undefined, { 'fill-outline-color': '#E6804D' }),
 
     // all houses
-    {
-        id: 'house',
-        type: 'fill',
-        'source-layer': 'house',
-        paint: {
-            'fill-color': ['get', 'color']
-        }
-    },
+    fillLayerFactory('house', ['get', 'color']),
 
     // runways / power lines / railways
     lineLayerFactory('railway', '#CC3300', 1),
