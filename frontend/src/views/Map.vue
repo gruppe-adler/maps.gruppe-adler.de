@@ -22,13 +22,17 @@ import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
 
 import { GradMap } from '@gruppe-adler/maps-frontend-utils/lib/mapbox';
 
+import GradCursorControl from '@/CursorControl';
+
 @Component
 export default class MapVue extends Vue {
     @Prop({ default: '' }) private mapName!: string;
     private map: GradMap|null = null;
 
     private mounted() {
-        this.map = new GradMap(this.mapName, { container: this.$refs.map as HTMLDivElement });
+        this.map = new GradMap(this.mapName, { container: this.$refs.map as HTMLDivElement, loadElevation: true });
+
+        this.map.addControl(new GradCursorControl(), 'top-right');
     }
 
     /**
