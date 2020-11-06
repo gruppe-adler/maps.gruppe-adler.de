@@ -46,7 +46,7 @@ RUN echo ::endgroup::
 
 ######################################################################
 
-FROM nginx:stable-alpine
+FROM nginx:1.19.3-alpine
 
 # Build Tiles
 WORKDIR /tmp/tiles
