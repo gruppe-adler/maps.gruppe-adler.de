@@ -140,8 +140,16 @@ export default class GradCursorControl implements MapboxIControl {
         const map = this._map as GradMap;
         
         const latLng = map.unproject([x, y]);
-        const arma = map.toArma(latLng);
-        const grid = map.posToGrid(arma);
+
+        let arma: [number, number];
+        let grid: string;
+
+        try {
+            arma = map.toArma(latLng);
+            grid = map.posToGrid(arma);
+        } catch (err) {
+            return;
+        }
 
         // grid
         this._context.textAlign = 'left';
