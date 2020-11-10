@@ -15,6 +15,8 @@ export default class GradCursorControl implements MapboxIControl {
     private _mapMouseMoveCallback?: (ev: MouseEvent) => void;
     private _mapMouseDownCallback?: (ev: MapMouseEvent & MapboxEventData) => void;
     private _mapMouseUpCallback?: (ev: MapMouseEvent & MapboxEventData) => void;
+    private _mapMouseEnterCallback?: (ev: MouseEvent) => void;
+    private _mapMouseLeaveCallback?: (ev: MouseEvent) => void;
 
     private _currentPosition: null|{ x: number, y: number } = null
 
@@ -41,7 +43,6 @@ export default class GradCursorControl implements MapboxIControl {
         this._mapMouseUpCallback = (): void => { if (this._context) this._context.strokeStyle = '#B21A00'; };
         map.on('mouseup', this._mapMouseUpCallback);
         map.on('mousedown', this._mapMouseDownCallback);
-        
 
         this._mapMouseMoveCallback = event => {
             if (this._canvas === null) return;
@@ -54,7 +55,14 @@ export default class GradCursorControl implements MapboxIControl {
             this.redraw();
         }
         map.getCanvas().addEventListener('mousemove', this._mapMouseMoveCallback);
+
+        this._mapMouseEnterCallback = this._mapMouseMoveCallback;
+        map.getCanvas().addEventListener('mouseenter', this._mapMouseEnterCallback);
         
+        this._mapMouseLeaveCallback = () => {
+            if (this._context && this._canvas) this._context.clearRect(0, 0, this._canvas.width, this._canvas.height);
+        };
+        map.getCanvas().addEventListener('mouseleave', this._mapMouseLeaveCallback);
 
         const container = map.getCanvasContainer();
         container.appendChild(this._canvas);
@@ -86,6 +94,8 @@ export default class GradCursorControl implements MapboxIControl {
 
         if (this._mapMouseUpCallback !== undefined) this._map.off('mouseup', this._mapMouseUpCallback);
         if (this._mapMouseDownCallback !== undefined) this._map.off('mousedown', this._mapMouseDownCallback);
+        if (this._mapMouseEnterCallback !== undefined) this._map.getCanvas().removeEventListener('mouseenter', this._mapMouseEnterCallback);
+        if (this._mapMouseLeaveCallback !== undefined) this._map.getCanvas().removeEventListener('mouseleave', this._mapMouseLeaveCallback);
         if (this._mapMouseMoveCallback !== undefined) this._map.getCanvas().removeEventListener('mousemove', this._mapMouseMoveCallback);
 
         this._map = null;
