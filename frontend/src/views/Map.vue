@@ -2,7 +2,13 @@
 <div style="height: 100vh;">
     <div ref="map" style="height:100%">
     </div>
-    <div class="actions">
+    <div v-if="mapNotFound" class="error">
+        <h1>Map "{{mapName}}" not found!</h1>
+    </div>
+    <div v-else-if="error !== null" class="error">
+        <h1>An Error occured!</h1>    
+    </div>
+    <div v-else class="actions">
         <button
             @click="toggleGrid"
         >
@@ -28,11 +34,22 @@ import GradCursorControl from '@/CursorControl';
 export default class MapVue extends Vue {
     @Prop({ default: '' }) private mapName!: string;
     private map: GradMap|null = null;
+    private error: any|null = null;
+    private mapNotFound = false;
 
     private mounted() {
         this.map = new GradMap(this.mapName, { container: this.$refs.map as HTMLDivElement, loadElevation: true });
 
-        this.map.addControl(new GradCursorControl(), 'top-right');
+        this.map.on('grad-load', ({ target }: { target: GradMap }) => {
+            target.addControl(new GradCursorControl(), 'top-right');
+        });
+
+        this.map.on('error', err => {
+            this.error = err;
+        });
+        this.map.on('error:mapnotfound', () => {
+            this.mapNotFound = true;
+        });
     }
 
     /**
@@ -89,5 +106,16 @@ export default class MapVue extends Vue {
         border: none;
         outline: none;
     }
+}
+
+.error {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0px;
+    left: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 </style>
