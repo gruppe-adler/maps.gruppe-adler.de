@@ -1,4 +1,4 @@
-import { Layer as MapboxLayer } from 'mapbox-gl';
+import { AnyLayout, Layer as MapboxLayer } from 'mapbox-gl';
 
 import { ICON_SIZE_FACTOR } from '../constants';
 
@@ -12,7 +12,7 @@ import { ICON_SIZE_FACTOR } from '../constants';
  * @param {string} [source] Icon sprite name (if it doesn't match name param)
  * @returns MapboxLayer-Object
  */
-export default function objectIconLayerFactory (name: string, size = 24, { coefMin, coefMax } = { coefMin: 0.85, coefMax: 1 }, source?: string): MapboxLayer {
+export default function objectIconLayerFactory (name: string, size = 24, { coefMin, coefMax } = { coefMin: 0.85, coefMax: 1 }, source?: string, layoutOption: AnyLayout = {}): MapboxLayer {
     return {
         id: name,
         type: 'symbol',
@@ -24,7 +24,8 @@ export default function objectIconLayerFactory (name: string, size = 24, { coefM
                 "interpolate", ["linear"], ["zoom"],
                 4, size * ICON_SIZE_FACTOR * coefMin,
                 10, size * ICON_SIZE_FACTOR * coefMax
-            ]
+            ],
+            ...layoutOption
         }
     };
 }

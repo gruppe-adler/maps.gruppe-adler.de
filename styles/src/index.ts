@@ -101,13 +101,22 @@ const allLayers: MapboxLayer[] = [
 
     // obj with only icons
     {
-        ...objectIconLayerFactory('bush', 7, { coefMin: 0.25, coefMax: 4 }),
+        ...objectIconLayerFactory('bush', 7, { coefMin: 0.25, coefMax: 4 }, undefined, {
+            'icon-allow-overlap': true,
+            'icon-ignore-placement': true
+        }),
         minzoom: 7
     },
-    objectIconLayerFactory('rock', 12, { coefMin: 0.25, coefMax: 4 }),
+    objectIconLayerFactory('rock', 12, { coefMin: 0.25, coefMax: 4 }, undefined, {
+        'icon-allow-overlap': true,
+        'icon-ignore-placement': true
+    }),
     objectIconLayerFactory('fountain', 11, { coefMin: 0.25, coefMax: 4 }),
     {
-        ...objectIconLayerFactory('tree', 12, { coefMin: 0.25, coefMax: 4 }, 'bush'),
+        ...objectIconLayerFactory('tree', 12, { coefMin: 0.25, coefMax: 4 }, 'bush', {
+            'icon-allow-overlap': true,
+            'icon-ignore-placement': true
+        }),
         minzoom: 5
     },
     objectIconLayerFactory('tourism', 16, { coefMin: 0.7, coefMax: 4 }),
