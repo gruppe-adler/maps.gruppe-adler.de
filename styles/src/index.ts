@@ -40,24 +40,6 @@ const allLayers: MapboxLayer[] = [
         minzoom: 7
     },
 
-    // mounts
-    {
-        id: 'mount',
-        type: 'symbol',
-        'source-layer': 'mount',
-        minzoom: 6,
-        layout: {
-            'text-field': ['get', 'text'],
-            'text-font': ['Roboto Condensed Regular'],
-            'text-anchor': 'left',
-            'text-size': 0.04 * FONT_SIZE_FACTOR
-        },
-        paint: {
-            'text-color': '#482c18',
-            'text-opacity': 0.5
-        }
-    },
-
     // forests / rocks
     fillLayerFactory('forest', '#9FC763', 0.5),
     fillLayerFactory('rocks', '#000000', 0.3),
@@ -88,6 +70,29 @@ const allLayers: MapboxLayer[] = [
 
     // all houses
     fillLayerFactory('house', ['get', 'color']),
+
+    // mounts
+    {
+        id: 'mount',
+        type: 'symbol',
+        'source-layer': 'mount',
+        layout: {
+            'text-field': ['get', 'text'],
+            'text-font': ['Roboto Condensed Regular'],
+            'text-anchor': 'left',
+            'text-size': 0.046 * FONT_SIZE_FACTOR,
+            'icon-image': 'mount',
+            'icon-size': 0.2,
+            'text-offset': [0.5, 0],
+            'symbol-sort-key': ['*', ['get', 'elevation'], -1],
+            'icon-padding': 150,
+            'icon-allow-overlap': true
+        },
+        paint: {
+            'text-color': '#482c18',
+            'text-opacity': 0.5
+        }
+    },
 
     // runways / power lines / railways
     lineLayerFactory('railway', '#CC3300', 1),

@@ -45,7 +45,7 @@
     { "layer": "water", "minzoom": 0 },
     { "layer": "forest", "minzoom": 3 },
     { "layer": "rocks", "minzoom": 3 },
-    { "layer": "mount", "minzoom": 4 },
+    { "layer": "mount", "minzoom": 2 },
     { "layer": "contours/01", "minzoom": 5 },
     { "layer": "contours/05", "minzoom": 5, "maxzoom": 7 },
     { "layer": "contours/10", "minzoom": 5, "maxzoom": 6 },
