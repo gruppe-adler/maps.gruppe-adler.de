@@ -8,6 +8,7 @@ import objectIconLayerFactory  from './layerFactories/objectIcon';
 import lineLayerFactory  from './layerFactories/line';
 import locationNameLayerFactory  from './layerFactories/locationName';
 import locationIconLayerFactory  from './layerFactories/locationIcon';
+import { FONT_SIZE_FACTOR } from './constants';
 
 const allLayers: MapboxLayer[] = [
     {
@@ -37,6 +38,24 @@ const allLayers: MapboxLayer[] = [
     {
         ...countourLayerFactory('contours/01', 5),
         minzoom: 7
+    },
+
+    // mounts
+    {
+        id: 'mount',
+        type: 'symbol',
+        'source-layer': 'mount',
+        minzoom: 6,
+        layout: {
+            'text-field': ['get', 'text'],
+            'text-font': ['Roboto Condensed Regular'],
+            'text-anchor': 'left',
+            'text-size': 0.04 * FONT_SIZE_FACTOR
+        },
+        paint: {
+            'text-color': '#482c18',
+            'text-opacity': 0.5
+        }
     },
 
     // forests / rocks
@@ -221,7 +240,8 @@ const allLayers: MapboxLayer[] = [
     locationNameLayerFactory('locations/namelocal', 0.05, '#70614D'),
     locationNameLayerFactory('locations/namevillage', 0.05, '#000000'),
     locationNameLayerFactory('locations/namecity', 0.06, '#000000'),
-    locationNameLayerFactory('locations/namecitycapital', 0.07, '#000000')
+    locationNameLayerFactory('locations/namecitycapital', 0.07, '#000000'),
+
     // 'locations/mount',
     // 'locations/invisible',
     // 'locations/historicalsite',
