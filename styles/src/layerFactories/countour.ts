@@ -14,22 +14,22 @@ export default function countourLayerFactory (name: string, majorStep: number): 
         paint: {
             'line-color': [
                 'case',
-                ['>', ['get', 'elevation'], 0],
+                ['>', ['get', 'dem_elevation'], 0],
                 ['rgb', 146, 90, 48],
                 ['rgb', 125, 147, 179]
             ],
             'line-opacity': [
                 'case',
-                ['==', ['%', ['get', 'elevation'], majorStep], 0],
+                ['==', ['%', ['get', 'dem_elevation'], majorStep], 0],
                 [
                     'case',
-                    ['>', ['get', 'elevation'], 0],
+                    ['>', ['get', 'dem_elevation'], 0],
                     0.5,
                     0.6
                 ],
                 [
                     'case',
-                    ['>', ['get', 'elevation'], 0],
+                    ['>', ['get', 'dem_elevation'], 0],
                     0.25,
                     0.3
                 ]
