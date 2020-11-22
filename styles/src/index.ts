@@ -65,8 +65,8 @@ const allLayers: MapboxLayer[] = [
             'line-color': '#D6C2A6'
         }
     },
-    fillLayerFactory('roads/road', '#FFFFFF', undefined, { 'fill-outline-color': '#B3B3B3' }),
-    fillLayerFactory('roads/main_road', '#FF9966', undefined, { 'fill-outline-color': '#E6804D' }),
+    fillLayerFactory('roads/road', '#FFFFFF', undefined, { 'fill-outline-color': '#B3B3B3', 'fill-antialias': true }),
+    fillLayerFactory('roads/main_road', '#FF9966', undefined, { 'fill-outline-color': '#E6804D', 'fill-antialias': true }),
 
     // all houses
     fillLayerFactory('house', ['get', 'color']),
