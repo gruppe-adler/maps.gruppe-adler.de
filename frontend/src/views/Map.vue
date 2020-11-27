@@ -46,7 +46,9 @@ export default class MapVue extends Vue {
 
         this.map.on('error', err => {
             this.error = err;
+            console.error(err);
         });
+
         this.map.on('error:mapnotfound', () => {
             this.mapNotFound = true;
         });
