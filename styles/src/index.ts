@@ -9,6 +9,7 @@ import lineLayerFactory  from './layerFactories/line';
 import locationNameLayerFactory  from './layerFactories/locationName';
 import locationIconLayerFactory  from './layerFactories/locationIcon';
 import { FONT_SIZE_FACTOR } from './constants';
+import roadLayersFactory from './layerFactories/road';
 
 const allLayers: MapboxLayer[] = [
     {
@@ -45,28 +46,13 @@ const allLayers: MapboxLayer[] = [
     fillLayerFactory('rocks', '#000000', 0.3),
 
     // roads
-    fillLayerFactory('roads/trail', '#D6C2A6', 0.65),
-    {
-        id: 'roads/trail-outline',
-        type: 'line',
-        'source-layer': 'roads/trail',
-        paint: {
-            'line-opacity': 0.15,
-            'line-color': '#D6C2A6'
-        }
-    },
-    fillLayerFactory('roads/track', '#D6C2A6'),
-    {
-        id: 'roads/track-outline',
-        type: 'line',
-        'source-layer': 'roads/track',
-        paint: {
-            'line-opacity': 0.15,
-            'line-color': '#D6C2A6'
-        }
-    },
-    fillLayerFactory('roads/road', '#FFFFFF', undefined, { 'fill-outline-color': '#B3B3B3', 'fill-antialias': true }),
-    fillLayerFactory('roads/main_road', '#FF9966', undefined, { 'fill-outline-color': '#E6804D', 'fill-antialias': true }),
+    ...roadLayersFactory('trail', 'rgba(214, 194, 166, 0.65)', 'rgba(214, 194, 166, 0.15)', 0.35),
+
+    ...roadLayersFactory('track', '#D6C2A6', 'rgba(214, 194, 166, 0.15)', 0.44),
+    
+    ...roadLayersFactory('road', '#FFFFFF', '#B3B3B3', 0.45),
+
+    ...roadLayersFactory('main_road', '#FF9966', '#E6804D', 0.35),
 
     // all houses
     fillLayerFactory('house', ['get', 'color']),
