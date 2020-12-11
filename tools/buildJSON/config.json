@@ -1,5 +1,8 @@
 {
-    "url": "https://maps.gruppe-adler.de",
+    "uris": [
+        "https://maps.gruppe-adler.de",
+        "https://mehps.gruppe-adler.de"
+    ],
     "attribution": "<a href=\"https://gruppe-adler.de\" target=\"_blank\">Gruppe Adler</a>",
     "source-prefix": "grad-mehps"
 }

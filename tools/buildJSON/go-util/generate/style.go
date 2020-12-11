@@ -9,10 +9,12 @@ import (
 
 // StyleJSON Generate a style.json
 func StyleJSON(metaJSON models.MetaJSON, configJSON models.ConfigJSON, tileJSON models.TileJSON, allLayers []models.MapboxLayer) {
+	uri := configJSON.URIs[0]
+
 	style := models.MapboxStyle{
 		Version: 8,
 		Name:    fmt.Sprintf("%s Vector Tiles", metaJSON.DisplayName),
-		Sprite:  fmt.Sprintf("%s/sprites/sprite", configJSON.URL),
+		Sprite:  fmt.Sprintf("%s/sprites/sprite", uri),
 		Glyphs:  "https://orangemug.github.io/font-glyphs/glyphs/{fontstack}/{range}.pbf",
 		Sources: map[string]models.MapboxSource{},
 		Layers:  []models.MapboxLayer{},
@@ -23,7 +25,7 @@ func StyleJSON(metaJSON models.MetaJSON, configJSON models.ConfigJSON, tileJSON 
 	style.Sources[sourceID] = models.MapboxSource{
 		Attribution: configJSON.Attribution,
 		Type:        "vector",
-		URL:         fmt.Sprintf("%s/%s/mvt/tile.json", configJSON.URL, metaJSON.WorldName),
+		URL:         fmt.Sprintf("%s/%s/mvt/tile.json", uri, metaJSON.WorldName),
 	}
 
 	vectorLayersMap := map[string]uint8{}

@@ -17,7 +17,11 @@ func TileJSON(metaJSON models.MetaJSON, configJSON models.ConfigJSON, tileJSON m
 	}[layer]
 
 	tileJSON.Attribution = configJSON.Attribution
-	tileJSON.Tiles = []string{fmt.Sprintf("%s/%s/%s/{z}/{x}/{y}.%s", configJSON.URL, metaJSON.WorldName, layer, extension)}
+
+	tileJSON.Tiles = make([]string, len(configJSON.URIs))
+	for i, uri := range configJSON.URIs {
+		tileJSON.Tiles[i] = fmt.Sprintf("%s/%s/%s/{z}/{x}/{y}.%s", uri, metaJSON.WorldName, layer, extension)
+	}
 
 	utils.PrintJSON(tileJSON)
 }
