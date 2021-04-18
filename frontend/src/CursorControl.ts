@@ -29,8 +29,8 @@ export default class GradCursorControl implements MapboxIControl {
         this._canvas.classList.add('grad-cursor');
         this._canvas.style.pointerEvents = 'none';
         this._canvas.style.position = 'absolute';
-        this._canvas.style.top = '0px';
-        this._canvas.style.left = '0px';
+		this._canvas.style.top = this._map.getCanvas().offsetTop + 'px';
+		this._canvas.style.left = this._map.getCanvas().offsetLeft + 'px';
 
         this._context = this._canvas.getContext('2d');
 
